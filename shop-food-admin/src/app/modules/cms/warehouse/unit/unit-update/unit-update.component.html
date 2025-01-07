@@ -1,0 +1,14 @@
+<div class="form-custom">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="name">Unit name</label>
+                <input type="text" class="form-control" name="name" id="name" aria-describedby="helpId" placeholder=""
+                    [formControl]="name">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button type="button" class="btn btn-primary" (click)="update()">Save</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Noto Sans", serif;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+img:hover {
+  cursor: pointer;
+}
+
+.form-custom {
+  button {
+    margin-top: 10px;
+  }
+  label {
+    margin-top: 15px;
+  }
+}
+
+input[readonly] {
+  background-color: rgba(233, 233, 233, 0.534);
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.active {
+  background-color: rgb(82, 82, 82);
+  color: rgb(255, 255, 255) !important;
+}
+.show-element {
+  display: block !important;
+}
+
+.hide-element {
+  display: none !important;
+}

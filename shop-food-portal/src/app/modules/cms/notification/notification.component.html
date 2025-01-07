@@ -1,0 +1,8 @@
+<div>
+    <h3>Chat</h3>
+    <div *ngFor="let msg of signalRService.messages">
+        {{ msg.message }}
+    </div>
+    <input [(ngModel)]="message" placeholder="Message" />
+    <button (click)="sendMessage()">Send</button>
+</div>

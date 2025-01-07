@@ -1,0 +1,15 @@
+<div class="form-signin">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" name="email" [formControl]="email" id="email" aria-describedby="helpId"
+            placeholder="">
+        <small id="helpId" class="form-text text-muted">Email</small>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="text" class="form-control" name="password" [formControl]="password" id="password"
+            aria-describedby="helpId" placeholder="">
+        <small id="helpId" class="form-text text-muted">Password</small>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="signIn()">SignIn</button>
+</div>

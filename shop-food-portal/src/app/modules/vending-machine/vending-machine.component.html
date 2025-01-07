@@ -1,0 +1,124 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 item-form">
+      <h1>Máy bán hàng</h1>
+    </div>
+    <div class="col-md-12 item-form">
+      <div class="form-group">
+        <label for="productCode">Mã sản phẩm</label>
+        <input
+          type="text"
+          class="form-control"
+          name="productCode"
+          id="productCode"
+          placeholder=""
+        />
+      </div>
+    </div>
+    <div class="col-md-3 item-form">
+      <div class="form-group">
+        <label for="productName">Tên sản phẩm</label>
+        <input
+          type="text"
+          class="form-control"
+          name="productName"
+          id="productName"
+          placeholder=""
+          readonly
+        />
+      </div>
+    </div>
+    <div class="col-md-3 item-form">
+      <div class="form-group">
+        <label for="unitPrice">Giá sản phẩm</label>
+        <input
+          type="text"
+          class="form-control"
+          name="unitPrice"
+          id="unitPrice"
+          placeholder=""
+          readonly
+        />
+      </div>
+    </div>
+    <div class="col-md-3 item-form">
+      <div class="form-group">
+        <label for="unitName">Đơn vị tính</label>
+        <input
+          type="text"
+          class="form-control"
+          name="unitName"
+          id="unitName"
+          placeholder=""
+          readonly
+        />
+      </div>
+    </div>
+    <div class="col-md-3 item-form">
+      <div class="form-group">
+        <label for="quantity">Số lượng sản phẩm</label>
+        <input
+          type="text"
+          class="form-control"
+          name="quantity"
+          id="quantity"
+          placeholder=""
+        />
+      </div>
+    </div>
+    <div class="col-md-12 item-form">
+      <div class="form-group">
+        <label for="totalPrice">Tổng tiền</label>
+        <input
+          type="text"
+          class="form-control"
+          name="totalPrice"
+          id="totalPrice"
+          placeholder=""
+          readonly
+        />
+      </div>
+    </div>
+    <div class="col-md-12">
+      <button type="button" class="btn btn-primary" (click)="onAdd()">
+        Thêm
+      </button>
+    </div>
+    <div class="product-added">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Mã</th>
+            <th>Tên</th>
+            <th>Đơn vị tính</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data_buy; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.productCode }}</td>
+            <td>{{ item.productName }}</td>
+            <td>{{ item.unitName }}</td>
+            <td>{{ item.unitPrice | customCurrencyPipe }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.unitPrice * item.quantity | customCurrencyPipe }}</td>
+          </tr>
+          <tr>
+            <td colspan="5"></td>
+            <td style="font-weight: bold">Tổng hóa đơn</td>
+            <td style="color: darkgreen">
+              {{ totalPrice | customCurrencyPipe }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-12 item-form btn-payment">
+      <button type="button" class="btn btn-success">Thanh toán</button>
+    </div>
+  </div>
+</div>
