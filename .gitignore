@@ -1,0 +1,12 @@
+DAT.API/DAT.API/bin/
+DAT.API/DAT.API/obj/
+DAT.API/DAT.Common/obj/
+DAT.API/DAT.Core/obj/
+DAT.API/DAT.Database/obj/
+DAT.API/DAT.Realtime/bin/
+DAT.API/DAT.Realtime/obj/
+DAT.API/DAT.Infrastructure/obj/
+DAT.API/DAT.Infrastructure/bin/
+DAT.API/.vs/
+DAT.API/DAT.Core/bin/
+DAT.API/DAT.Database/bin/
