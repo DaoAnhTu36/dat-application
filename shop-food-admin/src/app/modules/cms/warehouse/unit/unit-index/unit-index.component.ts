@@ -13,7 +13,7 @@ import { UrlConstEnum } from '../../../../../menu/config-url';
 @Component({
   selector: 'app-unit-index',
   standalone: true,
-  imports: [NgFor, CommonModule, NgIf],
+  imports: [NgFor, CommonModule],
   templateUrl: './unit-index.component.html',
   styleUrl: './unit-index.component.scss',
 })
