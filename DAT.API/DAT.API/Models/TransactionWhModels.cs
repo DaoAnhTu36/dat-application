@@ -16,6 +16,7 @@ namespace DAT.API.Models
 
         public DateTime? TransactionDate { get; set; }
         public decimal TotalPrice { get; set; }
+        public Guid StockId { get; set; }
         public List<SubTransactionWhCreateModelReq>? Details { get; set; }
     }
 
@@ -23,6 +24,7 @@ namespace DAT.API.Models
     {
         public Guid GoodsId { get; set; }
         public Guid SupplierId { get; set; }
+        public Guid UnitId { get; set; }
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
         public decimal TotalPrice { get; set; }
@@ -102,5 +104,7 @@ namespace DAT.API.Models
         public string? TransactionType { get; set; }
         public DateTime? TransactionDate { get; set; }
         public decimal TotalPrice { get; set; }
+        public Guid StockId { get; set; }
+        public string StockName { get; set; }
     }
 }

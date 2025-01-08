@@ -5,6 +5,7 @@ import { StatusCodeApiResponse } from '../../../../../commons/const/ConstStatusC
 import { LoadingService } from '../../../../../commons/loading/loading.service';
 import { WarehouseService } from '../../../../../services/warehouse-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { UrlConstEnum } from '../../../../../menu/config-url';
 
 @Component({
   selector: 'app-unit-update',
@@ -30,7 +31,7 @@ export class UnitUpdateComponent {
   getDetailById() {
     this._loadingService.show();
     const id = this._activatedRoute.snapshot.params['id'];
-    this._warehouseService.getWarehouseById({ id: id }).subscribe((res) => {
+    this._warehouseService.unitDetail({ id: id }).subscribe((res) => {
       this._loadingService.hide();
       if (
         res.isNormal &&
@@ -38,7 +39,6 @@ export class UnitUpdateComponent {
       ) {
         this.name.setValue(res.data?.name ?? '');
       } else {
-        this._toastService.error('Get information failed');
       }
     });
   }
@@ -48,7 +48,7 @@ export class UnitUpdateComponent {
     const name = this.name.value ?? '';
     const id = this._activatedRoute.snapshot.params['id'];
     this._warehouseService
-      .updateUnit({
+      .unitUpdate({
         id: id,
         name: name,
       })
@@ -58,10 +58,9 @@ export class UnitUpdateComponent {
           res.isNormal &&
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
-          this._router.navigate(['wh/system/unit']);
-          this._toastService.success('Update successfully');
+          this._router.navigate([UrlConstEnum.UNIT_INDEX]);
         } else {
-          this._toastService.error('Update failed');
+          this._toastService.error('Thất bại');
         }
       });
   }

@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PageingReq } from '../../../../../commons/const/ConstStatusCode';
 import { LoadingService } from '../../../../../commons/loading/loading.service';
 import {
-  ProductWhModel,
+  GoodsDetailWhModel,
   WarehouseService,
 } from '../../../../../services/warehouse-service.service';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ import { UrlConstEnum } from '../../../../../menu/config-url';
   styleUrl: './product-index.component.scss',
 })
 export class ProductIndexComponent {
-  data: ProductWhModel[] = [];
+  data: GoodsDetailWhModel[] = [];
   constructor(
     private readonly _warehouseService: WarehouseService,
     private readonly router: Router,
@@ -33,7 +33,7 @@ export class ProductIndexComponent {
   list() {
     this._loadingService.show();
     this._warehouseService
-      .listProduct({
+      .goodsList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
       })
@@ -44,18 +44,18 @@ export class ProductIndexComponent {
   }
 
   add() {
-    this.router.navigate([UrlConstEnum.PRODUCT_CREATE]);
+    this.router.navigate([UrlConstEnum.GOODS_CREATE]);
   }
 
   edit(id: string | undefined) {
-    this.router.navigate([UrlConstEnum.PRODUCT_UPDATE, id]);
+    this.router.navigate([UrlConstEnum.GOODS_UPDATE, id]);
   }
 
   detail(id: string | undefined) {
-    this.router.navigate([UrlConstEnum.PRODUCT_DETAIL, id]);
+    this.router.navigate([UrlConstEnum.GOODS_DETAIL, id]);
   }
 
   delete(id: string | undefined) {
-    this.router.navigate([UrlConstEnum.PRODUCT_DELETE, id]);
+    this.router.navigate([UrlConstEnum.GOODS_DELETE, id]);
   }
 }

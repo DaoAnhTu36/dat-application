@@ -33,7 +33,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'wh/system/product',
+    path: 'wh/system/goods',
     loadChildren: () =>
       import('./product/product.module').then((m) => m.ProductModule),
   },
@@ -47,9 +47,14 @@ const routes: Routes = [
     loadChildren: () => import('./unit/unit.module').then((m) => m.UnitModule),
   },
   {
-    path: 'wh/system/warehouse',
+    path: 'wh/system/stock',
     loadChildren: () =>
       import('./warehouse/warehouse.module').then((m) => m.WarehouseModule),
+  },
+  {
+    path: 'wh/system/category',
+    loadChildren: () =>
+      import('./category/category.module').then((m) => m.CategoryModule),
   },
 ];
 

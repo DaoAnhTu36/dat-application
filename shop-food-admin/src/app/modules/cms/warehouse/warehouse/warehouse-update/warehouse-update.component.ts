@@ -5,6 +5,7 @@ import { WarehouseService } from '../../../../../services/warehouse-service.serv
 import { LoadingService } from '../../../../../commons/loading/loading.service';
 import { StatusCodeApiResponse } from '../../../../../commons/const/ConstStatusCode';
 import { UrlConstEnum } from '../../../../../menu/config-url';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-warehouse-update',
@@ -18,7 +19,8 @@ export class WarehouseUpdateComponent {
     private readonly _warehouseService: WarehouseService,
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _loadingService: LoadingService,
-    private readonly _router: Router
+    private readonly _router: Router,
+    private readonly _toastService: ToastrService
   ) {}
   name = new FormControl('');
   address = new FormControl('');
@@ -30,7 +32,7 @@ export class WarehouseUpdateComponent {
   getDetailById() {
     this._loadingService.show();
     const id = this._activatedRoute.snapshot.params['id'];
-    this._warehouseService.getWarehouseById({ id: id }).subscribe((res) => {
+    this._warehouseService.stockDetail({ id: id }).subscribe((res) => {
       this.name.setValue(res.data?.name ?? '');
       this.address.setValue(res.data?.address ?? '');
       this._loadingService.hide();
@@ -43,7 +45,7 @@ export class WarehouseUpdateComponent {
     const address = this.address.value ?? '';
     const id = this._activatedRoute.snapshot.params['id'];
     this._warehouseService
-      .updateWarehouse({
+      .stockUpdate({
         id: id,
         name: name,
         address: address,
@@ -54,7 +56,9 @@ export class WarehouseUpdateComponent {
           res.isNormal &&
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
-          this._router.navigate([UrlConstEnum.WAREHOUSE_INDEX]);
+          this._router.navigate([UrlConstEnum.STOCK_INDEX]);
+        } else {
+          this._toastService.error('Thất bại');
         }
       });
   }

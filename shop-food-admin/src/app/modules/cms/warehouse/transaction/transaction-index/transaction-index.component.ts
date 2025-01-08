@@ -40,7 +40,7 @@ export class TransactionIndexComponent {
   listTransaction() {
     this._loadingService.show();
     this._warehouseService
-      .listTransaction({
+      .transactionList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
       })
@@ -58,10 +58,10 @@ export class TransactionIndexComponent {
                 transactionDate: rs.transactionDate,
                 transactionType: rs.transactionType === '0' ? 'Nhập' : 'Xuất',
                 totalPrice: rs.totalPrice,
+                stockName: rs.stockName,
               };
             }) ?? [];
         } else {
-          this._toastService.error('Tải dữ liệu xảy ra lỗi.');
         }
       });
   }

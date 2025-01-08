@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StatusCodeApiResponse } from '../../../../../commons/const/ConstStatusCode';
 import { LoadingService } from '../../../../../commons/loading/loading.service';
 import { WarehouseService } from '../../../../../services/warehouse-service.service';
+import { UrlConstEnum } from '../../../../../menu/config-url';
 
 @Component({
   selector: 'app-product-delete',
@@ -27,7 +28,7 @@ export class ProductDeleteComponent {
     this._loadingService.show();
     const id = this._activatedRoute.snapshot.params['id'];
     this._warehouseService
-      .deleteProduct({
+      .goodsDelete({
         id: id,
       })
       .subscribe((res) => {
@@ -36,7 +37,7 @@ export class ProductDeleteComponent {
           res.isNormal &&
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
-          this._router.navigate(['/wh/product']);
+          this._router.navigate([UrlConstEnum.GOODS_INDEX]);
         }
       });
   }

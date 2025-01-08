@@ -21,7 +21,7 @@ import { CustomDatePipe } from '../../../../../commons/pipes/custom-date.pipe';
   styleUrl: './transaction-detail.component.scss',
 })
 export class TransactionDetailComponent {
-  data: TransactionWhDetailModelRes = {};
+  data: any;
   constructor(
     private readonly _warehouseService: WarehouseService,
     private readonly router: Router,
@@ -38,7 +38,7 @@ export class TransactionDetailComponent {
     this._loadingService.show();
     const id = this._activatedRoute.snapshot.params['id'];
     this._warehouseService
-      .detailTransaction({
+      .transactionDetail({
         id: id,
       })
       .subscribe((res) => {

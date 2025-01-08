@@ -11,6 +11,10 @@ import {
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {
+  CategoryWhListModelRes,
+  CategoryWhModel,
+  StockWhListModelRes,
+  StockWhModel,
   SubTransactionWhCreateModelReq,
   SupplierWhListModelRes,
   TransactionWhCreateModelReq,
@@ -24,6 +28,7 @@ import {
 } from '../../../../../commons/const/ConstStatusCode';
 import { CommonServiceService } from '../../../../../services/common-service.service';
 import { UrlConstEnum } from '../../../../../menu/config-url';
+import { LoadingService } from '../../../../../commons/loading/loading.service';
 
 @Component({
   selector: 'app-transaction-create',
@@ -33,18 +38,20 @@ import { UrlConstEnum } from '../../../../../menu/config-url';
   styleUrl: './transaction-create.component.scss',
 })
 export class TransactionCreateComponent {
-  supplierList: SupplierWhListModelRes = {};
+  stocks: StockWhModel[] | null | undefined;
+  categories: CategoryWhModel[] | null | undefined;
+  units: UnitWhModel[] | null | undefined;
   myForm: FormGroup;
   transactionCode = new FormControl('');
   transactionDate = new FormControl('');
   supplierId = new FormControl('');
   listTransDetail: any[] = [];
-  listUnit: UnitWhModel[] = [];
   totalPriceDetail = new FormControl('');
   transactionType = new FormControl('');
+  stockId = new FormControl('');
   listTransactionType = [
     { id: '0', name: 'Nhập' },
-    { id: '1', name: 'Xuất' },
+    // { id: '1', name: 'Xuất' },
   ];
 
   constructor(
@@ -54,7 +61,8 @@ export class TransactionCreateComponent {
     private readonly _renderer: Renderer2,
     private readonly _el: ElementRef,
     private readonly fb: FormBuilder,
-    private readonly _commonService: CommonServiceService
+    private readonly _commonService: CommonServiceService,
+    private readonly _loadingService: LoadingService
   ) {
     this.myForm = this.fb.group({
       items: this.fb.array([]),
@@ -62,19 +70,46 @@ export class TransactionCreateComponent {
   }
 
   ngOnInit(): void {
-    this.listSupplier();
-    this.getListUnit();
+    this.listCategory();
+    this.listUnit();
+    this.listStock();
   }
 
-  listSupplier() {
+  listStock() {
     this._warehouseService
-      .listSupplier({
+      .stockList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
       })
       .subscribe((res) => {
         if (res.isNormal) {
-          this.supplierList = res.data ?? {};
+          this.stocks = res.data?.list;
+        }
+      });
+  }
+
+  listUnit() {
+    this._warehouseService
+      .unitList({
+        pageNumber: PageingReq.PAGE_NUMBER,
+        pageSize: PageingReq.PAGE_SIZE,
+      })
+      .subscribe((res) => {
+        if (res.isNormal) {
+          this.units = res.data?.list;
+        }
+      });
+  }
+
+  listCategory() {
+    this._warehouseService
+      .categoryList({
+        pageNumber: PageingReq.PAGE_NUMBER,
+        pageSize: PageingReq.PAGE_SIZE,
+      })
+      .subscribe((res) => {
+        if (res.isNormal) {
+          this.categories = res.data?.list;
         }
       });
   }
@@ -85,9 +120,9 @@ export class TransactionCreateComponent {
 
   addItem() {
     const itemFormGroup = this.fb.group({
-      productId: [''],
-      barCode: [''],
-      productName: [''],
+      goodsId: [''],
+      goodsCode: [''],
+      goodsName: [''],
       unitId: [''],
       supplierId: [''],
       quantity: [''],
@@ -111,25 +146,12 @@ export class TransactionCreateComponent {
     this._router.navigate([UrlConstEnum.TRANSACTION_INDEX]);
   }
 
-  getListUnit() {
-    this._warehouseService
-      .listUnit({
-        pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
-      })
-      .subscribe((res) => {
-        if (res.isNormal) {
-          this.listUnit = res.data?.list ?? [];
-        }
-      });
-  }
-
   onSearchProduct(i: any) {
-    const barCode = this.myForm.value['items'][i]['barCode'];
-    let index = this.listTransDetail.findIndex((x) => x.barCode == barCode);
+    const goodsCode = this.myForm.value['items'][i]['goodsCode'];
+    let index = this.listTransDetail.findIndex((x) => x.goodsCode == goodsCode);
     this._warehouseService
-      .detailProduct({
-        barCode: barCode,
+      .goodsDetail({
+        goodsCode: goodsCode,
       })
       .subscribe((res) => {
         if (
@@ -140,11 +162,11 @@ export class TransactionCreateComponent {
             this.listTransDetail.splice(i, 1);
           }
           this.listTransDetail.push({
-            productId: res.data?.id,
-            barCode: res.data?.barCode,
-            productName: res.data?.name,
-            unitId: res.data?.unitId,
-            supplierId: res.data?.supplierId,
+            goodsId: res.data?.id,
+            goodsCode: res.data?.goodsCode,
+            goodsName: res.data?.name,
+            unitId: '',
+            supplierId: '',
             quantity: 1,
             unitPrice: this._commonService.formatCurrency(0),
             totalAmount: this._commonService.formatCurrency(1 * 0),
@@ -167,24 +189,20 @@ export class TransactionCreateComponent {
       this.myForm.value['items'][i]['unitPrice']
     );
     let totalAmount = quantity * unitPrice;
-    let barCode = this.myForm.value['items'][i]['barCode'];
-    let productId = this.myForm.value['items'][i]['productId'];
-    let productName = '';
-    let unitId = '';
-    let supplierId = '';
-    let index = this.listTransDetail.findIndex((x) => x.barCode == barCode);
+    let goodsCode = this.myForm.value['items'][i]['goodsCode'];
+    let goodsId = '';
+    let goodsName = this.myForm.value['items'][i]['goodsName'];
+    let unitId = this.myForm.value['items'][i]['unitId'];
+    let supplierId = this.myForm.value['items'][i]['supplierId'];
+    let index = this.listTransDetail.findIndex((x) => x.goodsCode == goodsCode);
     if (index >= 0) {
-      barCode = this.listTransDetail[i]['barCode'];
-      productName = this.listTransDetail[i]['productName'];
-      unitId = this.listTransDetail[i]['unitId'];
-      supplierId = this.listTransDetail[i]['supplierId'];
-      productId = this.listTransDetail[i]['productId'];
+      goodsId = this.listTransDetail[index].goodsId;
       this.listTransDetail.splice(i, 1);
     }
     this.listTransDetail.splice(index, 0, {
-      productId: productId,
-      barCode: barCode,
-      productName: productName,
+      goodsId: goodsId,
+      goodsCode: goodsCode,
+      goodsName: goodsName,
       unitId: unitId,
       supplierId: supplierId,
       quantity: quantity,
@@ -208,7 +226,7 @@ export class TransactionCreateComponent {
   }
 
   onSave() {
-    console.log('this.myForm.value :>> ', this.myForm.value);
+    this._loadingService.show();
     let details: SubTransactionWhCreateModelReq[] = [];
     this.myForm.value['items'].forEach((element: any) => {
       details.push({
@@ -217,10 +235,11 @@ export class TransactionCreateComponent {
         totalPrice: this._commonService.revertFormatCurrency(
           element.totalAmount
         ),
-        productId: element.productId,
+        goodsId: element.goodsId,
         dateOfExpired: null,
         dateOfManufacture: null,
         supplierId: element.supplierId,
+        unitId: element.unitId,
       });
     });
     let request: TransactionWhCreateModelReq = {
@@ -230,18 +249,19 @@ export class TransactionCreateComponent {
       totalPrice: this._commonService.revertFormatCurrency(
         this.totalPriceDetail.value
       ),
+      stockId: this.stockId.value ?? '',
       details: details,
     };
-    console.log('request :>> ', request);
-    this._warehouseService.createTransaction(request).subscribe((res) => {
+    this._warehouseService.transactionCreate(request).subscribe((res) => {
       if (
         res.isNormal &&
         res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS
       ) {
         this._router.navigate([UrlConstEnum.TRANSACTION_INDEX]);
       } else {
-        this._toastService.error('Lưu thất bại');
+        this._toastService.error('Thất bại');
       }
     });
+    this._loadingService.hide();
   }
 }

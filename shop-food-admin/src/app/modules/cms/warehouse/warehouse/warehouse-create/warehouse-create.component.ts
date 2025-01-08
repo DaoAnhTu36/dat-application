@@ -27,7 +27,7 @@ export class WarehouseCreateComponent {
     const name = this.name.value ?? '';
     const address = this.address.value ?? '';
     this._warehouseService
-      .createWarehouse({
+      .stockCreate({
         name: name,
         address: address,
       })
@@ -36,9 +36,9 @@ export class WarehouseCreateComponent {
           res.isNormal &&
           res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS
         ) {
-          this._router.navigate([UrlConstEnum.WAREHOUSE_INDEX]);
+          this._router.navigate([UrlConstEnum.STOCK_INDEX]);
         } else {
-          this._toastService.error('Lưu thất bại');
+          this._toastService.error('Thất bại');
         }
       });
   }

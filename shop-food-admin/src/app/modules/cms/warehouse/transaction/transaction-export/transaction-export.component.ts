@@ -37,7 +37,7 @@ export class TransactionExportComponent {
   listTransaction() {
     this._loadingService.show();
     this._warehouseService
-      .listTransaction({
+      .transactionList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
         transactionType: '1',

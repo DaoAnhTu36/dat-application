@@ -23,7 +23,7 @@ export class UnitCreateComponent {
   create() {
     const nameValue = this.name.value ?? '';
     this._warehouseService
-      .createUnit({
+      .unitCreate({
         name: nameValue,
       })
       .subscribe((res) => {
@@ -33,7 +33,7 @@ export class UnitCreateComponent {
         ) {
           this._router.navigate([UrlConstEnum.UNIT_INDEX]);
         } else {
-          this._toastService.error('Lưu thất bại');
+          this._toastService.error('Thất bại');
         }
       });
   }

@@ -4,6 +4,7 @@ import { LoadingService } from '../../../../../commons/loading/loading.service';
 import { WarehouseService } from '../../../../../services/warehouse-service.service';
 import { StatusCodeApiResponse } from '../../../../../commons/const/ConstStatusCode';
 import { UrlConstEnum } from '../../../../../menu/config-url';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-unit-delete',
@@ -17,7 +18,8 @@ export class UnitDeleteComponent {
     private readonly _warehouseService: WarehouseService,
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _loadingService: LoadingService,
-    private readonly _router: Router
+    private readonly _router: Router,
+    private readonly _toastService: ToastrService
   ) {}
 
   ngOnInit() {
@@ -28,7 +30,7 @@ export class UnitDeleteComponent {
     this._loadingService.show();
     const id = this._activatedRoute.snapshot.params['id'];
     this._warehouseService
-      .deleteUnit({
+      .unitDelete({
         id: id,
       })
       .subscribe((res) => {
@@ -38,6 +40,8 @@ export class UnitDeleteComponent {
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
           this._router.navigate([UrlConstEnum.UNIT_INDEX]);
+        } else {
+          this._toastService.error('Thất bại');
         }
       });
   }

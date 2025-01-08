@@ -5,18 +5,20 @@
         <th>#</th>
         <th>Số phiếu</th>
         <th>Loại giao dich</th>
-        <th>Thời gian nhập/xuất</th>
+        <th>Kho</th>
+        <th>Thời gian</th>
         <th>Tổng số tiền giao dịch</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of data; let i = index">
-        <td>{{i+1}}</td>
-        <td>{{item.transactionCode}}</td>
-        <td>{{item.transactionType}}</td>
-        <td>{{item.transactionDate | customDate}}</td>
-        <td>{{item.totalPrice | customCurrencyPipe}}</td>
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.transactionCode }}</td>
+        <td>{{ item.transactionType }}</td>
+        <td>{{ item.stockName }}</td>
+        <td>{{ item.transactionDate | customDate }}</td>
+        <td>{{ item.totalPrice | customCurrencyPipe }}</td>
         <td>
           <div class="row group-button-action">
             <div class="col-md-4">

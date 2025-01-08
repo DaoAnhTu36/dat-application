@@ -30,7 +30,7 @@ export class SupplierDeleteComponent {
     this._loadingService.show();
     const id = this._activatedRoute.snapshot.params['id'];
     this._warehouseService
-      .deleteSupplier({
+      .supplierDelete({
         id: id,
       })
       .subscribe((res) => {
@@ -41,6 +41,7 @@ export class SupplierDeleteComponent {
         ) {
           this._router.navigate([UrlConstEnum.SUPPLIER_INDEX]);
         } else {
+          this._toastService.error('Thất bại');
         }
       });
   }

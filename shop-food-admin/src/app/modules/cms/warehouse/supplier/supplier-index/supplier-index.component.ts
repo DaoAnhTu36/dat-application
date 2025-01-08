@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { PageingReq } from '../../../../../commons/const/ConstStatusCode';
 import { NgFor } from '@angular/common';
+import { UrlConstEnum } from '../../../../../menu/config-url';
 
 @Component({
   selector: 'app-supplier-index',
@@ -32,7 +33,7 @@ export class SupplierIndexComponent {
   list() {
     this._loadingService.show();
     this._warehouseService
-      .listSupplier({
+      .supplierList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
       })
@@ -43,18 +44,18 @@ export class SupplierIndexComponent {
   }
 
   add() {
-    this.router.navigate(['/wh/system/supplier/create']);
+    this.router.navigate([UrlConstEnum.SUPPLIER_CREATE]);
   }
 
   edit(id: string | undefined) {
-    this.router.navigate(['/wh/system/supplier/update/', id]);
+    this.router.navigate([UrlConstEnum.SUPPLIER_UPDATE, id]);
   }
 
   detail(id: string | undefined) {
-    this.router.navigate(['/wh/system/supplier/detail/', id]);
+    this.router.navigate([UrlConstEnum.SUPPLIER_DETAIL, id]);
   }
 
   delete(id: string | undefined) {
-    this.router.navigate(['/wh/system/supplier/delete/', id]);
+    this.router.navigate([UrlConstEnum.SUPPLIER_DELETE, id]);
   }
 }
