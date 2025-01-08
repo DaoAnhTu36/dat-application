@@ -16,6 +16,7 @@ import {
   StockWhListModelRes,
   StockWhModel,
   SubTransactionWhCreateModelReq,
+  SupplierModel,
   SupplierWhListModelRes,
   TransactionWhCreateModelReq,
   UnitWhListModelRes,
@@ -39,7 +40,7 @@ import { LoadingService } from '../../../../../commons/loading/loading.service';
 })
 export class TransactionCreateComponent {
   stocks: StockWhModel[] | null | undefined;
-  categories: CategoryWhModel[] | null | undefined;
+  suppliers: SupplierModel[] | null | undefined;
   units: UnitWhModel[] | null | undefined;
   myForm: FormGroup;
   transactionCode = new FormControl('');
@@ -70,7 +71,7 @@ export class TransactionCreateComponent {
   }
 
   ngOnInit(): void {
-    this.listCategory();
+    this.listSupplier();
     this.listUnit();
     this.listStock();
   }
@@ -101,15 +102,15 @@ export class TransactionCreateComponent {
       });
   }
 
-  listCategory() {
+  listSupplier() {
     this._warehouseService
-      .categoryList({
+      .supplierList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
       })
       .subscribe((res) => {
         if (res.isNormal) {
-          this.categories = res.data?.list;
+          this.suppliers = res.data?.list;
         }
       });
   }
