@@ -33,7 +33,7 @@ export class UnitIndexComponent {
   list() {
     this._loadingService.show();
     this._warehouseService
-      .listUnit({
+      .unitList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
       })

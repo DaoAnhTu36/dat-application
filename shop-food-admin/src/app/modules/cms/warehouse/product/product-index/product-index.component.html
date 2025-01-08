@@ -5,18 +5,16 @@
         <th>#</th>
         <th>Mã hàng hóa</th>
         <th>Tên hàng hóa</th>
-        <th>Nha cung cấp</th>
-        <th>Đơn vị tính</th>
+        <th>Danh mục</th>
         <th>#</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of data; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ item.barCode }}</td>
+        <td>{{ item.goodsCode }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.supplierName }}</td>
-        <td>{{ item.unitName }}</td>
+        <td>{{ item.categoryName }}</td>
         <td>
           <div class="row group-button-action">
             <div class="col-md-4">

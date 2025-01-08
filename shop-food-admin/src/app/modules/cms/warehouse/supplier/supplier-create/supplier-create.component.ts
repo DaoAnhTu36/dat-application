@@ -27,7 +27,7 @@ export class SupplierCreateComponent {
     const name = this.name.value ?? '';
     const address = this.address.value ?? '';
     this._warehouseService
-      .createSupplier({
+      .supplierCreate({
         name: name,
         address: address,
       })
@@ -38,7 +38,7 @@ export class SupplierCreateComponent {
         ) {
           this._router.navigate([UrlConstEnum.SUPPLIER_INDEX]);
         } else {
-          this._toastService.error('Lưu thất bại');
+          this._toastService.error('Thất bại');
         }
       });
   }

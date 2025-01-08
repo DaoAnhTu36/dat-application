@@ -4,6 +4,7 @@ import { StatusCodeApiResponse } from '../../../../../commons/const/ConstStatusC
 import { LoadingService } from '../../../../../commons/loading/loading.service';
 import { WarehouseService } from '../../../../../services/warehouse-service.service';
 import { UrlConstEnum } from '../../../../../menu/config-url';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-warehouse-delete',
@@ -17,7 +18,8 @@ export class WarehouseDeleteComponent {
     private readonly _warehouseService: WarehouseService,
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _loadingService: LoadingService,
-    private readonly _router: Router
+    private readonly _router: Router,
+    private readonly _toastService: ToastrService
   ) {}
 
   ngOnInit() {
@@ -28,7 +30,7 @@ export class WarehouseDeleteComponent {
     this._loadingService.show();
     const id = this._activatedRoute.snapshot.params['id'];
     this._warehouseService
-      .deleteWarehouse({
+      .stockDelete({
         id: id,
       })
       .subscribe((res) => {
@@ -37,7 +39,9 @@ export class WarehouseDeleteComponent {
           res.isNormal &&
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
-          this._router.navigate([UrlConstEnum.WAREHOUSE_INDEX]);
+          this._router.navigate([UrlConstEnum.STOCK_DELETE]);
+        } else {
+          this._toastService.error('Thất bại');
         }
       });
   }

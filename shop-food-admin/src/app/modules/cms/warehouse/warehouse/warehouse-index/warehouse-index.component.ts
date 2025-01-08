@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PageingReq } from '../../../../../commons/const/ConstStatusCode';
 import { LoadingService } from '../../../../../commons/loading/loading.service';
 import {
-  WarehouseListModelRes,
+  StockWhListModelRes,
   WarehouseService,
 } from '../../../../../services/warehouse-service.service';
 import { ToastrService } from 'ngx-toastr';
@@ -18,7 +18,7 @@ import { UrlConstEnum } from '../../../../../menu/config-url';
   styleUrl: './warehouse-index.component.scss',
 })
 export class WarehouseIndexComponent {
-  listWarehouse: WarehouseListModelRes | undefined;
+  listWarehouse: StockWhListModelRes | undefined;
   constructor(
     private readonly _warehouseService: WarehouseService,
     private readonly router: Router,
@@ -33,7 +33,7 @@ export class WarehouseIndexComponent {
   list() {
     this._loadingService.show();
     this._warehouseService
-      .listWarehouse({
+      .stockList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
       })
@@ -44,18 +44,18 @@ export class WarehouseIndexComponent {
   }
 
   add() {
-    this.router.navigate([UrlConstEnum.WAREHOUSE_CREATE]);
+    this.router.navigate([UrlConstEnum.STOCK_CREATE]);
   }
 
   edit(id: string | undefined) {
-    this.router.navigate([UrlConstEnum.WAREHOUSE_UPDATE, id]);
+    this.router.navigate([UrlConstEnum.STOCK_UPDATE, id]);
   }
 
   detail(id: string | undefined) {
-    this.router.navigate([UrlConstEnum.WAREHOUSE_DETAIL, id]);
+    this.router.navigate([UrlConstEnum.STOCK_DETAIL, id]);
   }
 
   delete(id: string | undefined) {
-    this.router.navigate([UrlConstEnum.WAREHOUSE_DELETE, id]);
+    this.router.navigate([UrlConstEnum.STOCK_DELETE, id]);
   }
 }

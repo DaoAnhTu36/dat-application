@@ -40,7 +40,7 @@ export class TransactionIndexComponent {
   listTransaction() {
     this._loadingService.show();
     this._warehouseService
-      .listTransaction({
+      .transactionList({
         pageNumber: PageingReq.PAGE_NUMBER,
         pageSize: PageingReq.PAGE_SIZE,
       })
@@ -61,7 +61,6 @@ export class TransactionIndexComponent {
               };
             }) ?? [];
         } else {
-          this._toastService.error('Tải dữ liệu xảy ra lỗi.');
         }
       });
   }

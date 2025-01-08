@@ -3,19 +3,20 @@ import { ActivatedRoute } from '@angular/router';
 import { StatusCodeApiResponse } from '../../../../../commons/const/ConstStatusCode';
 import { LoadingService } from '../../../../../commons/loading/loading.service';
 import {
-  ProductWhDetailModelRes,
+  GoodsWhDetailModelRes,
   WarehouseService,
 } from '../../../../../services/warehouse-service.service';
+import { CustomDatePipe } from '../../../../../commons/pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [],
+  imports: [CustomDatePipe],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent {
-  data: ProductWhDetailModelRes = {};
+  data: any;
   constructor(
     private readonly _warehouseService: WarehouseService,
     private readonly _activatedRoute: ActivatedRoute,
@@ -29,7 +30,7 @@ export class ProductDetailComponent {
   getDetail() {
     this._loadingService.show();
     const id = this._activatedRoute.snapshot.params['id'];
-    this._warehouseService.detailProduct({ id: id }).subscribe((res) => {
+    this._warehouseService.goodsDetail({ id: id }).subscribe((res) => {
       if (
         res.isNormal &&
         res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS

@@ -1,9 +1,9 @@
 export enum UrlConstEnum {
-  WAREHOUSE_INDEX = 'wh/system/warehouse/index',
-  WAREHOUSE_CREATE = 'wh/system/warehouse/create',
-  WAREHOUSE_UPDATE = 'wh/system/warehouse/update',
-  WAREHOUSE_DETAIL = 'wh/system/warehouse/detail',
-  WAREHOUSE_DELETE = 'wh/system/warehouse/delete',
+  STOCK_INDEX = 'wh/system/stock/index',
+  STOCK_CREATE = 'wh/system/stock/create',
+  STOCK_UPDATE = 'wh/system/stock/update',
+  STOCK_DETAIL = 'wh/system/stock/detail',
+  STOCK_DELETE = 'wh/system/stock/delete',
 
   SUPPLIER_INDEX = '/wh/system/supplier/index',
   SUPPLIER_CREATE = '/wh/system/supplier/create',
@@ -17,15 +17,21 @@ export enum UrlConstEnum {
   UNIT_DETAIL = '/wh/system/unit/detail',
   UNIT_DELETE = '/wh/system/unit/delete',
 
-  PRODUCT_INDEX = '/wh/system/product/index/',
-  PRODUCT_CREATE = '/wh/system/product/create/',
-  PRODUCT_UPDATE = '/wh/system/product/update/',
-  PRODUCT_DETAIL = '/wh/system/product/detail/',
-  PRODUCT_DELETE = '/wh/system/product/delete/',
+  GOODS_INDEX = '/wh/system/goods/index/',
+  GOODS_CREATE = '/wh/system/goods/create/',
+  GOODS_UPDATE = '/wh/system/goods/update/',
+  GOODS_DETAIL = '/wh/system/goods/detail/',
+  GOODS_DELETE = '/wh/system/goods/delete/',
 
   TRANSACTION_INDEX = '/wh/transaction/transaction/index/',
   TRANSACTION_CREATE = '/wh/transaction/transaction/create/',
   TRANSACTION_UPDATE = '/wh/transaction/transaction/update/',
   TRANSACTION_DETAIL = '/wh/transaction/transaction/detail/',
   TRANSACTION_DELETE = '/wh/transaction/transaction/delete/',
+
+  CATEGORY_INDEX = '/wh/system/category/index/',
+  CATEGORY_CREATE = '/wh/system/category/create/',
+  CATEGORY_UPDATE = '/wh/system/category/update/',
+  CATEGORY_DETAIL = '/wh/system/category/detail/',
+  CATEGORY_DELETE = '/wh/system/category/delete/',
 }

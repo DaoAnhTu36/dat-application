@@ -56,6 +56,7 @@ namespace DAT.API.Services.Warehouse.Impl
                             TransactionId = transId,
                             TotalPrice = transaction.TotalPrice,
                             SupplierId = transaction.SupplierId,
+                            UnitId = transaction.UnitId,
                         });
                     }
                 }

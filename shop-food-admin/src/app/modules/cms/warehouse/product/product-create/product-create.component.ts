@@ -6,6 +6,9 @@ import {
   StatusCodeApiResponse,
 } from '../../../../../commons/const/ConstStatusCode';
 import {
+  CategoryWhListModelRes,
+  CategoryWhModel,
+  GoodsWhCreateModelReq,
   SupplierWhListModelRes,
   UnitWhListModelRes,
   WarehouseService,
@@ -24,11 +27,9 @@ import { UrlConstEnum } from '../../../../../menu/config-url';
 export class ProductCreateComponent {
   name = new FormControl('');
   description = new FormControl('');
-  supplierId = new FormControl('');
-  unitId = new FormControl('');
-  barCode = new FormControl('');
-  listUnit: UnitWhListModelRes = {};
-  listSupplier: SupplierWhListModelRes = {};
+  goodsCode = new FormControl('');
+  categoryId = new FormControl('');
+  categories: CategoryWhModel[] = [];
   constructor(
     private readonly _warehouseService: WarehouseService,
     private readonly _router: Router,
@@ -36,68 +37,41 @@ export class ProductCreateComponent {
   ) {}
 
   ngOnInit() {
-    this.getListUnit();
-    this.getListSupplier();
-  }
-
-  getListUnit() {
-    this._warehouseService
-      .listUnit({
-        pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
-      })
-      .subscribe((res) => {
-        if (
-          res.isNormal &&
-          res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS
-        ) {
-          this.listUnit = res.data ?? {};
-        }
-      });
-  }
-
-  getListSupplier() {
-    this._warehouseService
-      .listSupplier({
-        pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
-      })
-      .subscribe((res) => {
-        if (
-          res.isNormal &&
-          res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS
-        ) {
-          this.listSupplier = res.data ?? {};
-        }
-      });
+    this.listCategory();
   }
 
   onCreate() {
-    const nameValue = this.name.value ?? '';
-    const descriptionValue = this.description.value ?? '';
-    const supplierIdValue = this.supplierId.value ?? '';
-    const unitIdValue = this.unitId.value ?? '';
-    const barCodeValue = this.barCode.value ?? '';
-    if (!nameValue || !supplierIdValue || !unitIdValue) {
-      this._toastService.error('Thông tin không được bỏ trống');
-      return;
-    }
-    var obj = {
-      name: nameValue,
-      description: descriptionValue,
-      supplierId: supplierIdValue,
-      unitId: unitIdValue,
-      barCode: barCodeValue,
+    var obj: GoodsWhCreateModelReq = {
+      name: this.name.value ?? '',
+      description: this.description.value ?? '',
+      goodsCode: this.goodsCode.value ?? '',
+      categoryId: this.categoryId.value ?? '',
     };
-    this._warehouseService.createProduct(obj).subscribe((res) => {
+    this._warehouseService.goodsCreate(obj).subscribe((res) => {
       if (
         res.isNormal &&
         res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS
       ) {
-        this._router.navigate([UrlConstEnum.PRODUCT_INDEX]);
+        this._router.navigate([UrlConstEnum.GOODS_INDEX]);
       } else {
-        this._toastService.error('Lưu thất bại');
+        this._toastService.error('Thất bại');
       }
     });
+  }
+
+  listCategory() {
+    this._warehouseService
+      .categoryList({
+        pageNumber: PageingReq.PAGE_NUMBER,
+        pageSize: PageingReq.PAGE_SIZE,
+      })
+      .subscribe((res) => {
+        if (
+          res.isNormal &&
+          res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS
+        ) {
+          this.categories = res.data?.list ?? [];
+        }
+      });
   }
 }

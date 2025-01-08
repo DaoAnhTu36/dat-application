@@ -3,10 +3,7 @@ import { Component, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonServiceService } from '../services/common-service.service';
 import { LocalStorageServiceService } from '../services/local-storage-service.service';
-import {
-  NotificationModels,
-  WarehouseService,
-} from '../services/warehouse-service.service';
+import { WarehouseService } from '../services/warehouse-service.service';
 import { PageingReq } from '../commons/const/ConstStatusCode';
 import * as jquery from 'jquery';
 
@@ -63,7 +60,7 @@ export class MenuComponent {
           display_name: 'Hệ thống',
           list_child: [
             {
-              path: `product`,
+              path: `goods`,
               display_name: 'Hàng hóa',
               list_child: [],
             },
@@ -78,8 +75,13 @@ export class MenuComponent {
               list_child: [],
             },
             {
-              path: `warehouse`,
+              path: `stock`,
               display_name: 'Kho hàng',
+              list_child: [],
+            },
+            {
+              path: `category`,
+              display_name: 'Danh mục hàng hóa',
               list_child: [],
             },
           ],
@@ -153,7 +155,6 @@ export class MenuComponent {
       element.parent().parent().children('ul').addClass('show-element');
     }
     if (element.parent().hasClass('active')) {
-      console.log(1);
       element
         .parent()
         .parent()
@@ -176,7 +177,6 @@ export class MenuComponent {
             });
         });
     } else {
-      console.log(2);
       element
         .parent()
         .parent()
@@ -202,26 +202,26 @@ export class MenuComponent {
   }
 
   toggleNotify() {
-    if (!this.isShowNotificationArea) {
-      this._warehouseService
-        .notificationByUserId({
-          pageNumber: PageingReq.PAGE_NUMBER,
-          pageSize: PageingReq.PAGE_SIZE,
-        })
-        .subscribe((res) => {
-          this.data_notify =
-            res.data?.list?.map((item) => {
-              return {
-                title: item.title,
-                body: item.body,
-                time: item.createdDate,
-              };
-            }) ?? [];
-          this.isShowNotificationArea = !this.isShowNotificationArea;
-        });
-    } else {
-      this.isShowNotificationArea = !this.isShowNotificationArea;
-    }
+    // if (!this.isShowNotificationArea) {
+    //   this._warehouseService
+    //     .notificationByUserId({
+    //       pageNumber: PageingReq.PAGE_NUMBER,
+    //       pageSize: PageingReq.PAGE_SIZE,
+    //     })
+    //     .subscribe((res) => {
+    //       this.data_notify =
+    //         res.data?.list?.map((item) => {
+    //           return {
+    //             title: item.title,
+    //             body: item.body,
+    //             time: item.createdDate,
+    //           };
+    //         }) ?? [];
+    //       this.isShowNotificationArea = !this.isShowNotificationArea;
+    //     });
+    // } else {
+    //   this.isShowNotificationArea = !this.isShowNotificationArea;
+    // }
   }
 
   getListNotification() {}

@@ -2,19 +2,15 @@
   <tbody>
     <tr>
       <td>Mã hàng hóa</td>
-      <td>{{ data.barCode }}</td>
+      <td>{{ data.goodsCode }}</td>
     </tr>
     <tr>
       <td>Tên hàng hóa</td>
       <td>{{ data.name }}</td>
     </tr>
     <tr>
-      <td>Nhà cung cấp</td>
-      <td>{{ data.supplierName }}</td>
-    </tr>
-    <tr>
-      <td>Đơn vị tính</td>
-      <td>{{ data.unitName }}</td>
+      <td>Danh mục</td>
+      <td>{{ data.categoryName }}</td>
     </tr>
     <tr>
       <td>Người tạo</td>
@@ -22,7 +18,7 @@
     </tr>
     <tr>
       <td>Ngày tạo</td>
-      <td>{{ data.createdDate }}</td>
+      <td>{{ data.createdDate | customDate }}</td>
     </tr>
     <tr>
       <td>Người cập nhật</td>
@@ -30,7 +26,7 @@
     </tr>
     <tr>
       <td>Ngày cập nhật</td>
-      <td>{{ data.updatedDate }}</td>
+      <td>{{ data.updatedDate | customDate }}</td>
     </tr>
     <tr>
       <td>Mô tả hàng hóa</td>
