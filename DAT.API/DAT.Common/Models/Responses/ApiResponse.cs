@@ -21,6 +21,13 @@
             Message = "",
             StatusCode = "200"
         };
+        public PageInfo? PageInfo { get; set; }
+    }
+
+    public class PageInfo
+    {
+        public int CurrentPage { get; set; }
+        public int TotalPage { get; set; }
     }
 
     public class MetaData

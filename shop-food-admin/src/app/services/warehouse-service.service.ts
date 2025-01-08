@@ -3758,6 +3758,7 @@ export interface CategoryWhCreateModelResApiResponse {
   data?: CategoryWhCreateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface CategoryWhDeleteModelReq {
@@ -3770,6 +3771,7 @@ export interface CategoryWhDeleteModelResApiResponse {
   data?: CategoryWhDeleteModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface CategoryWhListModelReq {
@@ -3785,6 +3787,7 @@ export interface CategoryWhListModelResApiResponse {
   data?: CategoryWhListModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface CategoryWhModel {
@@ -3808,6 +3811,7 @@ export interface CategoryWhUpdateModelResApiResponse {
   data?: CategoryWhUpdateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsDetailWhModel {
@@ -3837,6 +3841,7 @@ export interface GoodsWhCreateModelResApiResponse {
   data?: GoodsWhCreateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhDeleteModelReq {
@@ -3849,6 +3854,7 @@ export interface GoodsWhDeleteModelResApiResponse {
   data?: GoodsWhDeleteModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhDetailModelReq {
@@ -3874,6 +3880,7 @@ export interface GoodsWhDetailModelResApiResponse {
   data?: GoodsWhDetailModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhListModelReq {
@@ -3889,6 +3896,7 @@ export interface GoodsWhListModelResApiResponse {
   data?: GoodsWhListModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhUpdateModelReq {
@@ -3904,6 +3912,7 @@ export interface GoodsWhUpdateModelResApiResponse {
   data?: GoodsWhUpdateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface InventoryWhCreateModelReq {}
@@ -3914,6 +3923,7 @@ export interface InventoryWhCreateModelResApiResponse {
   data?: InventoryWhCreateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface InventoryWhDeleteModelReq {}
@@ -3924,6 +3934,7 @@ export interface InventoryWhDeleteModelResApiResponse {
   data?: InventoryWhDeleteModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface InventoryWhListModelReq {}
@@ -3934,6 +3945,7 @@ export interface InventoryWhListModelResApiResponse {
   data?: InventoryWhListModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface InventoryWhUpdateModelReq {}
@@ -3944,6 +3956,7 @@ export interface InventoryWhUpdateModelResApiResponse {
   data?: InventoryWhUpdateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface MetaData {
@@ -3961,6 +3974,7 @@ export interface OrderWhCreateModelResApiResponse {
   data?: OrderWhCreateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface OrderWhDeleteModelReq {
@@ -3973,6 +3987,7 @@ export interface OrderWhDeleteModelResApiResponse {
   data?: OrderWhDeleteModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface OrderWhListModelReq {
@@ -3988,6 +4003,7 @@ export interface OrderWhListModelResApiResponse {
   data?: OrderWhListModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface OrderWhModel {
@@ -4011,6 +4027,12 @@ export interface OrderWhUpdateModelResApiResponse {
   data?: OrderWhUpdateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
+}
+
+export interface PageInfo {
+  currentPage?: number;
+  totalPage?: number;
 }
 
 export interface StockWhCreateModelReq {
@@ -4024,6 +4046,7 @@ export interface StockWhCreateModelResApiResponse {
   data?: StockWhCreateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhDeleteModelReq {
@@ -4036,6 +4059,7 @@ export interface StockWhDeleteModelResApiResponse {
   data?: StockWhDeleteModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhDetailModelReq {
@@ -4057,6 +4081,7 @@ export interface StockWhDetailModelResApiResponse {
   data?: StockWhDetailModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhListModelReq {
@@ -4072,6 +4097,7 @@ export interface StockWhListModelResApiResponse {
   data?: StockWhListModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhModel {
@@ -4097,6 +4123,7 @@ export interface StockWhUpdateModelResApiResponse {
   data?: StockWhUpdateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SubTransactionWhCreateModelReq {
@@ -4132,6 +4159,7 @@ export interface SupplierWhCreateModelResApiResponse {
   data?: SupplierWhCreateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SupplierWhDeleteModelReq {
@@ -4144,6 +4172,7 @@ export interface SupplierWhDeleteModelResApiResponse {
   data?: SupplierWhDeleteModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SupplierWhDetailModelReq {
@@ -4165,6 +4194,7 @@ export interface SupplierWhDetailModelResApiResponse {
   data?: SupplierWhDetailModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SupplierWhListModelReq {
@@ -4180,6 +4210,7 @@ export interface SupplierWhListModelResApiResponse {
   data?: SupplierWhListModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SupplierWhUpdateModelReq {
@@ -4194,6 +4225,7 @@ export interface SupplierWhUpdateModelResApiResponse {
   data?: SupplierWhUpdateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionDetailModels {
@@ -4229,6 +4261,7 @@ export interface TransactionWhCreateModelResApiResponse {
   data?: TransactionWhCreateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhDeleteModelReq {}
@@ -4239,6 +4272,7 @@ export interface TransactionWhDeleteModelResApiResponse {
   data?: TransactionWhDeleteModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhDetailModelReq {
@@ -4263,6 +4297,7 @@ export interface TransactionWhDetailModelResApiResponse {
   data?: TransactionWhDetailModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhListModelReq {
@@ -4279,6 +4314,7 @@ export interface TransactionWhListModelResApiResponse {
   data?: TransactionWhListModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhModel {
@@ -4304,6 +4340,7 @@ export interface TransactionWhUpdateModelResApiResponse {
   data?: TransactionWhUpdateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhCreateModelReq {
@@ -4316,6 +4353,7 @@ export interface UnitWhCreateModelResApiResponse {
   data?: UnitWhCreateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhDeleteModelReq {
@@ -4328,6 +4366,7 @@ export interface UnitWhDeleteModelResApiResponse {
   data?: UnitWhDeleteModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhDetailModelReq {
@@ -4348,6 +4387,7 @@ export interface UnitWhDetailModelResApiResponse {
   data?: UnitWhDetailModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhListModelReq {
@@ -4363,6 +4403,7 @@ export interface UnitWhListModelResApiResponse {
   data?: UnitWhListModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhModel {
@@ -4386,6 +4427,7 @@ export interface UnitWhUpdateModelResApiResponse {
   data?: UnitWhUpdateModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export class ApiWarehouseException extends Error {

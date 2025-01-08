@@ -32,10 +32,45 @@
         </td>
       </tr>
       <tr>
-        <td colspan="4">
+        <td>
           <button class="btn" (click)="add()">
             <i class="fa-solid fa-plus"></i>
           </button>
+        </td>
+        <td colspan="2">
+          <div class="paging-area">
+            <button
+              type="button"
+              class="btn"
+              [ngClass]="currentPage > 1 ? ['show'] : 'hide'"
+              (click)="OnPage(0, 'previous')"
+            >
+              <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="btn"
+              *ngFor="let item of pageNumber"
+              (click)="OnPage(item + 1, 'current')"
+              [ngClass]="
+                item + 1 < 4 || item + 1 > 9
+                  ? item + 1 == currentPage
+                    ? ['btn-primary', 'show']
+                    : ['show']
+                  : 'hide'
+              "
+            >
+              {{ item + 1 }}
+            </button>
+            <button
+              type="button"
+              class="btn"
+              (click)="OnPage(0, 'next')"
+              [ngClass]="currentPage < totalPage ? ['show'] : 'hide'"
+            >
+              <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>

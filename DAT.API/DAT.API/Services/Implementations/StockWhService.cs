@@ -136,7 +136,12 @@ namespace DAT.API.Services.Warehouse.Impl
                 {
                     Data = new StockWhListModelRes
                     {
-                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize)
+                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize, out int totalPage, out int currentPage)
+                    },
+                    PageInfo = new PageInfo
+                    {
+                        CurrentPage = currentPage,
+                        TotalPage = totalPage
                     }
                 };
             }
