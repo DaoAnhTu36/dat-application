@@ -18,17 +18,6 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="transaction-code">Mã phiếu</label>
-              <input
-                type="text"
-                id="transaction-code"
-                class="form-control"
-                [formControl]="transactionCode"
-              />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
               <label for="transaction-code">Loại phiếu</label>
               <select class="form-control" [formControl]="transactionType">
                 <option value="">Chọn</option>
@@ -43,7 +32,34 @@
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="transaction-date">Ngày nhập</label>
+              <label for="transaction-code"
+                >Mã phiếu{{
+                  transactionType.value == ""
+                    ? ""
+                    : transactionType.value == "0"
+                    ? " nhập"
+                    : " xuất"
+                }}</label
+              >
+              <input
+                type="text"
+                id="transaction-code"
+                class="form-control"
+                [formControl]="transactionCode"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="transaction-date"
+                >Thời gian{{
+                  transactionType.value == ""
+                    ? ""
+                    : transactionType.value == "0"
+                    ? " nhập"
+                    : " xuất"
+                }}</label
+              >
               <input
                 type="date"
                 id="transaction-date"
@@ -52,6 +68,28 @@
               />
             </div>
           </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="transaction-code">Kho nhập</label>
+              <select class="form-control" [formControl]="stockId">
+                <option value="">Chọn</option>
+                <option *ngFor="let item of stocks" [value]="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- <div class="col-md-4">
+            <div class="form-group">
+              <label for="transaction-code">Kho xuất</label>
+              <select class="form-control" [formControl]="exportStockId">
+                <option value="">Chọn</option>
+                <option *ngFor="let item of stocks" [value]="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -93,9 +131,9 @@
                       <input
                         type="text"
                         class="form-control"
-                        name="{{ onRewrite(i, 'productName') }}"
-                        id="{{ onRewrite(i, 'productName', true) }}"
-                        formControlName="productName"
+                        name="{{ onRewrite(i, 'goodsName') }}"
+                        id="{{ onRewrite(i, 'goodsName', true) }}"
+                        formControlName="goodsName"
                         placeholder="Tên hàng hóa"
                         readonly
                       />

@@ -58,6 +58,7 @@ export class TransactionIndexComponent {
                 transactionDate: rs.transactionDate,
                 transactionType: rs.transactionType === '0' ? 'Nhập' : 'Xuất',
                 totalPrice: rs.totalPrice,
+                stockName: rs.stockName,
               };
             }) ?? [];
         } else {

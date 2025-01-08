@@ -4219,6 +4219,7 @@ export interface TransactionWhCreateModelReq {
   transactionType?: string | null;
   transactionDate?: Date | null;
   totalPrice?: number;
+  stockId?: string;
   details?: SubTransactionWhCreateModelReq[] | null;
 }
 
@@ -4291,6 +4292,8 @@ export interface TransactionWhModel {
   transactionType?: string | null;
   transactionDate?: Date | null;
   totalPrice?: number;
+  stockId?: string;
+  stockName?: string | null;
 }
 
 export interface TransactionWhUpdateModelReq {}

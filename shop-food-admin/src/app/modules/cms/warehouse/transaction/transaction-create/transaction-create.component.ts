@@ -13,6 +13,8 @@ import { ToastrService } from 'ngx-toastr';
 import {
   CategoryWhListModelRes,
   CategoryWhModel,
+  StockWhListModelRes,
+  StockWhModel,
   SubTransactionWhCreateModelReq,
   SupplierWhListModelRes,
   TransactionWhCreateModelReq,
@@ -36,6 +38,7 @@ import { LoadingService } from '../../../../../commons/loading/loading.service';
   styleUrl: './transaction-create.component.scss',
 })
 export class TransactionCreateComponent {
+  stocks: StockWhModel[] | null | undefined;
   categories: CategoryWhModel[] | null | undefined;
   units: UnitWhModel[] | null | undefined;
   myForm: FormGroup;
@@ -45,9 +48,10 @@ export class TransactionCreateComponent {
   listTransDetail: any[] = [];
   totalPriceDetail = new FormControl('');
   transactionType = new FormControl('');
+  stockId = new FormControl('');
   listTransactionType = [
     { id: '0', name: 'Nhập' },
-    { id: '1', name: 'Xuất' },
+    // { id: '1', name: 'Xuất' },
   ];
 
   constructor(
@@ -68,7 +72,22 @@ export class TransactionCreateComponent {
   ngOnInit(): void {
     this.listCategory();
     this.listUnit();
+    this.listStock();
   }
+
+  listStock() {
+    this._warehouseService
+      .stockList({
+        pageNumber: PageingReq.PAGE_NUMBER,
+        pageSize: PageingReq.PAGE_SIZE,
+      })
+      .subscribe((res) => {
+        if (res.isNormal) {
+          this.stocks = res.data?.list;
+        }
+      });
+  }
+
   listUnit() {
     this._warehouseService
       .unitList({
@@ -101,9 +120,9 @@ export class TransactionCreateComponent {
 
   addItem() {
     const itemFormGroup = this.fb.group({
-      productId: [''],
+      goodsId: [''],
       goodsCode: [''],
-      productName: [''],
+      goodsName: [''],
       unitId: [''],
       supplierId: [''],
       quantity: [''],
@@ -143,9 +162,9 @@ export class TransactionCreateComponent {
             this.listTransDetail.splice(i, 1);
           }
           this.listTransDetail.push({
-            productId: res.data?.id,
+            goodsId: res.data?.id,
             goodsCode: res.data?.goodsCode,
-            productName: res.data?.name,
+            goodsName: res.data?.name,
             unitId: '',
             supplierId: '',
             quantity: 1,
@@ -171,18 +190,19 @@ export class TransactionCreateComponent {
     );
     let totalAmount = quantity * unitPrice;
     let goodsCode = this.myForm.value['items'][i]['goodsCode'];
-    let productId = this.myForm.value['items'][i]['productId'];
-    let productName = this.myForm.value['items'][i]['productName'];
+    let goodsId = '';
+    let goodsName = this.myForm.value['items'][i]['goodsName'];
     let unitId = this.myForm.value['items'][i]['unitId'];
     let supplierId = this.myForm.value['items'][i]['supplierId'];
     let index = this.listTransDetail.findIndex((x) => x.goodsCode == goodsCode);
     if (index >= 0) {
+      goodsId = this.listTransDetail[index].goodsId;
       this.listTransDetail.splice(i, 1);
     }
     this.listTransDetail.splice(index, 0, {
-      productId: productId,
+      goodsId: goodsId,
       goodsCode: goodsCode,
-      productName: productName,
+      goodsName: goodsName,
       unitId: unitId,
       supplierId: supplierId,
       quantity: quantity,
@@ -229,6 +249,7 @@ export class TransactionCreateComponent {
       totalPrice: this._commonService.revertFormatCurrency(
         this.totalPriceDetail.value
       ),
+      stockId: this.stockId.value ?? '',
       details: details,
     };
     this._warehouseService.transactionCreate(request).subscribe((res) => {
