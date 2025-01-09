@@ -38,7 +38,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-//app.Urls.Add("http://localhost:1112");
+app.Urls.Add("http://localhost:1112");
 app.UseCors(allowCors);
 app.UseDefaultFiles();
 

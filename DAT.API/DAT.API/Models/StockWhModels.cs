@@ -85,4 +85,14 @@ namespace DAT.API.Models
         public string? Name { get; set; }
         public string? Address { get; set; }
     }
+
+    public class StockWhSearchListModelRes
+    {
+        public IEnumerable<StockWhModel>? List { get; set; }
+    }
+
+    public class StockWhSearchListModelReq : BasePageEntity
+    {
+        public string? TextSearch { get; set; }
+    }
 }

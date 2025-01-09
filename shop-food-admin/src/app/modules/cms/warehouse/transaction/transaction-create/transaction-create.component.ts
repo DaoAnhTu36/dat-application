@@ -48,7 +48,7 @@ export class TransactionCreateComponent {
   supplierId = new FormControl('');
   listTransDetail: any[] = [];
   totalPriceDetail = new FormControl('');
-  transactionType = new FormControl('');
+  transactionType = new FormControl('0');
   stockId = new FormControl('');
   listTransactionType = [
     { id: '0', name: 'Nhập' },
@@ -68,6 +68,9 @@ export class TransactionCreateComponent {
     this.myForm = this.fb.group({
       items: this.fb.array([]),
     });
+    let currentDatetime = new Date().getTime();
+    this.transactionCode = new FormControl(`N${currentDatetime.toString()}`);
+    this.transactionDate.setValue(new Date().toISOString().split('T')[0]);
   }
 
   ngOnInit(): void {
@@ -226,8 +229,30 @@ export class TransactionCreateComponent {
     );
   }
 
+  onSearchStock() {
+    var searchReq = this.stockId.value;
+    this._warehouseService
+      .stockSearch({
+        pageNumber: PageingReq.PAGE_NUMBER,
+        pageSize: PageingReq.PAGE_SIZE,
+        textSearch: searchReq,
+      })
+      .subscribe((res) => {
+        if (
+          res.isNormal &&
+          res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
+        ) {
+          this.stocks = res.data?.list;
+        } else {
+          this.listStock();
+        }
+      });
+  }
+
   onSave() {
     this._loadingService.show();
+    let stockName = this.stockId.value ?? '';
+    let stockId = this.stocks?.find((x) => x.name === stockName)?.id;
     let details: SubTransactionWhCreateModelReq[] = [];
     this.myForm.value['items'].forEach((element: any) => {
       details.push({
@@ -250,7 +275,7 @@ export class TransactionCreateComponent {
       totalPrice: this._commonService.revertFormatCurrency(
         this.totalPriceDetail.value
       ),
-      stockId: this.stockId.value ?? '',
+      stockId: stockId,
       details: details,
     };
     this._warehouseService.transactionCreate(request).subscribe((res) => {

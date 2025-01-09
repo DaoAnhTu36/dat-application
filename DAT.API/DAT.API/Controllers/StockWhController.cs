@@ -97,6 +97,27 @@ namespace DAT.API.Controllers.Warehouses
             return retVal;
         }
 
+        [HttpPost("stock-search")]
+        public async Task<ApiResponse<StockWhSearchListModelRes>> Search([FromBody] StockWhSearchListModelReq req)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            LoggerFunctionUtility.CommonLogStart(this, stopwatch);
+            var retVal = new ApiResponse<StockWhSearchListModelRes>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.Search(req);
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
         [HttpPost("stock-detail")]
         public async Task<ApiResponse<StockWhDetailModelRes>> Detail([FromBody] StockWhDetailModelReq req)
         {

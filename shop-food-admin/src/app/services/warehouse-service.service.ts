@@ -181,6 +181,13 @@ export interface IWarehouseService {
    * @param body (optional)
    * @return OK
    */
+  stockSearch(
+    body: StockWhSearchListModelReq | undefined
+  ): Observable<StockWhSearchListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
   stockDetail(
     body: StockWhDetailModelReq | undefined
   ): Observable<StockWhDetailModelResApiResponse>;
@@ -2263,6 +2270,99 @@ export class WarehouseService implements IWarehouseService {
    * @param body (optional)
    * @return OK
    */
+  stockSearch(
+    body: StockWhSearchListModelReq | undefined
+  ): Observable<StockWhSearchListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/stock/stock-search';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processStockSearch(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processStockSearch(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<StockWhSearchListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<StockWhSearchListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processStockSearch(
+    response: HttpResponseBase
+  ): Observable<StockWhSearchListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as StockWhSearchListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<StockWhSearchListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
   stockDetail(
     body: StockWhDetailModelReq | undefined
   ): Observable<StockWhDetailModelResApiResponse> {
@@ -4109,6 +4209,23 @@ export interface StockWhModel {
   status?: number;
   name?: string | null;
   address?: string | null;
+}
+
+export interface StockWhSearchListModelReq {
+  pageNumber?: number;
+  pageSize?: number;
+  textSearch?: string | null;
+}
+
+export interface StockWhSearchListModelRes {
+  list?: StockWhModel[] | null;
+}
+
+export interface StockWhSearchListModelResApiResponse {
+  data?: StockWhSearchListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhUpdateModelReq {
