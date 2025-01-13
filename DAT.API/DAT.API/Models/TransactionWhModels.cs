@@ -23,7 +23,7 @@ namespace DAT.API.Models
     public class SubTransactionWhCreateModelReq
     {
         public Guid GoodsId { get; set; }
-        public Guid SupplierId { get; set; }
+        public Guid? SupplierId { get; set; }
         public Guid UnitId { get; set; }
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }

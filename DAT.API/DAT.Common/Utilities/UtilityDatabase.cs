@@ -12,7 +12,7 @@ namespace DAT.Common.Utilities
         {
             var totalItems = data.Count();
             currentPage = pageNumber == 0 ? 1 : pageNumber;
-            pageSize = options.Value.PaginationSetting?.PageSize ?? 10;
+            pageSize = pageSize > 0 ? pageSize : options.Value.PaginationSetting?.PageSize ?? 10;
             var skipNumber = (pageNumber - 1) * pageSize;
             totalPage = (int)Math.Ceiling((double)totalItems / pageSize);
             return data.ToList().Skip(skipNumber).Take(pageSize);

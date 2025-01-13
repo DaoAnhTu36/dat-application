@@ -47,8 +47,10 @@ namespace DAT.API.Services.Warehouse.Impl
                 {
                     foreach (var transaction in req.Details)
                     {
+                        var transDetailId = Guid.NewGuid();
                         _context.Add(new TransactionDetailWhEntity
                         {
+                            Id= transDetailId,
                             UnitPrice = transaction.UnitPrice,
                             DateOfExpired = transaction.DateOfExpired,
                             DateOfManufacture = transaction.DateOfManufacture,
@@ -56,8 +58,15 @@ namespace DAT.API.Services.Warehouse.Impl
                             Quantity = transaction.Quantity,
                             TransactionId = transId,
                             TotalPrice = transaction.TotalPrice,
-                            SupplierId = transaction.SupplierId,
+                            SupplierId = transaction.SupplierId ?? Guid.Empty,
                             UnitId = transaction.UnitId,
+                        });
+
+                        _context.Add(new GoodsPriceWhEntity
+                        {
+                            TransactionDetailId = transDetailId,
+                            GoodsId = transaction.GoodsId,
+                            RetailPrice = transaction.UnitPrice
                         });
                     }
                 }
@@ -180,6 +189,7 @@ namespace DAT.API.Services.Warehouse.Impl
                                             CreatedBy = x.CreatedByTransDetail,
                                             GoodsCode = x.GoodsCode,
                                             UnitName = x.UnitName,
+                                            StockName = x.StockName,
                                         }).ToList()
                                     }).FirstOrDefaultAsync();
                 retVal.Data = record;
@@ -206,7 +216,8 @@ namespace DAT.API.Services.Warehouse.Impl
                 var query = (from trans in _context.Set<TransactionWhEntity>()
                             where string.IsNullOrEmpty(req.TransactionType) || trans.TransactionType == req.TransactionType
                             join stock in _context.Set<StockWhEntity>() on trans.StockId equals stock.Id
-                            select new TransactionWhModel
+                            orderby trans.CreatedDate descending
+                             select new TransactionWhModel
                             {
                                 TotalPrice = trans.TotalPrice,
                                 CreatedBy = trans.CreatedBy,

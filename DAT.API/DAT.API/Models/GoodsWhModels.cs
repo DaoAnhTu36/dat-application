@@ -69,4 +69,14 @@ namespace DAT.API.Models
         public string? CategoryName { get; set; }
         public string? GoodsCode { get; set; }
     }
+
+    public class GoodsWhSearchListModelRes
+    {
+        public IEnumerable<GoodsDetailWhModel>? List { get; set; }
+    }
+
+    public class GoodsWhSearchListModelReq : BasePageEntity
+    {
+        public string? TextSearch { get; set; }
+    }
 }

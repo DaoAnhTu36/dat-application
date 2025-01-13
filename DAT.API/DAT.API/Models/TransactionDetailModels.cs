@@ -13,5 +13,6 @@ namespace DAT.API.Models
         public int Quantity { get; set; }
         public DateTime? DateOfManufacture { get; set; }
         public DateTime? DateOfExpired { get; set; }
+        public string? StockName { get; set; }
     }
 }

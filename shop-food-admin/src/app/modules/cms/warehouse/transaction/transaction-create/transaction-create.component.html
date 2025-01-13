@@ -16,7 +16,7 @@
     <div class="transaction-body">
       <div class="transaction-body__form">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="transaction-code">Loại phiếu</label>
               <select class="form-control" [formControl]="transactionType">
@@ -30,7 +30,18 @@
               </select>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="transaction-code">Kho nhập</label>
+              <select class="form-control" [formControl]="stockId">
+                <option value="">Chọn</option>
+                <option *ngFor="let item of stocks" [value]="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
             <div class="form-group">
               <label for="transaction-code"
                 >Mã phiếu{{
@@ -46,10 +57,11 @@
                 id="transaction-code"
                 class="form-control"
                 [formControl]="transactionCode"
+                readonly
               />
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="transaction-date"
                 >Thời gian{{
@@ -70,17 +82,6 @@
           </div>
           <!-- <div class="col-md-4">
             <div class="form-group">
-              <label for="transaction-code">Kho nhập</label>
-              <select class="form-control" [formControl]="stockId">
-                <option value="">Chọn</option>
-                <option *ngFor="let item of stocks" [value]="item.id">
-                  {{ item.name }}
-                </option>
-              </select>
-            </div>
-          </div> -->
-          <div class="col-md-4">
-            <div class="form-group">
               <label for="transaction-code">Kho</label>
               <input
                 class="form-control"
@@ -95,7 +96,7 @@
                 </option>
               </datalist>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -128,10 +129,29 @@
                         class="form-control"
                         name="{{ onRewrite(i, 'goodsCode') }}"
                         id="{{ onRewrite(i, 'goodsCode', true) }}"
-                        (keydown.enter)="onSearchProduct(i)"
                         formControlName="goodsCode"
                         placeholder="Mã hàng hóa"
+                        (keydown.enter)="onSearchProduct(i)"
                       />
+                      <!-- <input
+                        type="text"
+                        class="form-control"
+                        name="{{ onRewrite(i, 'goodsCode') }}"
+                        id="{{ onRewrite(i, 'goodsCode', true) }}"
+                        formControlName="goodsCode"
+                        placeholder="Mã hàng hóa"
+                        (keyup)="onSearchGoods(i)"
+                        (keydown.enter)="onSearchProduct(i)"
+                        list="listGoods"
+                      />
+                      <datalist id="listGoods">
+                        <option
+                          *ngFor="let item of goods; let i = index"
+                          [value]="item.name"
+                        >
+                          {{ item.name }}
+                        </option>
+                      </datalist> -->
                     </td>
                     <td>
                       <input
@@ -175,6 +195,27 @@
                     </td>
                     <td>
                       <input
+                        type="date"
+                        class="form-control"
+                        name="{{ onRewrite(i, 'dateOfManufacture') }}"
+                        id="{{ onRewrite(i, 'dateOfManufacture', true) }}"
+                        formControlName="dateOfManufacture"
+                        placeholder="NSX"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="date"
+                        class="form-control"
+                        name="{{ onRewrite(i, 'dateOfExpired') }}"
+                        id="{{ onRewrite(i, 'dateOfExpired', true) }}"
+                        formControlName="dateOfExpired"
+                        placeholder="HSD"
+                      />
+                    </td>
+
+                    <td>
+                      <input
                         type="text"
                         class="form-control"
                         name="{{ onRewrite(i, 'quantity') }}"
@@ -193,6 +234,7 @@
                         formControlName="unitPrice"
                         placeholder="Đơn giá"
                         (keyup)="onCalTotalAmount(i)"
+                        #inputField
                       />
                     </td>
                     <td>

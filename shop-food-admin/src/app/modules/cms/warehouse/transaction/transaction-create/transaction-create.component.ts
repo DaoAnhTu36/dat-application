@@ -5,21 +5,16 @@ import {
   FormBuilder,
   FormGroup,
   FormArray,
-  Validators,
   FormControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {
-  CategoryWhListModelRes,
-  CategoryWhModel,
-  StockWhListModelRes,
+  GoodsDetailWhModel,
   StockWhModel,
   SubTransactionWhCreateModelReq,
   SupplierModel,
-  SupplierWhListModelRes,
   TransactionWhCreateModelReq,
-  UnitWhListModelRes,
   UnitWhModel,
   WarehouseService,
 } from '../../../../../services/warehouse-service.service';
@@ -30,6 +25,7 @@ import {
 import { CommonServiceService } from '../../../../../services/common-service.service';
 import { UrlConstEnum } from '../../../../../menu/config-url';
 import { LoadingService } from '../../../../../commons/loading/loading.service';
+import * as jquery from 'jquery';
 
 @Component({
   selector: 'app-transaction-create',
@@ -39,6 +35,7 @@ import { LoadingService } from '../../../../../commons/loading/loading.service';
   styleUrl: './transaction-create.component.scss',
 })
 export class TransactionCreateComponent {
+  goods: GoodsDetailWhModel[] | null | undefined;
   stocks: StockWhModel[] | null | undefined;
   suppliers: SupplierModel[] | null | undefined;
   units: UnitWhModel[] | null | undefined;
@@ -77,6 +74,20 @@ export class TransactionCreateComponent {
     this.listSupplier();
     this.listUnit();
     this.listStock();
+    this.listGoods();
+  }
+
+  listGoods() {
+    this._warehouseService
+      .goodsList({
+        pageNumber: PageingReq.PAGE_NUMBER,
+        pageSize: PageingReq.PAGE_SIZE,
+      })
+      .subscribe((res) => {
+        if (res.isNormal) {
+          this.goods = res.data?.list;
+        }
+      });
   }
 
   listStock() {
@@ -132,9 +143,12 @@ export class TransactionCreateComponent {
       quantity: [''],
       unitPrice: [''],
       totalAmount: [''],
+      dateOfManufacture: [''],
+      dateOfExpired: [''],
     });
 
     this.items.push(itemFormGroup);
+    this.listGoods();
   }
 
   removeItem(index: number) {
@@ -152,6 +166,9 @@ export class TransactionCreateComponent {
 
   onSearchProduct(i: any) {
     const goodsCode = this.myForm.value['items'][i]['goodsCode'];
+    // const goodsCode = this.goods?.find(
+    //   (x) => x.name == this.myForm.value['items'][i]['goodsCode']
+    // )?.goodsCode;
     let index = this.listTransDetail.findIndex((x) => x.goodsCode == goodsCode);
     this._warehouseService
       .goodsDetail({
@@ -172,11 +189,14 @@ export class TransactionCreateComponent {
             unitId: '',
             supplierId: '',
             quantity: 1,
-            unitPrice: this._commonService.formatCurrency(0),
-            totalAmount: this._commonService.formatCurrency(1 * 0),
+            unitPrice: 0,
+            totalAmount: 0,
+            dateOfManufacture: null,
+            dateOfExpired: null,
           });
           this.items.setValue(this.listTransDetail);
           this.calTotalAmountDetail();
+          // this.addItem();
         } else {
           this._toastService.error('Không tìm thấy sản phẩm');
           if (this.listTransDetail.length >= i) {
@@ -188,7 +208,9 @@ export class TransactionCreateComponent {
   }
 
   onCalTotalAmount(i: any) {
-    let quantity = this.myForm.value['items'][i]['quantity'];
+    let quantity = this._commonService.revertFormatCurrency(
+      this.myForm.value['items'][i]['quantity']
+    );
     let unitPrice = this._commonService.revertFormatCurrency(
       this.myForm.value['items'][i]['unitPrice']
     );
@@ -199,19 +221,24 @@ export class TransactionCreateComponent {
     let unitId = this.myForm.value['items'][i]['unitId'];
     let supplierId = this.myForm.value['items'][i]['supplierId'];
     let index = this.listTransDetail.findIndex((x) => x.goodsCode == goodsCode);
+    let dateOfManufacture = this.myForm.value['items'][i]['dateOfManufacture'];
+    let dateOfExpired = this.myForm.value['items'][i]['dateOfExpired'];
     if (index >= 0) {
       goodsId = this.listTransDetail[index].goodsId;
       this.listTransDetail.splice(i, 1);
     }
+
     this.listTransDetail.splice(index, 0, {
       goodsId: goodsId,
       goodsCode: goodsCode,
       goodsName: goodsName,
       unitId: unitId,
       supplierId: supplierId,
-      quantity: quantity,
-      unitPrice: this._commonService.formatCurrency(unitPrice),
-      totalAmount: this._commonService.formatCurrency(totalAmount),
+      quantity: this._commonService.formatNumber(quantity),
+      unitPrice: this._commonService.formatNumber(unitPrice),
+      totalAmount: this._commonService.formatNumber(totalAmount),
+      dateOfManufacture: dateOfManufacture,
+      dateOfExpired: dateOfExpired,
     });
     this.items.setValue(this.listTransDetail);
     this.calTotalAmountDetail();
@@ -249,45 +276,72 @@ export class TransactionCreateComponent {
       });
   }
 
-  onSave() {
-    this._loadingService.show();
-    let stockName = this.stockId.value ?? '';
-    let stockId = this.stocks?.find((x) => x.name === stockName)?.id;
-    let details: SubTransactionWhCreateModelReq[] = [];
-    this.myForm.value['items'].forEach((element: any) => {
-      details.push({
-        quantity: this._commonService.parseStringToInt(element.quantity),
-        unitPrice: this._commonService.revertFormatCurrency(element.unitPrice),
-        totalPrice: this._commonService.revertFormatCurrency(
-          element.totalAmount
-        ),
-        goodsId: element.goodsId,
-        dateOfExpired: null,
-        dateOfManufacture: null,
-        supplierId: element.supplierId,
-        unitId: element.unitId,
+  onSearchGoods(i: any) {
+    const searchReq = this.myForm.value['items'][i]['goodsCode'];
+    this._warehouseService
+      .goodsSearch({
+        pageNumber: PageingReq.PAGE_NUMBER,
+        pageSize: PageingReq.PAGE_SIZE,
+        textSearch: searchReq,
+      })
+      .subscribe((res) => {
+        if (
+          res.isNormal &&
+          res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
+        ) {
+          this.goods = res.data?.list;
+        } else {
+          this.listGoods();
+        }
       });
-    });
-    let request: TransactionWhCreateModelReq = {
-      transactionDate: new Date(this.transactionDate.value ?? '') ?? null,
-      transactionCode: this.transactionCode.value ?? null,
-      transactionType: this.transactionType.value,
-      totalPrice: this._commonService.revertFormatCurrency(
-        this.totalPriceDetail.value
-      ),
-      stockId: stockId,
-      details: details,
-    };
-    this._warehouseService.transactionCreate(request).subscribe((res) => {
-      if (
-        res.isNormal &&
-        res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS
-      ) {
-        this._router.navigate([UrlConstEnum.TRANSACTION_INDEX]);
-      } else {
-        this._toastService.error('Thất bại');
-      }
-    });
-    this._loadingService.hide();
+  }
+
+  onSave() {
+    try {
+      this._loadingService.show();
+      let stockId = this.stockId.value ?? '';
+      let details: SubTransactionWhCreateModelReq[] = [];
+      this.myForm.value['items'].forEach((element: any) => {
+        details.push({
+          quantity: this._commonService.revertFormatCurrency(element.quantity),
+          unitPrice: this._commonService.revertFormatCurrency(
+            element.unitPrice
+          ),
+          totalPrice: this._commonService.revertFormatCurrency(
+            element.totalAmount
+          ),
+          goodsId: element.goodsId,
+          dateOfExpired: element.dateOfExpired,
+          dateOfManufacture: element.dateOfManufacture,
+          supplierId: element.supplierId ?? null,
+          unitId: element.unitId,
+        });
+      });
+      let request: TransactionWhCreateModelReq = {
+        transactionDate: new Date(this.transactionDate.value ?? '') ?? null,
+        transactionCode: this.transactionCode.value ?? null,
+        transactionType: this.transactionType.value,
+        totalPrice: this._commonService.revertFormatCurrency(
+          `${this.totalPriceDetail.value}`
+        ),
+        stockId: stockId,
+        details: details,
+      };
+      this._warehouseService.transactionCreate(request).subscribe((res) => {
+        if (
+          res.isNormal &&
+          res.metaData?.statusCode == StatusCodeApiResponse.SUCCESS
+        ) {
+          this._router.navigate([UrlConstEnum.TRANSACTION_INDEX]);
+        } else {
+          this._toastService.error('Thất bại');
+        }
+      });
+      this._loadingService.hide();
+    } catch (error) {
+      this._toastService.error('Thất bại');
+      console.log('error :>> ', error);
+      this._loadingService.hide();
+    }
   }
 }
