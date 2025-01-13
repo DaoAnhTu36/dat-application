@@ -13,3 +13,5 @@ DAT.API/DAT.Core/bin/
 DAT.API/DAT.Database/bin/
 .vscode/
 DAT.API/DAT.API/logs/
+GenerateClassAuto/obj/
+GenerateClassAuto/bin/

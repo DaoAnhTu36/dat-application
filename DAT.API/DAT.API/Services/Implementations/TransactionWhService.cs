@@ -50,7 +50,7 @@ namespace DAT.API.Services.Warehouse.Impl
                         var transDetailId = Guid.NewGuid();
                         _context.Add(new TransactionDetailWhEntity
                         {
-                            Id= transDetailId,
+                            Id = transDetailId,
                             UnitPrice = transaction.UnitPrice,
                             DateOfExpired = transaction.DateOfExpired,
                             DateOfManufacture = transaction.DateOfManufacture,
@@ -214,24 +214,24 @@ namespace DAT.API.Services.Warehouse.Impl
             try
             {
                 var query = (from trans in _context.Set<TransactionWhEntity>()
-                            where string.IsNullOrEmpty(req.TransactionType) || trans.TransactionType == req.TransactionType
-                            join stock in _context.Set<StockWhEntity>() on trans.StockId equals stock.Id
-                            orderby trans.CreatedDate descending
+                             where string.IsNullOrEmpty(req.TransactionType) || trans.TransactionType == req.TransactionType
+                             join stock in _context.Set<StockWhEntity>() on trans.StockId equals stock.Id
+                             orderby trans.CreatedDate descending
                              select new TransactionWhModel
-                            {
-                                TotalPrice = trans.TotalPrice,
-                                CreatedBy = trans.CreatedBy,
-                                CreatedDate = trans.CreatedDate,
-                                Id = trans.Id,
-                                Status = trans.Status,
-                                TransactionCode = trans.TransactionCode,
-                                TransactionDate = trans.TransactionDate,
-                                TransactionType = trans.TransactionType,
-                                UpdatedBy = trans.UpdatedBy,
-                                UpdatedDate = trans.UpdatedDate,
-                                StockId = stock.Id,
-                                StockName = stock.Name ?? ""
-                            }).AsQueryable();
+                             {
+                                 TotalPrice = trans.TotalPrice,
+                                 CreatedBy = trans.CreatedBy,
+                                 CreatedDate = trans.CreatedDate,
+                                 Id = trans.Id,
+                                 Status = trans.Status,
+                                 TransactionCode = trans.TransactionCode,
+                                 TransactionDate = trans.TransactionDate,
+                                 TransactionType = trans.TransactionType,
+                                 UpdatedBy = trans.UpdatedBy,
+                                 UpdatedDate = trans.UpdatedDate,
+                                 StockId = stock.Id,
+                                 StockName = stock.Name ?? ""
+                             }).AsQueryable();
                 retVal = new ApiResponse<TransactionWhListModelRes>
                 {
                     Data = new TransactionWhListModelRes
@@ -274,6 +274,71 @@ namespace DAT.API.Services.Warehouse.Impl
             var retVal = new ApiResponse<TransactionWhUpdateModelRes>();
             try
             {
+            }
+            catch (Exception ex)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    Message = ex.Message,
+                    StatusCode = "500"
+                };
+            }
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        public async Task<ApiResponse<TransactionWhFilterModelRes>> Filter(TransactionWhFilterModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this, req);
+            var retVal = new ApiResponse<TransactionWhFilterModelRes>();
+            try
+            {
+                var query = await (from trans in _context.Set<TransactionWhEntity>()
+                                   where string.IsNullOrEmpty(req.TransactionType) || trans.TransactionType == req.TransactionType
+                                   where req.DatetimeAfter == null || req.DatetimeAfter >= trans.TransactionDate
+                                   where req.DatetimeBefore == null || req.DatetimeBefore <= trans.TransactionDate
+                                   join stock in _context.Set<StockWhEntity>() on trans.StockId equals stock.Id
+                                   where req.StockId == null || req.StockId == stock.Id
+                                   orderby trans.CreatedDate descending
+                                   select new TransactionWhModel
+                                   {
+                                       TotalPrice = trans.TotalPrice,
+                                       CreatedBy = trans.CreatedBy,
+                                       CreatedDate = trans.CreatedDate,
+                                       Id = trans.Id,
+                                       Status = trans.Status,
+                                       TransactionCode = trans.TransactionCode,
+                                       TransactionDate = trans.TransactionDate,
+                                       TransactionType = trans.TransactionType,
+                                       UpdatedBy = trans.UpdatedBy,
+                                       UpdatedDate = trans.UpdatedDate,
+                                       StockId = stock.Id,
+                                       StockName = stock.Name ?? ""
+                                   }).ToListAsync();
+                query = query.Where(x => string.IsNullOrEmpty(req.TransactionCode) || UtilityDatabase.FindMatches(req.TransactionCode, x.TransactionCode)).ToList();
+                retVal = new ApiResponse<TransactionWhFilterModelRes>
+                {
+                    Data = new TransactionWhFilterModelRes
+                    {
+                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize, out int totalPage, out int currentPage)
+                    },
+                    PageInfo = new PageInfo
+                    {
+                        CurrentPage = currentPage,
+                        TotalPage = totalPage
+                    }
+                };
+                if (query == null)
+                {
+                    retVal.MetaData = new MetaData
+                    {
+                        Message = "NotFound",
+                        StatusCode = "400"
+                    };
+                    LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                    return retVal;
+                }
             }
             catch (Exception ex)
             {

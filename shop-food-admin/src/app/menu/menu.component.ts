@@ -35,7 +35,7 @@ export class MenuComponent {
           list_child: [
             {
               path: `transaction`,
-              display_name: 'Nhập/xuất hàng hóa',
+              display_name: 'Nhập/xuất',
               list_child: [],
             },
             {
@@ -43,16 +43,16 @@ export class MenuComponent {
               display_name: 'Tồn kho',
               list_child: [],
             },
-            {
-              path: `import`,
-              display_name: 'Nhập hàng',
-              list_child: [],
-            },
-            {
-              path: `export`,
-              display_name: 'Xuất hàng',
-              list_child: [],
-            },
+            // {
+            //   path: `import`,
+            //   display_name: 'Nhập hàng',
+            //   list_child: [],
+            // },
+            // {
+            //   path: `export`,
+            //   display_name: 'Xuất hàng',
+            //   list_child: [],
+            // },
           ],
         },
         {

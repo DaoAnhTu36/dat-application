@@ -107,4 +107,18 @@ namespace DAT.API.Models
         public Guid StockId { get; set; }
         public string StockName { get; set; }
     }
+
+    public class TransactionWhFilterModelReq : BasePageEntity
+    {
+        public string? TransactionType { get; set; }
+        public string? TransactionCode { get; set; }
+        public Guid? StockId { get; set; }
+        public DateTime? DatetimeAfter { get; set; }
+        public DateTime? DatetimeBefore { get; set; }
+    }
+
+    public class TransactionWhFilterModelRes
+    {
+        public IEnumerable<TransactionWhModel>? List { get; set; }
+    }
 }

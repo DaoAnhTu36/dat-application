@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAT.Database", "DAT.Databas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAT.Realtime", "DAT.Realtime\DAT.Realtime.csproj", "{44051B8F-81BB-463C-B77B-77AC55163F9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateClassAuto", "..\GenerateClassAuto\GenerateClassAuto.csproj", "{EE48A39B-1B6C-495D-ABED-C40EB4A05E3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{44051B8F-81BB-463C-B77B-77AC55163F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44051B8F-81BB-463C-B77B-77AC55163F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44051B8F-81BB-463C-B77B-77AC55163F9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE48A39B-1B6C-495D-ABED-C40EB4A05E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE48A39B-1B6C-495D-ABED-C40EB4A05E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE48A39B-1B6C-495D-ABED-C40EB4A05E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE48A39B-1B6C-495D-ABED-C40EB4A05E3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

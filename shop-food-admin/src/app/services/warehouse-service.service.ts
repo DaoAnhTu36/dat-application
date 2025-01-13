@@ -300,6 +300,13 @@ export interface IWarehouseService {
    * @param body (optional)
    * @return OK
    */
+  transactionFilter(
+    body: TransactionWhFilterModelReq | undefined
+  ): Observable<TransactionWhFilterModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
   unitCreate(
     body: UnitWhCreateModelReq | undefined
   ): Observable<UnitWhCreateModelResApiResponse>;
@@ -3886,6 +3893,99 @@ export class WarehouseService implements IWarehouseService {
    * @param body (optional)
    * @return OK
    */
+  transactionFilter(
+    body: TransactionWhFilterModelReq | undefined
+  ): Observable<TransactionWhFilterModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/transaction/transaction-filter';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionFilter(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionFilter(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionWhFilterModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionWhFilterModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionFilter(
+    response: HttpResponseBase
+  ): Observable<TransactionWhFilterModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionWhFilterModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionWhFilterModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
   unitCreate(
     body: UnitWhCreateModelReq | undefined
   ): Observable<UnitWhCreateModelResApiResponse> {
@@ -4980,6 +5080,27 @@ export interface TransactionWhDetailModelRes {
 
 export interface TransactionWhDetailModelResApiResponse {
   data?: TransactionWhDetailModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
+}
+
+export interface TransactionWhFilterModelReq {
+  pageNumber?: number;
+  pageSize?: number;
+  transactionType?: string | null;
+  transactionCode?: string | null;
+  stockId?: string | null;
+  datetimeAfter?: Date | null;
+  datetimeBefore?: Date | null;
+}
+
+export interface TransactionWhFilterModelRes {
+  list?: TransactionWhModel[] | null;
+}
+
+export interface TransactionWhFilterModelResApiResponse {
+  data?: TransactionWhFilterModelRes;
   isNormal?: boolean;
   metaData?: MetaData;
   pageInfo?: PageInfo;
