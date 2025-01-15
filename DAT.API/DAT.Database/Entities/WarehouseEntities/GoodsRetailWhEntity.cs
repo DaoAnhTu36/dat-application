@@ -8,9 +8,9 @@ namespace DAT.Database.Entities.WarehouseEntities
     public class GoodsRetailWhEntity : BaseEntity
     {
         public Guid GoodsId { get; set; }
-        public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal TotalPrice { get; set; }
+        public string GoodsCode { get; set; }
+        public string GoodsName { get; set; }
+        public decimal Price { get; set; }
         public Guid TransDetailId { get; set; }
     }
 }

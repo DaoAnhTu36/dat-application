@@ -1,47 +1,40 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { LoadingService } from '../../../../../commons/loading/loading.service';
-import {
-  StockWhModel,
-  TransactionWhModel,
-  WarehouseService,
-} from '../../../../../services/warehouse-service.service';
-import { Router } from '@angular/router';
 import {
   PageingReq,
   StatusCodeApiResponse,
 } from '../../../../../commons/const/ConstStatusCode';
-import { CommonModule, NgForOf } from '@angular/common';
+import { LoadingService } from '../../../../../commons/loading/loading.service';
 import { CommonServiceService } from '../../../../../services/common-service.service';
+import {
+  GoodsRetailModelRes,
+  GoodsRetailWhListModelRes,
+  StockWhModel,
+  WarehouseService,
+} from '../../../../../services/warehouse-service.service';
+import { Router } from '@angular/router';
+import { UrlConstEnum } from '../../../../../menu/config-url';
+import { NgForOf, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { CustomCurrencyPipe } from '../../../../../commons/pipes/custom-currency.pipe';
 import { CustomDatePipe } from '../../../../../commons/pipes/custom-date.pipe';
-import { UrlConstEnum } from '../../../../../menu/config-url';
-import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-transaction-index',
+  selector: 'app-goods-retail-index',
   standalone: true,
-  imports: [
-    NgForOf,
-    CustomCurrencyPipe,
-    CustomDatePipe,
-    CommonModule,
-    FormsModule,
-  ],
-  templateUrl: './transaction-index.component.html',
-  styleUrl: './transaction-index.component.scss',
+  imports: [NgForOf, CustomCurrencyPipe, CommonModule, FormsModule],
+  templateUrl: './goods-retail-index.component.html',
+  styleUrl: './goods-retail-index.component.scss',
 })
-export class TransactionIndexComponent {
-  transactionCode: string | undefined;
-  datetimeAfter: Date | undefined;
-  datetimeBefore: Date | undefined;
-  stockId: string | undefined;
-  transactionType: string | undefined;
-  data: any[] = [];
+export class GoodsRetailIndexComponent {
+  data: GoodsRetailWhListModelRes | undefined;
   currentPage: number = 0;
   totalPage: number = 0;
   pageNumber: number[] = [];
   stocks: StockWhModel[] | null | undefined;
+  goodsCode: string | undefined;
+  goodsName: string | undefined;
+  goodsPrice: string | undefined;
   constructor(
     private readonly _warehouseService: WarehouseService,
     private readonly router: Router,
@@ -52,29 +45,16 @@ export class TransactionIndexComponent {
 
   ngOnInit(): void {
     this.list(PageingReq.PAGE_NUMBER);
-    this.listStock();
-  }
-
-  add() {
-    this.router.navigate([UrlConstEnum.TRANSACTION_CREATE]);
   }
 
   edit(id: string | undefined) {
     this.router.navigate([UrlConstEnum.TRANSACTION_UPDATE, id]);
   }
 
-  detail(id: string | undefined) {
-    this.router.navigate([UrlConstEnum.TRANSACTION_DETAIL, id]);
-  }
-
-  delete(id: string | undefined) {
-    this.router.navigate([UrlConstEnum.TRANSACTION_DELETE, id]);
-  }
-
   list(pageNumber: number, pageSize: number = PageingReq.PAGE_SIZE) {
     this._loadingService.show();
     this._warehouseService
-      .transactionList({
+      .goodsretailList({
         pageNumber: pageNumber,
         pageSize: pageSize,
       })
@@ -90,31 +70,8 @@ export class TransactionIndexComponent {
           for (let index = 0; index < this.totalPage; index++) {
             this.pageNumber.push(index);
           }
-          this.data =
-            res.data?.list?.map((rs) => {
-              return {
-                id: rs.id,
-                transactionCode: rs.transactionCode,
-                transactionDate: rs.transactionDate,
-                transactionType: rs.transactionType === '0' ? 'Nhập' : 'Xuất',
-                totalPrice: rs.totalPrice,
-                stockName: rs.stockName,
-              };
-            }) ?? [];
+          this.data = res.data;
         } else {
-        }
-      });
-  }
-
-  listStock() {
-    this._warehouseService
-      .stockList({
-        pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
-      })
-      .subscribe((res) => {
-        if (res.isNormal) {
-          this.stocks = res.data?.list;
         }
       });
   }
@@ -133,22 +90,18 @@ export class TransactionIndexComponent {
   }
 
   onClearFilter() {
-    this.transactionType = undefined;
-    this.transactionCode = undefined;
-    this.stockId = undefined;
-    this.datetimeBefore = undefined;
-    this.datetimeAfter = undefined;
+    this.goodsCode = undefined;
+    this.goodsName = undefined;
+    this.goodsPrice = undefined;
     this.list(PageingReq.PAGE_NUMBER);
   }
 
   onFilter(pageNumber: number = PageingReq.PAGE_NUMBER) {
     this._loadingService.show();
     let req = {
-      transactionType: this.transactionType,
-      transactionCode: this.transactionCode,
-      stockId: this.stockId,
-      datetimeBefore: this.datetimeBefore,
-      datetimeAfter: this.datetimeAfter,
+      transactionType: this.goodsCode,
+      transactionCode: this.goodsName,
+      stockId: this.goodsPrice,
       pageNumber: pageNumber,
       pageSize: PageingReq.PAGE_SIZE,
     };
@@ -164,19 +117,59 @@ export class TransactionIndexComponent {
         for (let index = 0; index < this.totalPage; index++) {
           this.pageNumber.push(index);
         }
-        this.data =
-          res.data?.list?.map((rs) => {
-            return {
-              id: rs.id,
-              transactionCode: rs.transactionCode,
-              transactionDate: rs.transactionDate,
-              transactionType: rs.transactionType === '0' ? 'Nhập' : 'Xuất',
-              totalPrice: rs.totalPrice,
-              stockName: rs.stockName,
-            };
-          }) ?? [];
       } else {
       }
     });
+  }
+
+  onUpdatePrice(event: Event, record: GoodsRetailModelRes) {
+    this._loadingService.show();
+    const indexGoodsRetail = parseInt(
+      (event.target as HTMLSelectElement).value
+    );
+    const id = record?.goodsRetails?.[indexGoodsRetail].id;
+    const price = record?.goodsRetails?.[indexGoodsRetail].price;
+    this._warehouseService
+      .goodsretailUpdate({
+        id: id,
+        price: price,
+      })
+      .subscribe((res) => {
+        this._loadingService.hide();
+        if (
+          res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS &&
+          res.isNormal
+        ) {
+          this.list(PageingReq.PAGE_NUMBER);
+        } else {
+        }
+      });
+  }
+
+  onCreatePrice(event: Event, record: GoodsRetailModelRes) {
+    this._loadingService.show();
+    const price = parseInt((event.target as HTMLSelectElement).value);
+    this._warehouseService
+      .goodsretailCreate({
+        listReq: [
+          {
+            goodsCode: record?.goodsRetails?.[0].goodsCode,
+            goodsId: record?.goodsRetails?.[0].goodsId,
+            goodsName: record?.goodsRetails?.[0].goodsName,
+            price: price,
+            transDetailId: record?.goodsRetails?.[0].transDetailId,
+          },
+        ],
+      })
+      .subscribe((res) => {
+        this._loadingService.hide();
+        if (
+          res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS &&
+          res.isNormal
+        ) {
+          this.list(PageingReq.PAGE_NUMBER);
+        } else {
+        }
+      });
   }
 }

@@ -39,6 +39,11 @@ export class MenuComponent {
               list_child: [],
             },
             {
+              path: `goods-retail`,
+              display_name: 'Giá hàng hóa',
+              list_child: [],
+            },
+            {
               path: `inventory`,
               display_name: 'Tồn kho',
               list_child: [],

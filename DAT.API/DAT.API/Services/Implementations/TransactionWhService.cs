@@ -62,12 +62,18 @@ namespace DAT.API.Services.Warehouse.Impl
                             UnitId = transaction.UnitId,
                         });
 
-                        _context.Add(new GoodsPriceWhEntity
+                        var goodsInfo = await _context.Set<GoodsWhEntity>().FirstOrDefaultAsync(x => x.Id == transaction.GoodsId);
+                        if (goodsInfo != null)
                         {
-                            TransactionDetailId = transDetailId,
-                            GoodsId = transaction.GoodsId,
-                            RetailPrice = transaction.UnitPrice
-                        });
+                            _context.Add(new GoodsRetailWhEntity
+                            {
+                                GoodsId = transaction.GoodsId,
+                                GoodsCode = goodsInfo.GoodsCode,
+                                Price = transaction.UnitPrice,
+                                TransDetailId = transDetailId,
+                                GoodsName = goodsInfo.Name,
+                            });
+                        }
                     }
                 }
                 await _unitOfWork.SaveChangesAsync();

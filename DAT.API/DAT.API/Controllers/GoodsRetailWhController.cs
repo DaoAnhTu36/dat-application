@@ -16,7 +16,27 @@ namespace DAT.API.Controllers.Warehouses
             _service = service;
         }
 
-        [HttpPost("create")]
+        [HttpPost("goodsretail-detail")]
+        public async Task<ApiResponse<GoodsRetailWhCreateModelRes>> Detail([FromBody] GoodsRetailWhCreateModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this);
+            var retVal = new ApiResponse<GoodsRetailWhCreateModelRes>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.Create(req);
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        [HttpPost("goodsretail-create")]
         public async Task<ApiResponse<GoodsRetailWhCreateModelRes>> Create([FromBody] GoodsRetailWhCreateModelReq req)
         {
             LoggerFunctionUtility.CommonLogStart(this);
@@ -36,7 +56,7 @@ namespace DAT.API.Controllers.Warehouses
             return retVal;
         }
 
-        [HttpPost("update")]
+        [HttpPost("goodsretail-update")]
         public async Task<ApiResponse<GoodsRetailWhUpdateModelRes>> Update([FromBody] GoodsRetailWhUpdateModelReq req)
         {
             LoggerFunctionUtility.CommonLogStart(this);
@@ -56,7 +76,7 @@ namespace DAT.API.Controllers.Warehouses
             return retVal;
         }
 
-        [HttpPost("delete")]
+        [HttpPost("goodsretail-delete")]
         public async Task<ApiResponse<GoodsRetailWhDeleteModelRes>> Delete([FromBody] GoodsRetailWhDeleteModelReq req)
         {
             LoggerFunctionUtility.CommonLogStart(this);
@@ -76,7 +96,7 @@ namespace DAT.API.Controllers.Warehouses
             return retVal;
         }
 
-        [HttpPost("list")]
+        [HttpPost("goodsretail-list")]
         public async Task<ApiResponse<GoodsRetailWhListModelRes>> List([FromBody] GoodsRetailWhListModelReq req)
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();

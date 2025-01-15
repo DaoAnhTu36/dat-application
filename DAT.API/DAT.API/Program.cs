@@ -25,6 +25,7 @@ builder.Services.AddScopedServices(ServiceAssembly.Assembly);
 builder.Services.AddScopedUnitOfWorkCore<EntityDBContext>(ServiceExtensions.OverWriteConnectString(configuration.GetSection("AppConfig")));
 builder.Services.Configure<AppConfig>(configuration.GetSection("AppConfig"));
 builder.Services.AddLog();
+builder.Logging.AddConsole();
 builder.Services.AddSignalR();
 
 var app = builder.Build();
