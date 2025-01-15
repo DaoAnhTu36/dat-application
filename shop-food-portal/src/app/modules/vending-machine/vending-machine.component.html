@@ -1,28 +1,31 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12 item-form">
-      <h1>Máy bán hàng</h1>
+      <h1 style="text-align: center">Máy bán hàng</h1>
     </div>
     <div class="col-md-12 item-form">
       <div class="form-group">
-        <label for="productCode">Mã sản phẩm</label>
+        <label for="goodsCode">Mã sản phẩm</label>
         <input
           type="text"
           class="form-control"
-          name="productCode"
-          id="productCode"
+          name="goodsCode"
+          id="goodsCode"
           placeholder=""
+          [(ngModel)]="goodsCode"
+          (keydown.enter)="onSearchGoods($event)"
         />
       </div>
     </div>
     <div class="col-md-3 item-form">
       <div class="form-group">
-        <label for="productName">Tên sản phẩm</label>
+        <label for="goodsName">Tên sản phẩm</label>
         <input
           type="text"
           class="form-control"
-          name="productName"
-          id="productName"
+          name="goodsName"
+          id="goodsName"
+          [(ngModel)]="goodsName"
           placeholder=""
           readonly
         />
@@ -30,13 +33,14 @@
     </div>
     <div class="col-md-3 item-form">
       <div class="form-group">
-        <label for="unitPrice">Giá sản phẩm</label>
+        <label for="price">Giá sản phẩm</label>
         <input
           type="text"
           class="form-control"
-          name="unitPrice"
-          id="unitPrice"
+          name="price"
+          id="price"
           placeholder=""
+          [(ngModel)]="price"
           readonly
         />
       </div>
@@ -49,6 +53,7 @@
           class="form-control"
           name="unitName"
           id="unitName"
+          [(ngModel)]="unitName"
           placeholder=""
           readonly
         />
@@ -62,18 +67,21 @@
           class="form-control"
           name="quantity"
           id="quantity"
+          [(ngModel)]="quantity"
           placeholder=""
+          (keyup)="onCalTotalPrice()"
         />
       </div>
     </div>
     <div class="col-md-12 item-form">
       <div class="form-group">
-        <label for="totalPrice">Tổng tiền</label>
+        <label for="totalUnitPrice">Tổng tiền</label>
         <input
           type="text"
           class="form-control"
-          name="totalPrice"
-          id="totalPrice"
+          name="totalUnitPrice"
+          id="totalUnitPrice"
+          [(ngModel)]="totalUnitPrice"
           placeholder=""
           readonly
         />
@@ -100,18 +108,18 @@
         <tbody>
           <tr *ngFor="let item of data_buy; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ item.productCode }}</td>
-            <td>{{ item.productName }}</td>
+            <td>{{ item.goodsCode }}</td>
+            <td>{{ item.goodsName }}</td>
             <td>{{ item.unitName }}</td>
-            <td>{{ item.unitPrice | customCurrencyPipe }}</td>
+            <td>{{ item.price | customCurrencyPipe }}</td>
             <td>{{ item.quantity }}</td>
-            <td>{{ item.unitPrice * item.quantity | customCurrencyPipe }}</td>
+            <td>{{ item.price * item.quantity | customCurrencyPipe }}</td>
           </tr>
           <tr>
             <td colspan="5"></td>
             <td style="font-weight: bold">Tổng hóa đơn</td>
             <td style="color: darkgreen">
-              {{ totalPrice | customCurrencyPipe }}
+              {{ totalBill | customCurrencyPipe }}
             </td>
           </tr>
         </tbody>

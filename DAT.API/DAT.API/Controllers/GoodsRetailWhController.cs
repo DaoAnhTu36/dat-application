@@ -1,8 +1,8 @@
 using DAT.API.Models;
+using DAT.API.Services.Warehouse;
 using DAT.Common.Logger;
 using DAT.Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
-using DAT.API.Services.Warehouse;
 
 namespace DAT.API.Controllers.Warehouses
 {
@@ -113,6 +113,27 @@ namespace DAT.API.Controllers.Warehouses
                 return retVal;
             }
             retVal = await _service.List(req);
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        [HttpPost("goodsretail-search")]
+        public async Task<ApiResponse<GoodsRetailWhSearchlModelRes>> Search([FromBody] GoodsRetailWhSearchlModelReq req)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            LoggerFunctionUtility.CommonLogStart(this, stopwatch);
+            var retVal = new ApiResponse<GoodsRetailWhSearchlModelRes>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.Search(req);
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }

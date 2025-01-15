@@ -191,5 +191,43 @@ namespace DAT.API.Services.Warehouse.Impl
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }
+
+        public async Task<ApiResponse<GoodsRetailWhSearchlModelRes>> Search(GoodsRetailWhSearchlModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this);
+            var retVal = new ApiResponse<GoodsRetailWhSearchlModelRes>();
+            try
+            {
+                var record = await _context.Set<GoodsRetailWhEntity>().Where(x => x.GoodsCode == req.TextSearch || x.GoodsName.ToLower().Contains(req.TextSearch.ToLower())).OrderByDescending(x => x.UpdatedDate).FirstOrDefaultAsync();
+                if (record == null)
+                {
+                    retVal.IsNormal = false;
+                    retVal.MetaData = new MetaData
+                    {
+                        StatusCode = "400"
+                    };
+                    LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                    return retVal;
+                }
+                retVal.Data = new GoodsRetailWhSearchlModelRes
+                {
+                    GoodsName = record.GoodsName,
+                    Price = record.Price,
+                    UnitName = "",
+                };
+            }
+            catch (Exception ex)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "500",
+                    Message = ex.Message
+                };
+            }
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
     }
 }

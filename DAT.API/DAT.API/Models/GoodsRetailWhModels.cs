@@ -91,4 +91,15 @@ namespace DAT.API.Models
         public string GoodsName { get; set; }
         public decimal Price { get; set; }
     }
+    public class GoodsRetailWhSearchlModelReq
+    {
+        public string TextSearch { get; set; }
+    }
+
+    public class GoodsRetailWhSearchlModelRes
+    {
+        public string GoodsName { get; set; }
+        public decimal Price { get; set; }
+        public string UnitName { get; set; }
+    }
 }
