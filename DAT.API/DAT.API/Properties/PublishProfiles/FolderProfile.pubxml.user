@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\Woks\du-an-1\deployment\api</_PublishTargetUrl>
-    <History>True|2025-01-08T16:23:43.2542542Z||;</History>
+    <History>True|2025-01-15T20:04:07.4409369Z||;True|2025-01-08T23:23:43.2542542+07:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
