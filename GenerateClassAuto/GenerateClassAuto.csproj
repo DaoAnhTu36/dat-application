@@ -8,13 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="bin\Debug\net8.0\template_controller.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="bin\Debug\net8.0\template_gen_service.txt" />
-    <None Include="bin\Debug\net8.0\template_gen_interface.txt" />
-    <None Include="bin\Debug\net8.0\template_gen_model.txt" />
+    <Folder Include="bin\Debug\net8.0\" />
   </ItemGroup>
 
 </Project>

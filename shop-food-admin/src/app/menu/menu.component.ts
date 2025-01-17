@@ -21,99 +21,71 @@ export class MenuComponent {
   prefixAuth = 'auth';
   data_menu: any[] = [
     {
-      path: `wh`,
-      display_name: 'CMS',
-      list_child: [
-        {
-          path: `dashboard`,
-          display_name: 'Trang chủ',
-          list_child: [],
-        },
-        {
-          path: `transaction`,
-          display_name: 'Giao dịch',
-          list_child: [
-            {
-              path: `transaction`,
-              display_name: 'Nhập/xuất',
-              list_child: [],
-            },
-            {
-              path: `goods-retail`,
-              display_name: 'Giá hàng hóa',
-              list_child: [],
-            },
-            {
-              path: `inventory`,
-              display_name: 'Tồn kho',
-              list_child: [],
-            },
-            // {
-            //   path: `import`,
-            //   display_name: 'Nhập hàng',
-            //   list_child: [],
-            // },
-            // {
-            //   path: `export`,
-            //   display_name: 'Xuất hàng',
-            //   list_child: [],
-            // },
-          ],
-        },
-        {
-          path: `system`,
-          display_name: 'Hệ thống',
-          list_child: [
-            {
-              path: `goods`,
-              display_name: 'Hàng hóa',
-              list_child: [],
-            },
-            {
-              path: `supplier`,
-              display_name: 'Nhà cung cấp',
-              list_child: [],
-            },
-            {
-              path: `unit`,
-              display_name: 'Đơn vị tính',
-              list_child: [],
-            },
-            {
-              path: `stock`,
-              display_name: 'Kho hàng',
-              list_child: [],
-            },
-            {
-              path: `category`,
-              display_name: 'Danh mục hàng hóa',
-              list_child: [],
-            },
-          ],
-        },
-      ],
+      path: `wh/dashboard`,
+      display_name: 'Trang chủ',
+      list_child: [],
     },
     {
-      path: ``,
-      display_name: 'Auth',
-      list_child: [
-        {
-          path: `login`,
-          display_name: 'Đăng nhập',
-          list_child: [],
-        },
-        {
-          path: `register`,
-          display_name: 'Đăng ký',
-          list_child: [],
-        },
-        {
-          path: `logout`,
-          display_name: 'Logout',
-          list_child: [],
-        },
-      ],
+      path: `wh/transaction/transaction`,
+      display_name: 'Nhập/xuất',
+      list_child: [],
     },
+    {
+      path: `wh/transaction/goods-retail`,
+      display_name: 'Giá hàng hóa',
+      list_child: [],
+    },
+    {
+      path: `wh/transaction/inventory`,
+      display_name: 'Tồn kho',
+      list_child: [],
+    },
+    {
+      path: `wh/system/goods`,
+      display_name: 'Hàng hóa',
+      list_child: [],
+    },
+    {
+      path: `wh/system/supplier`,
+      display_name: 'Nhà cung cấp',
+      list_child: [],
+    },
+    {
+      path: `wh/system/unit`,
+      display_name: 'Đơn vị tính',
+      list_child: [],
+    },
+    {
+      path: `wh/system/stock`,
+      display_name: 'Kho hàng',
+      list_child: [],
+    },
+    {
+      path: `wh/system/category`,
+      display_name: 'Danh mục hàng hóa',
+      list_child: [],
+    },
+    // {
+    //   path: ``,
+    //   display_name: 'Auth',
+    //   list_child: [
+    //     {
+    //       path: `login`,
+    //       display_name: 'Đăng nhập',
+    //       list_child: [],
+    //     },
+    //     {
+    //       path: `register`,
+    //       display_name: 'Đăng ký',
+    //       list_child: [],
+    //     },
+    //     {
+    //       path: `logout`,
+    //       display_name: 'Logout',
+    //       list_child: [],
+    //     },
+    //   ],
+    // },
   ];
   data_notify: {
     title: string | null | undefined;

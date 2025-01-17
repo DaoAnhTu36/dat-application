@@ -31,5 +31,6 @@ namespace DAT.Database
         public DbSet<CategoryWhEntity> CategoryWhEntities { get; set; }
         public DbSet<OrderWhEntity> OrderWhEntities { get; set; }
         public DbSet<GoodsRetailWhEntity> GoodsRetailWhEntities { get; set; }
+        public DbSet<TransactionRetailWhEntity> TransactionRetailWhEntities { get; set; }
     }
 }

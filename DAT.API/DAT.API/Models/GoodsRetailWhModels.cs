@@ -101,5 +101,9 @@ namespace DAT.API.Models
         public string GoodsName { get; set; }
         public decimal Price { get; set; }
         public string UnitName { get; set; }
+        public string UnitId { get; set; }
+        public string TransDetailId { get; set; }
+        public string GoodsId { get; set; }
+        public string GoodsCode { get; set; }
     }
 }

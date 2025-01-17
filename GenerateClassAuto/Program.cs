@@ -2,12 +2,13 @@
 
 internal class Program
 {
+    public static string pathCommon = "E:\\code\\dat-application\\DAT.API\\DAT.API";
     private static void Main(string[] args)
     {
         var arrClass = new string[]
         {
             //"Inventory", "Goods", "Supplier", "Transaction", "Unit", "Category", "Order", "Stock"
-            "GoodsRetail"
+            "TransactionRetail"
         };
         GenModels(arrClass);
         GenController(arrClass);
@@ -17,12 +18,12 @@ internal class Program
 
     public static void GenModels(string[] arrClass)
     {
-        var content = File.ReadAllText("template_gen_model.txt");
+        var content = File.ReadAllText("template_model.txt");
         foreach (var item in arrClass)
         {
             if (!string.IsNullOrEmpty(item))
             {
-                string filePath = $"D:\\Woks\\du-an-1\\dat-application\\DAT.API\\DAT.API\\Models\\{item}WhModels.cs";
+                string filePath = $"{pathCommon}\\Models\\{item}WhModels.cs";
                 var contenNew = Regex.Replace(content, @"_ClassName_", item);
                 File.WriteAllText(filePath, contenNew);
             }
@@ -36,7 +37,7 @@ internal class Program
         {
             if (!string.IsNullOrEmpty(item))
             {
-                string filePath = $"D:\\Woks\\du-an-1\\dat-application\\DAT.API\\DAT.API\\Controllers\\{item}WhController.cs";
+                string filePath = $"{pathCommon}\\Controllers\\{item}WhController.cs";
                 var contenNew = Regex.Replace(content, @"_ClassName_", item);
                 contenNew = Regex.Replace(contenNew, @"route", item.ToLower());
                 File.WriteAllText(filePath, contenNew);
@@ -46,12 +47,12 @@ internal class Program
 
     public static void GenInterface(string[] arrClass)
     {
-        var content = File.ReadAllText("template_gen_interface.txt");
+        var content = File.ReadAllText("template_interface.txt");
         foreach (var item in arrClass)
         {
             if (!string.IsNullOrEmpty(item))
             {
-                string filePath = $"D:\\Woks\\du-an-1\\dat-application\\DAT.API\\DAT.API\\Services\\I{item}WhService.cs";
+                string filePath = $"{pathCommon}\\Services\\I{item}WhService.cs";
                 var contenNew = Regex.Replace(content, @"_ClassName_", item);
                 File.WriteAllText(filePath, contenNew);
             }
@@ -60,12 +61,12 @@ internal class Program
 
     public static void GenService(string[] arrClass)
     {
-        var content = File.ReadAllText("template_gen_service.txt");
+        var content = File.ReadAllText("template_service.txt");
         foreach (var item in arrClass)
         {
             if (!string.IsNullOrEmpty(item))
             {
-                string filePath = $"D:\\Woks\\du-an-1\\dat-application\\DAT.API\\DAT.API\\Services\\Implementations\\{item}WhService.cs";
+                string filePath = $"{pathCommon}\\Services\\Implementations\\{item}WhService.cs";
                 var contenNew = Regex.Replace(content, @"_ClassName_", item);
                 File.WriteAllText(filePath, contenNew);
             }

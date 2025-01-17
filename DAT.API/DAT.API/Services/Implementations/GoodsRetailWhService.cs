@@ -214,6 +214,10 @@ namespace DAT.API.Services.Warehouse.Impl
                     GoodsName = record.GoodsName,
                     Price = record.Price,
                     UnitName = "",
+                    GoodsCode = record.GoodsCode,
+                    GoodsId = record.GoodsId.ToString(),
+                    TransDetailId = "",
+                    UnitId = "",
                 };
             }
             catch (Exception ex)

@@ -1,11 +1,15 @@
 import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { WarehouseService } from '../../services/warehouse-service.service';
+import {
+  TranRetailDTO,
+  WarehouseService,
+} from '../../services/warehouse-service.service';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonServiceService } from '../../services/common-service.service';
 import { Router } from '@angular/router';
 import { CommonModule, NgFor } from '@angular/common';
 import { CustomCurrencyPipe } from '../../commons/pipes/custom-currency.pipe';
+import { StatusCodeApiResponse } from '../../commons/const/ConstStatusCode';
 
 @Component({
   selector: 'app-vending-machine',
@@ -17,8 +21,11 @@ import { CustomCurrencyPipe } from '../../commons/pipes/custom-currency.pipe';
 export class VendingMachineComponent {
   data_buy: any[] = [];
   goodsCode: string | undefined;
+  goodsId: string | undefined;
   quantity: number | undefined;
   unitName: string | undefined;
+  unitId: string | undefined;
+  transDetailId: string | undefined;
   price: number | undefined;
   goodsName: string | undefined;
   totalPrice: number = 0;
@@ -45,9 +52,13 @@ export class VendingMachineComponent {
       unitName: this.unitName,
       quantity: this.quantity,
       totalUnitPrice: (this.quantity ?? 0) * (this.price ?? 0),
+      goodsId: this.goodsId,
+      unitId: this.unitId,
+      transDetailId: this.transDetailId,
     });
     this.onCalTotalBill();
     this.goodsCode = '';
+    this.goodsId = '';
     this.goodsName = '';
     this.price = undefined;
     this.unitName = '';
@@ -62,11 +73,18 @@ export class VendingMachineComponent {
         textSearch: textSearch,
       })
       .subscribe((res) => {
-        this.goodsName = res.data?.goodsName ?? '';
-        this.price = res.data?.price ?? undefined;
-        this.unitName = res.data?.unitName ?? '';
-        this.quantity = 1;
-        this.totalPrice += this.quantity * (this.price ?? 0);
+        if (
+          res.isNormal &&
+          res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
+        ) {
+          this.goodsName = res.data?.goodsName ?? '';
+          this.price = res.data?.price ?? undefined;
+          this.unitName = res.data?.unitName ?? '';
+          this.quantity = 1;
+          this.totalPrice += this.quantity * (this.price ?? 0);
+        } else {
+          this._toastService.error('Không tìm thấy sản phẩm');
+        }
       });
   }
 
@@ -81,5 +99,11 @@ export class VendingMachineComponent {
     this.data_buy.map((x) => {
       return (this.totalBill += x.totalUnitPrice);
     });
+  }
+
+  onPay() {
+    let req: TranRetailDTO[] = [];
+    this.data_buy.forEach((e) => {});
+    console.log(this.data_buy);
   }
 }
