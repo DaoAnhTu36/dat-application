@@ -136,7 +136,56 @@ namespace DAT.API.Services.Warehouse.Impl
                 {
                     Data = new StockWhListModelRes
                     {
-                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize)
+                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize, out int totalPage, out int currentPage)
+                    },
+                    PageInfo = new PageInfo
+                    {
+                        CurrentPage = currentPage,
+                        TotalPage = totalPage
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    Message = ex.Message,
+                    StatusCode = "500"
+                };
+            }
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        public async Task<ApiResponse<StockWhSearchListModelRes>> Search(StockWhSearchListModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this);
+            var retVal = new ApiResponse<StockWhSearchListModelRes>();
+
+            try
+            {
+                var query = await _context.Set<StockWhEntity>()
+                    .OrderByDescending(x => x.UpdatedDate)
+                    .Select(x => new StockWhModel
+                    {
+                        Address = x.Address,
+                        Id = x.Id,
+                        Name = x.Name
+                    }).ToListAsync();
+                query = query
+                    .Where(x => string.IsNullOrEmpty(req.TextSearch) || UtilityDatabase.FindMatches(req.TextSearch, x.Name))
+                    .ToList();
+                retVal = new ApiResponse<StockWhSearchListModelRes>
+                {
+                    Data = new StockWhSearchListModelRes
+                    {
+                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize, out int totalPage, out int currentPage)
+                    },
+                    PageInfo = new PageInfo
+                    {
+                        CurrentPage = currentPage,
+                        TotalPage = totalPage
                     }
                 };
             }

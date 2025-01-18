@@ -1,8 +1,8 @@
 using DAT.API.Models;
+using DAT.API.Services.Warehouse;
 using DAT.Common.Logger;
 using DAT.Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
-using DAT.API.Services.Warehouse;
 
 namespace DAT.API.Controllers.Warehouses
 {
@@ -114,6 +114,27 @@ namespace DAT.API.Controllers.Warehouses
                 return retVal;
             }
             retVal = await _service.Detail(req);
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        [HttpPost("transaction-filter")]
+        public async Task<ApiResponse<TransactionWhFilterModelRes>> Filter([FromBody] TransactionWhFilterModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this, req);
+            var retVal = new ApiResponse<TransactionWhFilterModelRes>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    Message = "Model invalid",
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.Filter(req);
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }

@@ -5,43 +5,159 @@
         <th>#</th>
         <th>Số phiếu</th>
         <th>Loại giao dich</th>
-        <th>Thời gian nhập/xuất</th>
+        <th>Kho</th>
+        <th colspan="2">Thời gian</th>
         <th>Tổng số tiền giao dịch</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td>
+          <button
+            type="button"
+            class="btn btn-warning"
+            (click)="onClearFilter()"
+          >
+            Xóa bộ lọc
+          </button>
+        </td>
+        <td>
+          <input
+            type="text"
+            class="form-control"
+            name=""
+            id=""
+            placeholder=""
+            [(ngModel)]="transactionCode"
+            (ngModelChange)="onFilter()"
+          />
+        </td>
+        <td>
+          <select
+            class="form-control"
+            name=""
+            id=""
+            [(ngModel)]="transactionType"
+            (ngModelChange)="onFilter()"
+          >
+            <option value="">Chọn</option>
+            <option value="0">Nhập</option>
+            <option value="1">Xuất</option>
+          </select>
+        </td>
+        <td>
+          <select
+            class="form-control"
+            [(ngModel)]="stockId"
+            (ngModelChange)="onFilter()"
+          >
+            <option value="">Chọn</option>
+            <option *ngFor="let item of stocks" [value]="item.id">
+              {{ item.name }}
+            </option>
+          </select>
+        </td>
+        <td>
+          <input
+            type="date"
+            class="form-control"
+            name=""
+            id=""
+            placeholder=""
+            [(ngModel)]="datetimeBefore"
+            (ngModelChange)="onFilter()"
+          />
+        </td>
+        <td>
+          <input
+            type="date"
+            class="form-control"
+            name=""
+            id=""
+            placeholder=""
+            [(ngModel)]="datetimeAfter"
+            (ngModelChange)="onFilter()"
+          />
+        </td>
+        <td colspan="">
+          <!-- <input
+            type="text"
+            class="form-control"
+            name=""
+            id=""
+            placeholder=""
+          /> -->
+        </td>
+        <td></td>
+      </tr>
       <tr *ngFor="let item of data; let i = index">
-        <td>{{i+1}}</td>
-        <td>{{item.transactionCode}}</td>
-        <td>{{item.transactionType}}</td>
-        <td>{{item.transactionDate | customDate}}</td>
-        <td>{{item.totalPrice | customCurrencyPipe}}</td>
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.transactionCode }}</td>
+        <td>{{ item.transactionType }}</td>
+        <td>{{ item.stockName }}</td>
+        <td colspan="2">{{ item.transactionDate | customDate }}</td>
+        <td>{{ item.totalPrice | customCurrencyPipe }}</td>
         <td>
           <div class="row group-button-action">
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
               <button class="btn" (click)="edit(item.id)">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-            </div>
+            </div> -->
             <div class="col-md-4">
               <button class="btn" (click)="detail(item.id)">
                 <i class="fa-solid fa-circle-info"></i>
               </button>
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
               <button class="btn" (click)="delete(item.id)">
                 <i class="fa-solid fa-trash"></i>
               </button>
-            </div>
+            </div> -->
           </div>
         </td>
       </tr>
       <tr>
-        <td colspan="6">
+        <td>
           <button class="btn" (click)="add()">
             <i class="fa-solid fa-plus"></i>
           </button>
+        </td>
+        <td colspan="6">
+          <div class="paging-area">
+            <button
+              type="button"
+              class="btn"
+              [ngClass]="currentPage > 1 ? ['show'] : 'hide'"
+              (click)="onPage(0, 'previous')"
+            >
+              <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="btn"
+              *ngFor="let item of pageNumber"
+              (click)="onPage(item + 1, 'current')"
+              [ngClass]="
+                item + 1 < 4 || item + 1 > 9
+                  ? item + 1 == currentPage
+                    ? ['btn-primary', 'show']
+                    : ['show']
+                  : 'hide'
+              "
+            >
+              {{ item + 1 }}
+            </button>
+            <button
+              type="button"
+              class="btn"
+              (click)="onPage(0, 'next')"
+              [ngClass]="currentPage < totalPage ? ['show'] : 'hide'"
+            >
+              <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>

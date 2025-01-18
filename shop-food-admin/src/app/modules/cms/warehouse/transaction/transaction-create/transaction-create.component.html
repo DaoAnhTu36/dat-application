@@ -1,5 +1,5 @@
 <div class="title-page">
-  <h2 class="title">Tạo phiếu nhập/xuất kho</h2>
+  <h2 class="title">Tạo phiếu</h2>
 </div>
 <div class="form-custom">
   <section class="transaction">
@@ -16,22 +16,11 @@
     <div class="transaction-body">
       <div class="transaction-body__form">
         <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="transaction-code">Mã phiếu</label>
-              <input
-                type="text"
-                id="transaction-code"
-                class="form-control"
-                [formControl]="transactionCode"
-              />
-            </div>
-          </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="transaction-code">Loại phiếu</label>
               <select class="form-control" [formControl]="transactionType">
-                <option value="">Chọn</option>
+                <option value="" disabled>Chọn</option>
                 <option
                   *ngFor="let item of listTransactionType"
                   [value]="item.id"
@@ -41,9 +30,48 @@
               </select>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
-              <label for="transaction-date">Ngày nhập</label>
+              <label for="transaction-code">Kho nhập</label>
+              <select class="form-control" [formControl]="stockId">
+                <option value="">Chọn</option>
+                <option *ngFor="let item of stocks" [value]="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="transaction-code"
+                >Mã phiếu{{
+                  transactionType.value == ""
+                    ? ""
+                    : transactionType.value == "0"
+                    ? " nhập"
+                    : " xuất"
+                }}</label
+              >
+              <input
+                type="text"
+                id="transaction-code"
+                class="form-control"
+                [formControl]="transactionCode"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="transaction-date"
+                >Thời gian{{
+                  transactionType.value == ""
+                    ? ""
+                    : transactionType.value == "0"
+                    ? " nhập"
+                    : " xuất"
+                }}</label
+              >
               <input
                 type="date"
                 id="transaction-date"
@@ -52,6 +80,23 @@
               />
             </div>
           </div>
+          <!-- <div class="col-md-4">
+            <div class="form-group">
+              <label for="transaction-code">Kho</label>
+              <input
+                class="form-control"
+                list="listStock"
+                [formControl]="stockId"
+                placeholder="Chọn"
+                (keyup)="onSearchStock()"
+              />
+              <datalist id="listStock">
+                <option *ngFor="let item of stocks" [value]="item.name">
+                  {{ item.name }}
+                </option>
+              </datalist>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -59,7 +104,7 @@
   <section class="transaction-detail">
     <div class="transaction-detail-header">
       <div class="transaction-detail-header__title">
-        <h3 class="title">Chi tiết phiếu nhập kho</h3>
+        <h3 class="title">Chi tiết phiếu</h3>
       </div>
     </div>
     <div>
@@ -84,20 +129,38 @@
                         class="form-control"
                         name="{{ onRewrite(i, 'goodsCode') }}"
                         id="{{ onRewrite(i, 'goodsCode', true) }}"
-                        (keydown.enter)="onSearchProduct(i)"
                         formControlName="goodsCode"
                         placeholder="Mã hàng hóa"
+                        (keydown.enter)="onSearchProduct(i)"
                       />
+                      <!-- <input
+                        type="text"
+                        class="form-control"
+                        name="{{ onRewrite(i, 'goodsCode') }}"
+                        id="{{ onRewrite(i, 'goodsCode', true) }}"
+                        formControlName="goodsCode"
+                        placeholder="Mã hàng hóa"
+                        (keyup)="onSearchGoods(i)"
+                        (keydown.enter)="onSearchProduct(i)"
+                        list="listGoods"
+                      />
+                      <datalist id="listGoods">
+                        <option
+                          *ngFor="let item of goods; let i = index"
+                          [value]="item.name"
+                        >
+                          {{ item.name }}
+                        </option>
+                      </datalist> -->
                     </td>
                     <td>
                       <input
                         type="text"
                         class="form-control"
-                        name="{{ onRewrite(i, 'productName') }}"
-                        id="{{ onRewrite(i, 'productName', true) }}"
-                        formControlName="productName"
+                        name="{{ onRewrite(i, 'goodsName') }}"
+                        id="{{ onRewrite(i, 'goodsName', true) }}"
+                        formControlName="goodsName"
                         placeholder="Tên hàng hóa"
-                        readonly
                       />
                     </td>
                     <td>
@@ -109,7 +172,7 @@
                       >
                         <option value="">Nhà cung cấp</option>
                         <option
-                          *ngFor="let item of categories"
+                          *ngFor="let item of suppliers"
                           [value]="item.id"
                         >
                           {{ item.name }}
@@ -131,6 +194,27 @@
                     </td>
                     <td>
                       <input
+                        type="date"
+                        class="form-control"
+                        name="{{ onRewrite(i, 'dateOfManufacture') }}"
+                        id="{{ onRewrite(i, 'dateOfManufacture', true) }}"
+                        formControlName="dateOfManufacture"
+                        placeholder="NSX"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="date"
+                        class="form-control"
+                        name="{{ onRewrite(i, 'dateOfExpired') }}"
+                        id="{{ onRewrite(i, 'dateOfExpired', true) }}"
+                        formControlName="dateOfExpired"
+                        placeholder="HSD"
+                      />
+                    </td>
+
+                    <td>
+                      <input
                         type="text"
                         class="form-control"
                         name="{{ onRewrite(i, 'quantity') }}"
@@ -149,6 +233,7 @@
                         formControlName="unitPrice"
                         placeholder="Đơn giá"
                         (keyup)="onCalTotalAmount(i)"
+                        #inputField
                       />
                     </td>
                     <td>

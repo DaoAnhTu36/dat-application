@@ -13,5 +13,6 @@ namespace DAT.API.Services.Warehouse
 
         Task<ApiResponse<TransactionWhListModelRes>> List(TransactionWhListModelReq req);
         Task<ApiResponse<TransactionWhDetailModelRes>> Detail(TransactionWhDetailModelReq req);
+        Task<ApiResponse<TransactionWhFilterModelRes>> Filter(TransactionWhFilterModelReq req);
     }
 }

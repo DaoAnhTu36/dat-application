@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { MenuComponent } from './menu/menu.component';
 import {
   API_WAREHOUSE_URL,
   WarehouseService,
@@ -12,14 +11,13 @@ import { LoadingService } from './commons/loading/loading.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './commons/loading/loading.interceptor';
 import { SignalRService } from './services/signal-r.service';
-import { WarehouseModule } from './modules/cms/warehouse/warehouse.module';
 import { SharingService } from './services/sharing.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, WarehouseModule, MenuComponent, LoadingComponent],
+  imports: [RouterOutlet, LoadingComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers: [

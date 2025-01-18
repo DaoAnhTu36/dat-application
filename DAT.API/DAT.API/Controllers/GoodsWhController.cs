@@ -117,5 +117,27 @@ namespace DAT.API.Controllers.Warehouses
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }
+
+        [HttpPost("goods-search")]
+        public async Task<ApiResponse<GoodsWhSearchListModelRes>> Search([FromBody] GoodsWhSearchListModelReq req)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            LoggerFunctionUtility.CommonLogStart(this, stopwatch);
+            var retVal = new ApiResponse<GoodsWhSearchListModelRes>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.Search(req);
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
     }
 }

@@ -23,7 +23,11 @@ export class CommonServiceService {
   }
 
   formatNumber(value: any): string {
-    return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    if (isNaN(value) || value === null || value === undefined || value === '') {
+      return '0';
+    }
+    const formatter = new Intl.NumberFormat('vi-VN');
+    return formatter.format(value);
   }
 
   // formatCurrency(value: number): string {
@@ -53,8 +57,9 @@ export class CommonServiceService {
     return formatter.format(value);
   }
 
-  revertFormatCurrency(currencyString: any): number {
+  revertFormatCurrency(currencyString: string): number {
     const normalizedString = currencyString
+      .toString()
       .replace(new RegExp(`\\.`, 'g'), '') // Remove grouping separators
       .replace(new RegExp(`\\,`), '.'); // Replace decimal separator with '.'
     return parseFloat(normalizedString.replace(/[^0-9.-]/g, ''));

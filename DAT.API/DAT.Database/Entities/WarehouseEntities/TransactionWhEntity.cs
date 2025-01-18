@@ -17,5 +17,6 @@ namespace DAT.Database.Entities.WarehouseEntities
 
         public DateTime? TransactionDate { get; set; }
         public decimal TotalPrice { get; set; }
+        public Guid StockId { get; set; }
     }
 }

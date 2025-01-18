@@ -16,13 +16,14 @@ namespace DAT.API.Models
 
         public DateTime? TransactionDate { get; set; }
         public decimal TotalPrice { get; set; }
+        public Guid StockId { get; set; }
         public List<SubTransactionWhCreateModelReq>? Details { get; set; }
     }
 
     public class SubTransactionWhCreateModelReq
     {
         public Guid GoodsId { get; set; }
-        public Guid SupplierId { get; set; }
+        public Guid? SupplierId { get; set; }
         public Guid UnitId { get; set; }
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
@@ -103,5 +104,21 @@ namespace DAT.API.Models
         public string? TransactionType { get; set; }
         public DateTime? TransactionDate { get; set; }
         public decimal TotalPrice { get; set; }
+        public Guid StockId { get; set; }
+        public string StockName { get; set; }
+    }
+
+    public class TransactionWhFilterModelReq : BasePageEntity
+    {
+        public string? TransactionType { get; set; }
+        public string? TransactionCode { get; set; }
+        public Guid? StockId { get; set; }
+        public DateTime? DatetimeAfter { get; set; }
+        public DateTime? DatetimeBefore { get; set; }
+    }
+
+    public class TransactionWhFilterModelRes
+    {
+        public IEnumerable<TransactionWhModel>? List { get; set; }
     }
 }

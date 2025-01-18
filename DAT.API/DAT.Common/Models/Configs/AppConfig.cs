@@ -13,5 +13,6 @@
         public FolderSetting? FolderSetting { get; set; }
         public PaginationSetting? PaginationSetting { get; set; }
         public GoogleSetting? GoogleSettings { get; set; }
+        public FTPServerSetting? FTPServerSetting { get; set; }
     }
 }
