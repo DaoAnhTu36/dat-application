@@ -40,6 +40,7 @@ namespace DAT.API.Services.Warehouse.Impl
                         Quantity = item.Quantity,
                         TransDetailId = string.IsNullOrEmpty(item.TransDetailId) ? Guid.Empty : new Guid(item.TransDetailId),
                         UnitId = string.IsNullOrEmpty(item.UnitId) ? Guid.Empty : new Guid(item.UnitId),
+                        TotalPrice = item.Price * item.Quantity,
                     };
                     _context.Add(entity);
                 }

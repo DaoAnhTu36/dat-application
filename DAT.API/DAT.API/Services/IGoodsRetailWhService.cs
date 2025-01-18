@@ -12,6 +12,9 @@ namespace DAT.API.Services.Warehouse
         Task<ApiResponse<GoodsRetailWhDeleteModelRes>> Delete(GoodsRetailWhDeleteModelReq req);
 
         Task<ApiResponse<GoodsRetailWhListModelRes>> List(GoodsRetailWhListModelReq req);
+
         Task<ApiResponse<GoodsRetailWhSearchlModelRes>> Search(GoodsRetailWhSearchlModelReq req);
+
+        Task<ApiResponse<GoodsRetailWhListModelRes>> ListForMachine();
     }
 }

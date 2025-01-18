@@ -14,5 +14,6 @@ namespace DAT.Database.Entities.WarehouseEntities
         public Guid TransDetailId { get; set; }
         public int Quantity { get; set; }
         public Guid UnitId { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

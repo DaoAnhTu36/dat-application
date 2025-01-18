@@ -277,6 +277,7 @@ namespace DAT.Infrastructure
                           .WithOrigins("http://192.168.131.182")
                           .WithOrigins("http://192.168.131.182:80")
                           .WithOrigins("http://192.168.131.182:8083")
+                          .WithOrigins("https://taphoagiadinh.com/")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();

@@ -8,4088 +8,6223 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
-import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import {
+  mergeMap as _observableMergeMap,
+  catchError as _observableCatch,
+} from 'rxjs/operators';
+import {
+  Observable,
+  throwError as _observableThrow,
+  of as _observableOf,
+} from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpResponse,
+  HttpResponseBase,
+} from '@angular/common/http';
 
-export const API_WAREHOUSE_URL = new InjectionToken<string>('API_WAREHOUSE_URL');
+export const API_WAREHOUSE_URL = new InjectionToken<string>(
+  'API_WAREHOUSE_URL'
+);
 
 export interface IWarehouseService {
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    categoryCreate(body: CategoryWhCreateModelReq | undefined): Observable<CategoryWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    categoryUpdate(body: CategoryWhUpdateModelReq | undefined): Observable<CategoryWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    categoryDelete(body: CategoryWhDeleteModelReq | undefined): Observable<CategoryWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    categoryList(body: CategoryWhListModelReq | undefined): Observable<CategoryWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailDetail(body: GoodsRetailWhCreateModelReq | undefined): Observable<GoodsRetailWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailCreate(body: GoodsRetailWhCreateModelReq | undefined): Observable<GoodsRetailWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailUpdate(body: GoodsRetailWhUpdateModelReq | undefined): Observable<GoodsRetailWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailDelete(body: GoodsRetailWhDeleteModelReq | undefined): Observable<GoodsRetailWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailList(body: GoodsRetailWhListModelReq | undefined): Observable<GoodsRetailWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailSearch(body: GoodsRetailWhSearchlModelReq | undefined): Observable<GoodsRetailWhSearchlModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsCreate(body: GoodsWhCreateModelReq | undefined): Observable<GoodsWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsUpdate(body: GoodsWhUpdateModelReq | undefined): Observable<GoodsWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsDelete(body: GoodsWhDeleteModelReq | undefined): Observable<GoodsWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsList(body: GoodsWhListModelReq | undefined): Observable<GoodsWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsDetail(body: GoodsWhDetailModelReq | undefined): Observable<GoodsWhDetailModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsSearch(body: GoodsWhSearchListModelReq | undefined): Observable<GoodsWhSearchListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    inventoryCreate(body: InventoryWhCreateModelReq | undefined): Observable<InventoryWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    inventoryUpdate(body: InventoryWhUpdateModelReq | undefined): Observable<InventoryWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    inventoryDelete(body: InventoryWhDeleteModelReq | undefined): Observable<InventoryWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    inventoryList(body: InventoryWhListModelReq | undefined): Observable<InventoryWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    orderCreate(body: OrderWhCreateModelReq | undefined): Observable<OrderWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    orderUpdate(body: OrderWhUpdateModelReq | undefined): Observable<OrderWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    orderDelete(body: OrderWhDeleteModelReq | undefined): Observable<OrderWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    orderList(body: OrderWhListModelReq | undefined): Observable<OrderWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockCreate(body: StockWhCreateModelReq | undefined): Observable<StockWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockUpdate(body: StockWhUpdateModelReq | undefined): Observable<StockWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockDelete(body: StockWhDeleteModelReq | undefined): Observable<StockWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockList(body: StockWhListModelReq | undefined): Observable<StockWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockSearch(body: StockWhSearchListModelReq | undefined): Observable<StockWhSearchListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockDetail(body: StockWhDetailModelReq | undefined): Observable<StockWhDetailModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierCreate(body: SupplierWhCreateModelReq | undefined): Observable<SupplierWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierUpdate(body: SupplierWhUpdateModelReq | undefined): Observable<SupplierWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierDelete(body: SupplierWhDeleteModelReq | undefined): Observable<SupplierWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierList(body: SupplierWhListModelReq | undefined): Observable<SupplierWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierDetail(body: SupplierWhDetailModelReq | undefined): Observable<SupplierWhDetailModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailCreate(body: TransactionRetailWhCreateModelReq | undefined): Observable<TransactionRetailWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailUpdate(body: TransactionRetailWhUpdateModelReq | undefined): Observable<TransactionRetailWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailDelete(body: TransactionRetailWhDeleteModelReq | undefined): Observable<TransactionRetailWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailList(body: TransactionRetailWhListModelReq | undefined): Observable<TransactionRetailWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailDetail(body: TransactionRetailWhDetailModelReq | undefined): Observable<TransactionRetailWhDetailModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionCreate(body: TransactionWhCreateModelReq | undefined): Observable<TransactionWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionUpdate(body: TransactionWhUpdateModelReq | undefined): Observable<TransactionWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionDelete(body: TransactionWhDeleteModelReq | undefined): Observable<TransactionWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionList(body: TransactionWhListModelReq | undefined): Observable<TransactionWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionDetail(body: TransactionWhDetailModelReq | undefined): Observable<TransactionWhDetailModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionFilter(body: TransactionWhFilterModelReq | undefined): Observable<TransactionWhFilterModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitCreate(body: UnitWhCreateModelReq | undefined): Observable<UnitWhCreateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitUpdate(body: UnitWhUpdateModelReq | undefined): Observable<UnitWhUpdateModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitDelete(body: UnitWhDeleteModelReq | undefined): Observable<UnitWhDeleteModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitList(body: UnitWhListModelReq | undefined): Observable<UnitWhListModelResApiResponse>;
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitDetail(body: UnitWhDetailModelReq | undefined): Observable<UnitWhDetailModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  categoryCreate(
+    body: CategoryWhCreateModelReq | undefined
+  ): Observable<CategoryWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  categoryUpdate(
+    body: CategoryWhUpdateModelReq | undefined
+  ): Observable<CategoryWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  categoryDelete(
+    body: CategoryWhDeleteModelReq | undefined
+  ): Observable<CategoryWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  categoryList(
+    body: CategoryWhListModelReq | undefined
+  ): Observable<CategoryWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailDetail(
+    body: GoodsRetailWhCreateModelReq | undefined
+  ): Observable<GoodsRetailWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailCreate(
+    body: GoodsRetailWhCreateModelReq | undefined
+  ): Observable<GoodsRetailWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailUpdate(
+    body: GoodsRetailWhUpdateModelReq | undefined
+  ): Observable<GoodsRetailWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailDelete(
+    body: GoodsRetailWhDeleteModelReq | undefined
+  ): Observable<GoodsRetailWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailList(
+    body: GoodsRetailWhListModelReq | undefined
+  ): Observable<GoodsRetailWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailSearch(
+    body: GoodsRetailWhSearchlModelReq | undefined
+  ): Observable<GoodsRetailWhSearchlModelResApiResponse>;
+  /**
+   * @return OK
+   */
+  goodsretailListForMachine(): Observable<GoodsRetailWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsCreate(
+    body: GoodsWhCreateModelReq | undefined
+  ): Observable<GoodsWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsUpdate(
+    body: GoodsWhUpdateModelReq | undefined
+  ): Observable<GoodsWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsDelete(
+    body: GoodsWhDeleteModelReq | undefined
+  ): Observable<GoodsWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsList(
+    body: GoodsWhListModelReq | undefined
+  ): Observable<GoodsWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsDetail(
+    body: GoodsWhDetailModelReq | undefined
+  ): Observable<GoodsWhDetailModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsSearch(
+    body: GoodsWhSearchListModelReq | undefined
+  ): Observable<GoodsWhSearchListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  inventoryCreate(
+    body: InventoryWhCreateModelReq | undefined
+  ): Observable<InventoryWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  inventoryUpdate(
+    body: InventoryWhUpdateModelReq | undefined
+  ): Observable<InventoryWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  inventoryDelete(
+    body: InventoryWhDeleteModelReq | undefined
+  ): Observable<InventoryWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  inventoryList(
+    body: InventoryWhListModelReq | undefined
+  ): Observable<InventoryWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  orderCreate(
+    body: OrderWhCreateModelReq | undefined
+  ): Observable<OrderWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  orderUpdate(
+    body: OrderWhUpdateModelReq | undefined
+  ): Observable<OrderWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  orderDelete(
+    body: OrderWhDeleteModelReq | undefined
+  ): Observable<OrderWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  orderList(
+    body: OrderWhListModelReq | undefined
+  ): Observable<OrderWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockCreate(
+    body: StockWhCreateModelReq | undefined
+  ): Observable<StockWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockUpdate(
+    body: StockWhUpdateModelReq | undefined
+  ): Observable<StockWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockDelete(
+    body: StockWhDeleteModelReq | undefined
+  ): Observable<StockWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockList(
+    body: StockWhListModelReq | undefined
+  ): Observable<StockWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockSearch(
+    body: StockWhSearchListModelReq | undefined
+  ): Observable<StockWhSearchListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockDetail(
+    body: StockWhDetailModelReq | undefined
+  ): Observable<StockWhDetailModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierCreate(
+    body: SupplierWhCreateModelReq | undefined
+  ): Observable<SupplierWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierUpdate(
+    body: SupplierWhUpdateModelReq | undefined
+  ): Observable<SupplierWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierDelete(
+    body: SupplierWhDeleteModelReq | undefined
+  ): Observable<SupplierWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierList(
+    body: SupplierWhListModelReq | undefined
+  ): Observable<SupplierWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierDetail(
+    body: SupplierWhDetailModelReq | undefined
+  ): Observable<SupplierWhDetailModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailCreate(
+    body: TransactionRetailWhCreateModelReq | undefined
+  ): Observable<TransactionRetailWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailUpdate(
+    body: TransactionRetailWhUpdateModelReq | undefined
+  ): Observable<TransactionRetailWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailDelete(
+    body: TransactionRetailWhDeleteModelReq | undefined
+  ): Observable<TransactionRetailWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailList(
+    body: TransactionRetailWhListModelReq | undefined
+  ): Observable<TransactionRetailWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailDetail(
+    body: TransactionRetailWhDetailModelReq | undefined
+  ): Observable<TransactionRetailWhDetailModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionCreate(
+    body: TransactionWhCreateModelReq | undefined
+  ): Observable<TransactionWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionUpdate(
+    body: TransactionWhUpdateModelReq | undefined
+  ): Observable<TransactionWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionDelete(
+    body: TransactionWhDeleteModelReq | undefined
+  ): Observable<TransactionWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionList(
+    body: TransactionWhListModelReq | undefined
+  ): Observable<TransactionWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionDetail(
+    body: TransactionWhDetailModelReq | undefined
+  ): Observable<TransactionWhDetailModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionFilter(
+    body: TransactionWhFilterModelReq | undefined
+  ): Observable<TransactionWhFilterModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitCreate(
+    body: UnitWhCreateModelReq | undefined
+  ): Observable<UnitWhCreateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitUpdate(
+    body: UnitWhUpdateModelReq | undefined
+  ): Observable<UnitWhUpdateModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitDelete(
+    body: UnitWhDeleteModelReq | undefined
+  ): Observable<UnitWhDeleteModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitList(
+    body: UnitWhListModelReq | undefined
+  ): Observable<UnitWhListModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitDetail(
+    body: UnitWhDetailModelReq | undefined
+  ): Observable<UnitWhDetailModelResApiResponse>;
 }
 
 @Injectable()
 export class WarehouseService implements IWarehouseService {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_WAREHOUSE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ?? "";
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    categoryCreate(body: CategoryWhCreateModelReq | undefined): Observable<CategoryWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/category/category-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCategoryCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCategoryCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<CategoryWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<CategoryWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processCategoryCreate(response: HttpResponseBase): Observable<CategoryWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CategoryWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<CategoryWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    categoryUpdate(body: CategoryWhUpdateModelReq | undefined): Observable<CategoryWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/category/category-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCategoryUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCategoryUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<CategoryWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<CategoryWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processCategoryUpdate(response: HttpResponseBase): Observable<CategoryWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CategoryWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<CategoryWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    categoryDelete(body: CategoryWhDeleteModelReq | undefined): Observable<CategoryWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/category/category-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCategoryDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCategoryDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<CategoryWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<CategoryWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processCategoryDelete(response: HttpResponseBase): Observable<CategoryWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CategoryWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<CategoryWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    categoryList(body: CategoryWhListModelReq | undefined): Observable<CategoryWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/category/category-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCategoryList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCategoryList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<CategoryWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<CategoryWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processCategoryList(response: HttpResponseBase): Observable<CategoryWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CategoryWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<CategoryWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailDetail(body: GoodsRetailWhCreateModelReq | undefined): Observable<GoodsRetailWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goodsretail/goodsretail-detail";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsretailDetail(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsretailDetail(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsRetailWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsRetailWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsretailDetail(response: HttpResponseBase): Observable<GoodsRetailWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsRetailWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsRetailWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailCreate(body: GoodsRetailWhCreateModelReq | undefined): Observable<GoodsRetailWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goodsretail/goodsretail-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsretailCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsretailCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsRetailWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsRetailWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsretailCreate(response: HttpResponseBase): Observable<GoodsRetailWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsRetailWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsRetailWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailUpdate(body: GoodsRetailWhUpdateModelReq | undefined): Observable<GoodsRetailWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goodsretail/goodsretail-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsretailUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsretailUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsRetailWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsRetailWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsretailUpdate(response: HttpResponseBase): Observable<GoodsRetailWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsRetailWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsRetailWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailDelete(body: GoodsRetailWhDeleteModelReq | undefined): Observable<GoodsRetailWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goodsretail/goodsretail-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsretailDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsretailDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsRetailWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsRetailWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsretailDelete(response: HttpResponseBase): Observable<GoodsRetailWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsRetailWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsRetailWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailList(body: GoodsRetailWhListModelReq | undefined): Observable<GoodsRetailWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goodsretail/goodsretail-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsretailList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsretailList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsRetailWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsRetailWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsretailList(response: HttpResponseBase): Observable<GoodsRetailWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsRetailWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsRetailWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsretailSearch(body: GoodsRetailWhSearchlModelReq | undefined): Observable<GoodsRetailWhSearchlModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goodsretail/goodsretail-search";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsretailSearch(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsretailSearch(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsRetailWhSearchlModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsRetailWhSearchlModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsretailSearch(response: HttpResponseBase): Observable<GoodsRetailWhSearchlModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsRetailWhSearchlModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsRetailWhSearchlModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsCreate(body: GoodsWhCreateModelReq | undefined): Observable<GoodsWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goods/goods-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsCreate(response: HttpResponseBase): Observable<GoodsWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsUpdate(body: GoodsWhUpdateModelReq | undefined): Observable<GoodsWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goods/goods-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsUpdate(response: HttpResponseBase): Observable<GoodsWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsDelete(body: GoodsWhDeleteModelReq | undefined): Observable<GoodsWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goods/goods-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsDelete(response: HttpResponseBase): Observable<GoodsWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsList(body: GoodsWhListModelReq | undefined): Observable<GoodsWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goods/goods-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsList(response: HttpResponseBase): Observable<GoodsWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsDetail(body: GoodsWhDetailModelReq | undefined): Observable<GoodsWhDetailModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goods/goods-detail";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsDetail(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsDetail(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsWhDetailModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsWhDetailModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsDetail(response: HttpResponseBase): Observable<GoodsWhDetailModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsWhDetailModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsWhDetailModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    goodsSearch(body: GoodsWhSearchListModelReq | undefined): Observable<GoodsWhSearchListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/goods/goods-search";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGoodsSearch(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGoodsSearch(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<GoodsWhSearchListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<GoodsWhSearchListModelResApiResponse>;
-        }));
-    }
-
-    protected processGoodsSearch(response: HttpResponseBase): Observable<GoodsWhSearchListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GoodsWhSearchListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GoodsWhSearchListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    inventoryCreate(body: InventoryWhCreateModelReq | undefined): Observable<InventoryWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/inventory/inventory-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processInventoryCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processInventoryCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<InventoryWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<InventoryWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processInventoryCreate(response: HttpResponseBase): Observable<InventoryWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as InventoryWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<InventoryWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    inventoryUpdate(body: InventoryWhUpdateModelReq | undefined): Observable<InventoryWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/inventory/inventory-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processInventoryUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processInventoryUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<InventoryWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<InventoryWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processInventoryUpdate(response: HttpResponseBase): Observable<InventoryWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as InventoryWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<InventoryWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    inventoryDelete(body: InventoryWhDeleteModelReq | undefined): Observable<InventoryWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/inventory/inventory-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processInventoryDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processInventoryDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<InventoryWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<InventoryWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processInventoryDelete(response: HttpResponseBase): Observable<InventoryWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as InventoryWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<InventoryWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    inventoryList(body: InventoryWhListModelReq | undefined): Observable<InventoryWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/inventory/inventory-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processInventoryList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processInventoryList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<InventoryWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<InventoryWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processInventoryList(response: HttpResponseBase): Observable<InventoryWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as InventoryWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<InventoryWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    orderCreate(body: OrderWhCreateModelReq | undefined): Observable<OrderWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/order/order-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processOrderCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processOrderCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<OrderWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<OrderWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processOrderCreate(response: HttpResponseBase): Observable<OrderWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OrderWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<OrderWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    orderUpdate(body: OrderWhUpdateModelReq | undefined): Observable<OrderWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/order/order-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processOrderUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processOrderUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<OrderWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<OrderWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processOrderUpdate(response: HttpResponseBase): Observable<OrderWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OrderWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<OrderWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    orderDelete(body: OrderWhDeleteModelReq | undefined): Observable<OrderWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/order/order-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processOrderDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processOrderDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<OrderWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<OrderWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processOrderDelete(response: HttpResponseBase): Observable<OrderWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OrderWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<OrderWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    orderList(body: OrderWhListModelReq | undefined): Observable<OrderWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/order/order-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processOrderList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processOrderList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<OrderWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<OrderWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processOrderList(response: HttpResponseBase): Observable<OrderWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OrderWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<OrderWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockCreate(body: StockWhCreateModelReq | undefined): Observable<StockWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/stock/stock-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processStockCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processStockCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<StockWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<StockWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processStockCreate(response: HttpResponseBase): Observable<StockWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StockWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<StockWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockUpdate(body: StockWhUpdateModelReq | undefined): Observable<StockWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/stock/stock-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processStockUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processStockUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<StockWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<StockWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processStockUpdate(response: HttpResponseBase): Observable<StockWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StockWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<StockWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockDelete(body: StockWhDeleteModelReq | undefined): Observable<StockWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/stock/stock-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processStockDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processStockDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<StockWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<StockWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processStockDelete(response: HttpResponseBase): Observable<StockWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StockWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<StockWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockList(body: StockWhListModelReq | undefined): Observable<StockWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/stock/stock-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processStockList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processStockList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<StockWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<StockWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processStockList(response: HttpResponseBase): Observable<StockWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StockWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<StockWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockSearch(body: StockWhSearchListModelReq | undefined): Observable<StockWhSearchListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/stock/stock-search";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processStockSearch(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processStockSearch(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<StockWhSearchListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<StockWhSearchListModelResApiResponse>;
-        }));
-    }
-
-    protected processStockSearch(response: HttpResponseBase): Observable<StockWhSearchListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StockWhSearchListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<StockWhSearchListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    stockDetail(body: StockWhDetailModelReq | undefined): Observable<StockWhDetailModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/stock/stock-detail";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processStockDetail(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processStockDetail(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<StockWhDetailModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<StockWhDetailModelResApiResponse>;
-        }));
-    }
-
-    protected processStockDetail(response: HttpResponseBase): Observable<StockWhDetailModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as StockWhDetailModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<StockWhDetailModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierCreate(body: SupplierWhCreateModelReq | undefined): Observable<SupplierWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/supplier/supplier-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSupplierCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processSupplierCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<SupplierWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<SupplierWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processSupplierCreate(response: HttpResponseBase): Observable<SupplierWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SupplierWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SupplierWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierUpdate(body: SupplierWhUpdateModelReq | undefined): Observable<SupplierWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/supplier/supplier-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSupplierUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processSupplierUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<SupplierWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<SupplierWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processSupplierUpdate(response: HttpResponseBase): Observable<SupplierWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SupplierWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SupplierWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierDelete(body: SupplierWhDeleteModelReq | undefined): Observable<SupplierWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/supplier/supplier-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSupplierDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processSupplierDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<SupplierWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<SupplierWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processSupplierDelete(response: HttpResponseBase): Observable<SupplierWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SupplierWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SupplierWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierList(body: SupplierWhListModelReq | undefined): Observable<SupplierWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/supplier/supplier-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSupplierList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processSupplierList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<SupplierWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<SupplierWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processSupplierList(response: HttpResponseBase): Observable<SupplierWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SupplierWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SupplierWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    supplierDetail(body: SupplierWhDetailModelReq | undefined): Observable<SupplierWhDetailModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/supplier/supplier-detail";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSupplierDetail(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processSupplierDetail(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<SupplierWhDetailModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<SupplierWhDetailModelResApiResponse>;
-        }));
-    }
-
-    protected processSupplierDetail(response: HttpResponseBase): Observable<SupplierWhDetailModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SupplierWhDetailModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SupplierWhDetailModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailCreate(body: TransactionRetailWhCreateModelReq | undefined): Observable<TransactionRetailWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transactionretail/transactionretail-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionretailCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionretailCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionRetailWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionRetailWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionretailCreate(response: HttpResponseBase): Observable<TransactionRetailWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionRetailWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionRetailWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailUpdate(body: TransactionRetailWhUpdateModelReq | undefined): Observable<TransactionRetailWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transactionretail/transactionretail-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionretailUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionretailUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionRetailWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionRetailWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionretailUpdate(response: HttpResponseBase): Observable<TransactionRetailWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionRetailWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionRetailWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailDelete(body: TransactionRetailWhDeleteModelReq | undefined): Observable<TransactionRetailWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transactionretail/transactionretail-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionretailDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionretailDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionRetailWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionRetailWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionretailDelete(response: HttpResponseBase): Observable<TransactionRetailWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionRetailWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionRetailWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailList(body: TransactionRetailWhListModelReq | undefined): Observable<TransactionRetailWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transactionretail/transactionretail-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionretailList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionretailList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionRetailWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionRetailWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionretailList(response: HttpResponseBase): Observable<TransactionRetailWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionRetailWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionRetailWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionretailDetail(body: TransactionRetailWhDetailModelReq | undefined): Observable<TransactionRetailWhDetailModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transactionretail/transactionretail-detail";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionretailDetail(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionretailDetail(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionRetailWhDetailModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionRetailWhDetailModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionretailDetail(response: HttpResponseBase): Observable<TransactionRetailWhDetailModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionRetailWhDetailModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionRetailWhDetailModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionCreate(body: TransactionWhCreateModelReq | undefined): Observable<TransactionWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transaction/transaction-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionCreate(response: HttpResponseBase): Observable<TransactionWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionUpdate(body: TransactionWhUpdateModelReq | undefined): Observable<TransactionWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transaction/transaction-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionUpdate(response: HttpResponseBase): Observable<TransactionWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionDelete(body: TransactionWhDeleteModelReq | undefined): Observable<TransactionWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transaction/transaction-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionDelete(response: HttpResponseBase): Observable<TransactionWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionList(body: TransactionWhListModelReq | undefined): Observable<TransactionWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transaction/transaction-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionList(response: HttpResponseBase): Observable<TransactionWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionDetail(body: TransactionWhDetailModelReq | undefined): Observable<TransactionWhDetailModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transaction/transaction-detail";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionDetail(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionDetail(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionWhDetailModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionWhDetailModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionDetail(response: HttpResponseBase): Observable<TransactionWhDetailModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionWhDetailModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionWhDetailModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    transactionFilter(body: TransactionWhFilterModelReq | undefined): Observable<TransactionWhFilterModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/transaction/transaction-filter";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processTransactionFilter(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processTransactionFilter(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TransactionWhFilterModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TransactionWhFilterModelResApiResponse>;
-        }));
-    }
-
-    protected processTransactionFilter(response: HttpResponseBase): Observable<TransactionWhFilterModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as TransactionWhFilterModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TransactionWhFilterModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitCreate(body: UnitWhCreateModelReq | undefined): Observable<UnitWhCreateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/unit/unit-create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUnitCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUnitCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<UnitWhCreateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<UnitWhCreateModelResApiResponse>;
-        }));
-    }
-
-    protected processUnitCreate(response: HttpResponseBase): Observable<UnitWhCreateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UnitWhCreateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<UnitWhCreateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitUpdate(body: UnitWhUpdateModelReq | undefined): Observable<UnitWhUpdateModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/unit/unit-update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUnitUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUnitUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<UnitWhUpdateModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<UnitWhUpdateModelResApiResponse>;
-        }));
-    }
-
-    protected processUnitUpdate(response: HttpResponseBase): Observable<UnitWhUpdateModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UnitWhUpdateModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<UnitWhUpdateModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitDelete(body: UnitWhDeleteModelReq | undefined): Observable<UnitWhDeleteModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/unit/unit-delete";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUnitDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUnitDelete(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<UnitWhDeleteModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<UnitWhDeleteModelResApiResponse>;
-        }));
-    }
-
-    protected processUnitDelete(response: HttpResponseBase): Observable<UnitWhDeleteModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UnitWhDeleteModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<UnitWhDeleteModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitList(body: UnitWhListModelReq | undefined): Observable<UnitWhListModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/unit/unit-list";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUnitList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUnitList(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<UnitWhListModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<UnitWhListModelResApiResponse>;
-        }));
-    }
-
-    protected processUnitList(response: HttpResponseBase): Observable<UnitWhListModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UnitWhListModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<UnitWhListModelResApiResponse>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return OK
-     */
-    unitDetail(body: UnitWhDetailModelReq | undefined): Observable<UnitWhDetailModelResApiResponse> {
-        let url_ = this.baseUrl + "/api/wh/unit/unit-detail";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUnitDetail(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUnitDetail(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<UnitWhDetailModelResApiResponse>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<UnitWhDetailModelResApiResponse>;
-        }));
-    }
-
-    protected processUnitDetail(response: HttpResponseBase): Observable<UnitWhDetailModelResApiResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UnitWhDetailModelResApiResponse;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<UnitWhDetailModelResApiResponse>(null as any);
-    }
+  private http: HttpClient;
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+    undefined;
+
+  constructor(
+    @Inject(HttpClient) http: HttpClient,
+    @Optional() @Inject(API_WAREHOUSE_URL) baseUrl?: string
+  ) {
+    this.http = http;
+    this.baseUrl = baseUrl ?? '';
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  categoryCreate(
+    body: CategoryWhCreateModelReq | undefined
+  ): Observable<CategoryWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/category/category-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<CategoryWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<CategoryWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processCategoryCreate(
+    response: HttpResponseBase
+  ): Observable<CategoryWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as CategoryWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<CategoryWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  categoryUpdate(
+    body: CategoryWhUpdateModelReq | undefined
+  ): Observable<CategoryWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/category/category-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<CategoryWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<CategoryWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processCategoryUpdate(
+    response: HttpResponseBase
+  ): Observable<CategoryWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as CategoryWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<CategoryWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  categoryDelete(
+    body: CategoryWhDeleteModelReq | undefined
+  ): Observable<CategoryWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/category/category-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<CategoryWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<CategoryWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processCategoryDelete(
+    response: HttpResponseBase
+  ): Observable<CategoryWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as CategoryWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<CategoryWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  categoryList(
+    body: CategoryWhListModelReq | undefined
+  ): Observable<CategoryWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/category/category-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCategoryList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCategoryList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<CategoryWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<CategoryWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processCategoryList(
+    response: HttpResponseBase
+  ): Observable<CategoryWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as CategoryWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<CategoryWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailDetail(
+    body: GoodsRetailWhCreateModelReq | undefined
+  ): Observable<GoodsRetailWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goodsretail/goodsretail-detail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsretailDetail(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsretailDetail(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsRetailWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsRetailWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsretailDetail(
+    response: HttpResponseBase
+  ): Observable<GoodsRetailWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsRetailWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsRetailWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailCreate(
+    body: GoodsRetailWhCreateModelReq | undefined
+  ): Observable<GoodsRetailWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goodsretail/goodsretail-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsretailCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsretailCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsRetailWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsRetailWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsretailCreate(
+    response: HttpResponseBase
+  ): Observable<GoodsRetailWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsRetailWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsRetailWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailUpdate(
+    body: GoodsRetailWhUpdateModelReq | undefined
+  ): Observable<GoodsRetailWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goodsretail/goodsretail-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsretailUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsretailUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsRetailWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsRetailWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsretailUpdate(
+    response: HttpResponseBase
+  ): Observable<GoodsRetailWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsRetailWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsRetailWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailDelete(
+    body: GoodsRetailWhDeleteModelReq | undefined
+  ): Observable<GoodsRetailWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goodsretail/goodsretail-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsretailDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsretailDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsRetailWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsRetailWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsretailDelete(
+    response: HttpResponseBase
+  ): Observable<GoodsRetailWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsRetailWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsRetailWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailList(
+    body: GoodsRetailWhListModelReq | undefined
+  ): Observable<GoodsRetailWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goodsretail/goodsretail-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsretailList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsretailList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsRetailWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsRetailWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsretailList(
+    response: HttpResponseBase
+  ): Observable<GoodsRetailWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsRetailWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsRetailWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsretailSearch(
+    body: GoodsRetailWhSearchlModelReq | undefined
+  ): Observable<GoodsRetailWhSearchlModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goodsretail/goodsretail-search';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsretailSearch(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsretailSearch(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsRetailWhSearchlModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsRetailWhSearchlModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsretailSearch(
+    response: HttpResponseBase
+  ): Observable<GoodsRetailWhSearchlModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsRetailWhSearchlModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsRetailWhSearchlModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @return OK
+   */
+  goodsretailListForMachine(): Observable<GoodsRetailWhListModelResApiResponse> {
+    let url_ =
+      this.baseUrl + '/api/wh/goodsretail/goodsretail-list-for-machine';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsretailListForMachine(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsretailListForMachine(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsRetailWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsRetailWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsretailListForMachine(
+    response: HttpResponseBase
+  ): Observable<GoodsRetailWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsRetailWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsRetailWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsCreate(
+    body: GoodsWhCreateModelReq | undefined
+  ): Observable<GoodsWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goods/goods-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsCreate(
+    response: HttpResponseBase
+  ): Observable<GoodsWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsUpdate(
+    body: GoodsWhUpdateModelReq | undefined
+  ): Observable<GoodsWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goods/goods-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsUpdate(
+    response: HttpResponseBase
+  ): Observable<GoodsWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsDelete(
+    body: GoodsWhDeleteModelReq | undefined
+  ): Observable<GoodsWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goods/goods-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsDelete(
+    response: HttpResponseBase
+  ): Observable<GoodsWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsList(
+    body: GoodsWhListModelReq | undefined
+  ): Observable<GoodsWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goods/goods-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsList(
+    response: HttpResponseBase
+  ): Observable<GoodsWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsDetail(
+    body: GoodsWhDetailModelReq | undefined
+  ): Observable<GoodsWhDetailModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goods/goods-detail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsDetail(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsDetail(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsWhDetailModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsWhDetailModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsDetail(
+    response: HttpResponseBase
+  ): Observable<GoodsWhDetailModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsWhDetailModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsWhDetailModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  goodsSearch(
+    body: GoodsWhSearchListModelReq | undefined
+  ): Observable<GoodsWhSearchListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/goods/goods-search';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGoodsSearch(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGoodsSearch(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<GoodsWhSearchListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<GoodsWhSearchListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processGoodsSearch(
+    response: HttpResponseBase
+  ): Observable<GoodsWhSearchListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as GoodsWhSearchListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<GoodsWhSearchListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  inventoryCreate(
+    body: InventoryWhCreateModelReq | undefined
+  ): Observable<InventoryWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/inventory/inventory-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processInventoryCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processInventoryCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<InventoryWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<InventoryWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processInventoryCreate(
+    response: HttpResponseBase
+  ): Observable<InventoryWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as InventoryWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<InventoryWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  inventoryUpdate(
+    body: InventoryWhUpdateModelReq | undefined
+  ): Observable<InventoryWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/inventory/inventory-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processInventoryUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processInventoryUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<InventoryWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<InventoryWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processInventoryUpdate(
+    response: HttpResponseBase
+  ): Observable<InventoryWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as InventoryWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<InventoryWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  inventoryDelete(
+    body: InventoryWhDeleteModelReq | undefined
+  ): Observable<InventoryWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/inventory/inventory-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processInventoryDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processInventoryDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<InventoryWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<InventoryWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processInventoryDelete(
+    response: HttpResponseBase
+  ): Observable<InventoryWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as InventoryWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<InventoryWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  inventoryList(
+    body: InventoryWhListModelReq | undefined
+  ): Observable<InventoryWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/inventory/inventory-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processInventoryList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processInventoryList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<InventoryWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<InventoryWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processInventoryList(
+    response: HttpResponseBase
+  ): Observable<InventoryWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as InventoryWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<InventoryWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  orderCreate(
+    body: OrderWhCreateModelReq | undefined
+  ): Observable<OrderWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/order/order-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<OrderWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<OrderWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processOrderCreate(
+    response: HttpResponseBase
+  ): Observable<OrderWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as OrderWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<OrderWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  orderUpdate(
+    body: OrderWhUpdateModelReq | undefined
+  ): Observable<OrderWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/order/order-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<OrderWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<OrderWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processOrderUpdate(
+    response: HttpResponseBase
+  ): Observable<OrderWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as OrderWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<OrderWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  orderDelete(
+    body: OrderWhDeleteModelReq | undefined
+  ): Observable<OrderWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/order/order-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<OrderWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<OrderWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processOrderDelete(
+    response: HttpResponseBase
+  ): Observable<OrderWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as OrderWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<OrderWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  orderList(
+    body: OrderWhListModelReq | undefined
+  ): Observable<OrderWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/order/order-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processOrderList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processOrderList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<OrderWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<OrderWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processOrderList(
+    response: HttpResponseBase
+  ): Observable<OrderWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as OrderWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<OrderWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockCreate(
+    body: StockWhCreateModelReq | undefined
+  ): Observable<StockWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/stock/stock-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processStockCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processStockCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<StockWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<StockWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processStockCreate(
+    response: HttpResponseBase
+  ): Observable<StockWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as StockWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<StockWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockUpdate(
+    body: StockWhUpdateModelReq | undefined
+  ): Observable<StockWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/stock/stock-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processStockUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processStockUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<StockWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<StockWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processStockUpdate(
+    response: HttpResponseBase
+  ): Observable<StockWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as StockWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<StockWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockDelete(
+    body: StockWhDeleteModelReq | undefined
+  ): Observable<StockWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/stock/stock-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processStockDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processStockDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<StockWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<StockWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processStockDelete(
+    response: HttpResponseBase
+  ): Observable<StockWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as StockWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<StockWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockList(
+    body: StockWhListModelReq | undefined
+  ): Observable<StockWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/stock/stock-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processStockList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processStockList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<StockWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<StockWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processStockList(
+    response: HttpResponseBase
+  ): Observable<StockWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as StockWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<StockWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockSearch(
+    body: StockWhSearchListModelReq | undefined
+  ): Observable<StockWhSearchListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/stock/stock-search';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processStockSearch(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processStockSearch(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<StockWhSearchListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<StockWhSearchListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processStockSearch(
+    response: HttpResponseBase
+  ): Observable<StockWhSearchListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as StockWhSearchListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<StockWhSearchListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  stockDetail(
+    body: StockWhDetailModelReq | undefined
+  ): Observable<StockWhDetailModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/stock/stock-detail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processStockDetail(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processStockDetail(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<StockWhDetailModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<StockWhDetailModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processStockDetail(
+    response: HttpResponseBase
+  ): Observable<StockWhDetailModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as StockWhDetailModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<StockWhDetailModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierCreate(
+    body: SupplierWhCreateModelReq | undefined
+  ): Observable<SupplierWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/supplier/supplier-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<SupplierWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<SupplierWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processSupplierCreate(
+    response: HttpResponseBase
+  ): Observable<SupplierWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as SupplierWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<SupplierWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierUpdate(
+    body: SupplierWhUpdateModelReq | undefined
+  ): Observable<SupplierWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/supplier/supplier-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<SupplierWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<SupplierWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processSupplierUpdate(
+    response: HttpResponseBase
+  ): Observable<SupplierWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as SupplierWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<SupplierWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierDelete(
+    body: SupplierWhDeleteModelReq | undefined
+  ): Observable<SupplierWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/supplier/supplier-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<SupplierWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<SupplierWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processSupplierDelete(
+    response: HttpResponseBase
+  ): Observable<SupplierWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as SupplierWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<SupplierWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierList(
+    body: SupplierWhListModelReq | undefined
+  ): Observable<SupplierWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/supplier/supplier-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<SupplierWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<SupplierWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processSupplierList(
+    response: HttpResponseBase
+  ): Observable<SupplierWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as SupplierWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<SupplierWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  supplierDetail(
+    body: SupplierWhDetailModelReq | undefined
+  ): Observable<SupplierWhDetailModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/supplier/supplier-detail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processSupplierDetail(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processSupplierDetail(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<SupplierWhDetailModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<SupplierWhDetailModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processSupplierDetail(
+    response: HttpResponseBase
+  ): Observable<SupplierWhDetailModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as SupplierWhDetailModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<SupplierWhDetailModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailCreate(
+    body: TransactionRetailWhCreateModelReq | undefined
+  ): Observable<TransactionRetailWhCreateModelResApiResponse> {
+    let url_ =
+      this.baseUrl + '/api/wh/transactionretail/transactionretail-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionretailCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionretailCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionRetailWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionRetailWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionretailCreate(
+    response: HttpResponseBase
+  ): Observable<TransactionRetailWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionRetailWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionRetailWhCreateModelResApiResponse>(
+      null as any
+    );
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailUpdate(
+    body: TransactionRetailWhUpdateModelReq | undefined
+  ): Observable<TransactionRetailWhUpdateModelResApiResponse> {
+    let url_ =
+      this.baseUrl + '/api/wh/transactionretail/transactionretail-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionretailUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionretailUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionRetailWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionRetailWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionretailUpdate(
+    response: HttpResponseBase
+  ): Observable<TransactionRetailWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionRetailWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionRetailWhUpdateModelResApiResponse>(
+      null as any
+    );
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailDelete(
+    body: TransactionRetailWhDeleteModelReq | undefined
+  ): Observable<TransactionRetailWhDeleteModelResApiResponse> {
+    let url_ =
+      this.baseUrl + '/api/wh/transactionretail/transactionretail-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionretailDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionretailDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionRetailWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionRetailWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionretailDelete(
+    response: HttpResponseBase
+  ): Observable<TransactionRetailWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionRetailWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionRetailWhDeleteModelResApiResponse>(
+      null as any
+    );
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailList(
+    body: TransactionRetailWhListModelReq | undefined
+  ): Observable<TransactionRetailWhListModelResApiResponse> {
+    let url_ =
+      this.baseUrl + '/api/wh/transactionretail/transactionretail-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionretailList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionretailList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionRetailWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionRetailWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionretailList(
+    response: HttpResponseBase
+  ): Observable<TransactionRetailWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionRetailWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionRetailWhListModelResApiResponse>(
+      null as any
+    );
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailDetail(
+    body: TransactionRetailWhDetailModelReq | undefined
+  ): Observable<TransactionRetailWhDetailModelResApiResponse> {
+    let url_ =
+      this.baseUrl + '/api/wh/transactionretail/transactionretail-detail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionretailDetail(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionretailDetail(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionRetailWhDetailModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionRetailWhDetailModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionretailDetail(
+    response: HttpResponseBase
+  ): Observable<TransactionRetailWhDetailModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionRetailWhDetailModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionRetailWhDetailModelResApiResponse>(
+      null as any
+    );
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionCreate(
+    body: TransactionWhCreateModelReq | undefined
+  ): Observable<TransactionWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/transaction/transaction-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionCreate(
+    response: HttpResponseBase
+  ): Observable<TransactionWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionUpdate(
+    body: TransactionWhUpdateModelReq | undefined
+  ): Observable<TransactionWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/transaction/transaction-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionUpdate(
+    response: HttpResponseBase
+  ): Observable<TransactionWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionDelete(
+    body: TransactionWhDeleteModelReq | undefined
+  ): Observable<TransactionWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/transaction/transaction-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionDelete(
+    response: HttpResponseBase
+  ): Observable<TransactionWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionList(
+    body: TransactionWhListModelReq | undefined
+  ): Observable<TransactionWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/transaction/transaction-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionList(
+    response: HttpResponseBase
+  ): Observable<TransactionWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionDetail(
+    body: TransactionWhDetailModelReq | undefined
+  ): Observable<TransactionWhDetailModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/transaction/transaction-detail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionDetail(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionDetail(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionWhDetailModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionWhDetailModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionDetail(
+    response: HttpResponseBase
+  ): Observable<TransactionWhDetailModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionWhDetailModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionWhDetailModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionFilter(
+    body: TransactionWhFilterModelReq | undefined
+  ): Observable<TransactionWhFilterModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/transaction/transaction-filter';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionFilter(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionFilter(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionWhFilterModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionWhFilterModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionFilter(
+    response: HttpResponseBase
+  ): Observable<TransactionWhFilterModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionWhFilterModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionWhFilterModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitCreate(
+    body: UnitWhCreateModelReq | undefined
+  ): Observable<UnitWhCreateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/unit/unit-create';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUnitCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUnitCreate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<UnitWhCreateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<UnitWhCreateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processUnitCreate(
+    response: HttpResponseBase
+  ): Observable<UnitWhCreateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as UnitWhCreateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<UnitWhCreateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitUpdate(
+    body: UnitWhUpdateModelReq | undefined
+  ): Observable<UnitWhUpdateModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/unit/unit-update';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUnitUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUnitUpdate(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<UnitWhUpdateModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<UnitWhUpdateModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processUnitUpdate(
+    response: HttpResponseBase
+  ): Observable<UnitWhUpdateModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as UnitWhUpdateModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<UnitWhUpdateModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitDelete(
+    body: UnitWhDeleteModelReq | undefined
+  ): Observable<UnitWhDeleteModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/unit/unit-delete';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUnitDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUnitDelete(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<UnitWhDeleteModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<UnitWhDeleteModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processUnitDelete(
+    response: HttpResponseBase
+  ): Observable<UnitWhDeleteModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as UnitWhDeleteModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<UnitWhDeleteModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitList(
+    body: UnitWhListModelReq | undefined
+  ): Observable<UnitWhListModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/unit/unit-list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUnitList(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUnitList(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<UnitWhListModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<UnitWhListModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processUnitList(
+    response: HttpResponseBase
+  ): Observable<UnitWhListModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as UnitWhListModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<UnitWhListModelResApiResponse>(null as any);
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  unitDetail(
+    body: UnitWhDetailModelReq | undefined
+  ): Observable<UnitWhDetailModelResApiResponse> {
+    let url_ = this.baseUrl + '/api/wh/unit/unit-detail';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUnitDetail(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUnitDetail(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<UnitWhDetailModelResApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<UnitWhDetailModelResApiResponse>;
+        })
+      );
+  }
+
+  protected processUnitDetail(
+    response: HttpResponseBase
+  ): Observable<UnitWhDetailModelResApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as UnitWhDetailModelResApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<UnitWhDetailModelResApiResponse>(null as any);
+  }
 }
 
 export interface CategoryWhCreateModelReq {
-    name: string;
+  name: string;
 }
 
-export interface CategoryWhCreateModelRes {
-}
+export interface CategoryWhCreateModelRes {}
 
 export interface CategoryWhCreateModelResApiResponse {
-    data?: CategoryWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: CategoryWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface CategoryWhDeleteModelReq {
-    id?: string;
+  id?: string;
 }
 
-export interface CategoryWhDeleteModelRes {
-}
+export interface CategoryWhDeleteModelRes {}
 
 export interface CategoryWhDeleteModelResApiResponse {
-    data?: CategoryWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: CategoryWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface CategoryWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export interface CategoryWhListModelRes {
-    list?: CategoryWhModel[] | null;
+  list?: CategoryWhModel[] | null;
 }
 
 export interface CategoryWhListModelResApiResponse {
-    data?: CategoryWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: CategoryWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface CategoryWhModel {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
 }
 
 export interface CategoryWhUpdateModelReq {
-    id?: string;
-    name?: string | null;
+  id?: string;
+  name?: string | null;
 }
 
-export interface CategoryWhUpdateModelRes {
-}
+export interface CategoryWhUpdateModelRes {}
 
 export interface CategoryWhUpdateModelResApiResponse {
-    data?: CategoryWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: CategoryWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsDetailWhModel {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
-    description?: string | null;
-    categoryId?: string;
-    categoryName?: string | null;
-    goodsCode?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
+  description?: string | null;
+  categoryId?: string;
+  categoryName?: string | null;
+  goodsCode?: string | null;
 }
 
 export interface GoodsRetailInstance {
-    id?: string;
-    goodsId?: string;
-    goodsCode?: string | null;
-    goodsName?: string | null;
-    price?: number;
-    transDetailId?: string;
+  id?: string;
+  goodsId?: string;
+  goodsCode?: string | null;
+  goodsName?: string | null;
+  price?: number;
+  transDetailId?: string;
 }
 
 export interface GoodsRetailModelRes {
-    goodsName?: string | null;
-    goodsRetails?: GoodsRetailInstance[] | null;
+  goodsName?: string | null;
+  goodsRetails?: GoodsRetailInstance[] | null;
 }
 
 export interface GoodsRetailWhCreateModelReq {
-    listReq?: GoodsRetailWhCreateSubModelReq[] | null;
+  listReq?: GoodsRetailWhCreateSubModelReq[] | null;
 }
 
-export interface GoodsRetailWhCreateModelRes {
-}
+export interface GoodsRetailWhCreateModelRes {}
 
 export interface GoodsRetailWhCreateModelResApiResponse {
-    data?: GoodsRetailWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsRetailWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsRetailWhCreateSubModelReq {
-    goodsId?: string;
-    goodsCode?: string | null;
-    goodsName?: string | null;
-    price?: number;
-    transDetailId?: string;
+  goodsId?: string;
+  goodsCode?: string | null;
+  goodsName?: string | null;
+  price?: number;
+  transDetailId?: string;
 }
 
-export interface GoodsRetailWhDeleteModelReq {
-}
+export interface GoodsRetailWhDeleteModelReq {}
 
-export interface GoodsRetailWhDeleteModelRes {
-}
+export interface GoodsRetailWhDeleteModelRes {}
 
 export interface GoodsRetailWhDeleteModelResApiResponse {
-    data?: GoodsRetailWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsRetailWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsRetailWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export interface GoodsRetailWhListModelRes {
-    list?: GoodsRetailModelRes[] | null;
+  list?: GoodsRetailModelRes[] | null;
 }
 
 export interface GoodsRetailWhListModelResApiResponse {
-    data?: GoodsRetailWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsRetailWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsRetailWhSearchlModelReq {
-    textSearch?: string | null;
+  textSearch?: string | null;
 }
 
 export interface GoodsRetailWhSearchlModelRes {
-    goodsName?: string | null;
-    price?: number;
-    unitName?: string | null;
-    unitId?: string | null;
-    transDetailId?: string | null;
-    goodsId?: string | null;
-    goodsCode?: string | null;
+  goodsName?: string | null;
+  price?: number;
+  unitName?: string | null;
+  unitId?: string | null;
+  transDetailId?: string | null;
+  goodsId?: string | null;
+  goodsCode?: string | null;
 }
 
 export interface GoodsRetailWhSearchlModelResApiResponse {
-    data?: GoodsRetailWhSearchlModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsRetailWhSearchlModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsRetailWhUpdateModelReq {
-    id?: string;
-    price?: number;
+  id?: string;
+  price?: number;
 }
 
-export interface GoodsRetailWhUpdateModelRes {
-}
+export interface GoodsRetailWhUpdateModelRes {}
 
 export interface GoodsRetailWhUpdateModelResApiResponse {
-    data?: GoodsRetailWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsRetailWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhCreateModelReq {
-    goodsCode: string;
-    name: string;
-    description?: string | null;
-    categoryId: string;
+  goodsCode: string;
+  name: string;
+  description?: string | null;
+  categoryId: string;
 }
 
-export interface GoodsWhCreateModelRes {
-}
+export interface GoodsWhCreateModelRes {}
 
 export interface GoodsWhCreateModelResApiResponse {
-    data?: GoodsWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhDeleteModelReq {
-    id?: string;
+  id?: string;
 }
 
-export interface GoodsWhDeleteModelRes {
-}
+export interface GoodsWhDeleteModelRes {}
 
 export interface GoodsWhDeleteModelResApiResponse {
-    data?: GoodsWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhDetailModelReq {
-    id?: string;
-    goodsCode?: string | null;
+  id?: string;
+  goodsCode?: string | null;
 }
 
 export interface GoodsWhDetailModelRes {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
-    description?: string | null;
-    categoryId?: string;
-    categoryName?: string | null;
-    goodsCode?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
+  description?: string | null;
+  categoryId?: string;
+  categoryName?: string | null;
+  goodsCode?: string | null;
 }
 
 export interface GoodsWhDetailModelResApiResponse {
-    data?: GoodsWhDetailModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsWhDetailModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export interface GoodsWhListModelRes {
-    list?: GoodsDetailWhModel[] | null;
+  list?: GoodsDetailWhModel[] | null;
 }
 
 export interface GoodsWhListModelResApiResponse {
-    data?: GoodsWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhSearchListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
-    textSearch?: string | null;
+  pageNumber?: number;
+  pageSize?: number;
+  textSearch?: string | null;
 }
 
 export interface GoodsWhSearchListModelRes {
-    list?: GoodsDetailWhModel[] | null;
+  list?: GoodsDetailWhModel[] | null;
 }
 
 export interface GoodsWhSearchListModelResApiResponse {
-    data?: GoodsWhSearchListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsWhSearchListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface GoodsWhUpdateModelReq {
-    id?: string;
-    name?: string | null;
-    description?: string | null;
-    categoryId?: string;
+  id?: string;
+  name?: string | null;
+  description?: string | null;
+  categoryId?: string;
 }
 
-export interface GoodsWhUpdateModelRes {
-}
+export interface GoodsWhUpdateModelRes {}
 
 export interface GoodsWhUpdateModelResApiResponse {
-    data?: GoodsWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: GoodsWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
-export interface InventoryWhCreateModelReq {
-}
+export interface InventoryWhCreateModelReq {}
 
-export interface InventoryWhCreateModelRes {
-}
+export interface InventoryWhCreateModelRes {}
 
 export interface InventoryWhCreateModelResApiResponse {
-    data?: InventoryWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: InventoryWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
-export interface InventoryWhDeleteModelReq {
-}
+export interface InventoryWhDeleteModelReq {}
 
-export interface InventoryWhDeleteModelRes {
-}
+export interface InventoryWhDeleteModelRes {}
 
 export interface InventoryWhDeleteModelResApiResponse {
-    data?: InventoryWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: InventoryWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface InventoryWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
-export interface InventoryWhListModelRes {
-}
+export interface InventoryWhListModelRes {}
 
 export interface InventoryWhListModelResApiResponse {
-    data?: InventoryWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: InventoryWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
-export interface InventoryWhUpdateModelReq {
-}
+export interface InventoryWhUpdateModelReq {}
 
-export interface InventoryWhUpdateModelRes {
-}
+export interface InventoryWhUpdateModelRes {}
 
 export interface InventoryWhUpdateModelResApiResponse {
-    data?: InventoryWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: InventoryWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface MetaData {
-    statusCode?: string | null;
-    message?: string | null;
+  statusCode?: string | null;
+  message?: string | null;
 }
 
 export interface OrderWhCreateModelReq {
-    name: string;
+  name: string;
 }
 
-export interface OrderWhCreateModelRes {
-}
+export interface OrderWhCreateModelRes {}
 
 export interface OrderWhCreateModelResApiResponse {
-    data?: OrderWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: OrderWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface OrderWhDeleteModelReq {
-    id?: string;
+  id?: string;
 }
 
-export interface OrderWhDeleteModelRes {
-}
+export interface OrderWhDeleteModelRes {}
 
 export interface OrderWhDeleteModelResApiResponse {
-    data?: OrderWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: OrderWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface OrderWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export interface OrderWhListModelRes {
-    list?: OrderWhModel[] | null;
+  list?: OrderWhModel[] | null;
 }
 
 export interface OrderWhListModelResApiResponse {
-    data?: OrderWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: OrderWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface OrderWhModel {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
 }
 
 export interface OrderWhUpdateModelReq {
-    id?: string;
-    name?: string | null;
+  id?: string;
+  name?: string | null;
 }
 
-export interface OrderWhUpdateModelRes {
-}
+export interface OrderWhUpdateModelRes {}
 
 export interface OrderWhUpdateModelResApiResponse {
-    data?: OrderWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: OrderWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface PageInfo {
-    currentPage?: number;
-    totalPage?: number;
+  currentPage?: number;
+  totalPage?: number;
 }
 
 export interface StockWhCreateModelReq {
-    name: string;
-    address: string;
+  name: string;
+  address: string;
 }
 
-export interface StockWhCreateModelRes {
-}
+export interface StockWhCreateModelRes {}
 
 export interface StockWhCreateModelResApiResponse {
-    data?: StockWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: StockWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhDeleteModelReq {
-    id?: string;
+  id?: string;
 }
 
-export interface StockWhDeleteModelRes {
-}
+export interface StockWhDeleteModelRes {}
 
 export interface StockWhDeleteModelResApiResponse {
-    data?: StockWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: StockWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhDetailModelReq {
-    id: string;
+  id: string;
 }
 
 export interface StockWhDetailModelRes {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
-    address?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
+  address?: string | null;
 }
 
 export interface StockWhDetailModelResApiResponse {
-    data?: StockWhDetailModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: StockWhDetailModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export interface StockWhListModelRes {
-    list?: StockWhModel[] | null;
+  list?: StockWhModel[] | null;
 }
 
 export interface StockWhListModelResApiResponse {
-    data?: StockWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: StockWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhModel {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
-    address?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
+  address?: string | null;
 }
 
 export interface StockWhSearchListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
-    textSearch?: string | null;
+  pageNumber?: number;
+  pageSize?: number;
+  textSearch?: string | null;
 }
 
 export interface StockWhSearchListModelRes {
-    list?: StockWhModel[] | null;
+  list?: StockWhModel[] | null;
 }
 
 export interface StockWhSearchListModelResApiResponse {
-    data?: StockWhSearchListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: StockWhSearchListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface StockWhUpdateModelReq {
-    id: string;
-    name: string;
-    address: string;
+  id: string;
+  name: string;
+  address: string;
 }
 
-export interface StockWhUpdateModelRes {
-}
+export interface StockWhUpdateModelRes {}
 
 export interface StockWhUpdateModelResApiResponse {
-    data?: StockWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: StockWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SubTransactionWhCreateModelReq {
-    goodsId?: string;
-    supplierId?: string | null;
-    unitId?: string;
-    unitPrice?: number;
-    quantity?: number;
-    totalPrice?: number;
-    dateOfManufacture?: Date | null;
-    dateOfExpired?: Date | null;
+  goodsId?: string;
+  supplierId?: string | null;
+  unitId?: string;
+  unitPrice?: number;
+  quantity?: number;
+  totalPrice?: number;
+  dateOfManufacture?: Date | null;
+  dateOfExpired?: Date | null;
 }
 
 export interface SupplierModel {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
-    address?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
+  address?: string | null;
 }
 
 export interface SupplierWhCreateModelReq {
-    name?: string | null;
-    address?: string | null;
+  name?: string | null;
+  address?: string | null;
 }
 
-export interface SupplierWhCreateModelRes {
-}
+export interface SupplierWhCreateModelRes {}
 
 export interface SupplierWhCreateModelResApiResponse {
-    data?: SupplierWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: SupplierWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SupplierWhDeleteModelReq {
-    id?: string;
+  id?: string;
 }
 
-export interface SupplierWhDeleteModelRes {
-}
+export interface SupplierWhDeleteModelRes {}
 
 export interface SupplierWhDeleteModelResApiResponse {
-    data?: SupplierWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: SupplierWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SupplierWhDetailModelReq {
-    id?: string;
+  id?: string;
 }
 
 export interface SupplierWhDetailModelRes {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
-    address?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
+  address?: string | null;
 }
 
 export interface SupplierWhDetailModelResApiResponse {
-    data?: SupplierWhDetailModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: SupplierWhDetailModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SupplierWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export interface SupplierWhListModelRes {
-    list?: SupplierModel[] | null;
+  list?: SupplierModel[] | null;
 }
 
 export interface SupplierWhListModelResApiResponse {
-    data?: SupplierWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: SupplierWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface SupplierWhUpdateModelReq {
-    id?: string;
-    name?: string | null;
-    address?: string | null;
+  id?: string;
+  name?: string | null;
+  address?: string | null;
 }
 
-export interface SupplierWhUpdateModelRes {
-}
+export interface SupplierWhUpdateModelRes {}
 
 export interface SupplierWhUpdateModelResApiResponse {
-    data?: SupplierWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: SupplierWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TranRetailDTO {
-    goodsId: string;
-    goodsName: string;
-    goodsCode: string;
-    quantity?: number;
-    price?: number;
-    unitId?: string | null;
-    transDetailId?: string | null;
-    totalPrice?: number;
+  goodsId: string;
+  goodsName: string;
+  goodsCode: string;
+  quantity?: number;
+  price?: number;
+  unitId?: string | null;
+  transDetailId?: string | null;
 }
 
 export interface TransactionDetailModels {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    goodsCode?: string | null;
-    goodsName?: string | null;
-    supplierName?: string | null;
-    unitName?: string | null;
-    unitPrice?: number;
-    totalPrice?: number;
-    quantity?: number;
-    dateOfManufacture?: Date | null;
-    dateOfExpired?: Date | null;
-    stockName?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  goodsCode?: string | null;
+  goodsName?: string | null;
+  supplierName?: string | null;
+  unitName?: string | null;
+  unitPrice?: number;
+  totalPrice?: number;
+  quantity?: number;
+  dateOfManufacture?: Date | null;
+  dateOfExpired?: Date | null;
+  stockName?: string | null;
 }
 
 export interface TransactionRetailWhCreateModelReq {
-    items?: TranRetailDTO[] | null;
+  items?: TranRetailDTO[] | null;
 }
 
-export interface TransactionRetailWhCreateModelRes {
-}
+export interface TransactionRetailWhCreateModelRes {}
 
 export interface TransactionRetailWhCreateModelResApiResponse {
-    data?: TransactionRetailWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionRetailWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
-export interface TransactionRetailWhDeleteModelReq {
-}
+export interface TransactionRetailWhDeleteModelReq {}
 
-export interface TransactionRetailWhDeleteModelRes {
-}
+export interface TransactionRetailWhDeleteModelRes {}
 
 export interface TransactionRetailWhDeleteModelResApiResponse {
-    data?: TransactionRetailWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionRetailWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
-export interface TransactionRetailWhDetailModelReq {
-}
+export interface TransactionRetailWhDetailModelReq {}
 
 export interface TransactionRetailWhDetailModelRes {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
 }
 
 export interface TransactionRetailWhDetailModelResApiResponse {
-    data?: TransactionRetailWhDetailModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionRetailWhDetailModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionRetailWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
-export interface TransactionRetailWhListModelRes {
-}
+export interface TransactionRetailWhListModelRes {}
 
 export interface TransactionRetailWhListModelResApiResponse {
-    data?: TransactionRetailWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionRetailWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
-export interface TransactionRetailWhUpdateModelReq {
-}
+export interface TransactionRetailWhUpdateModelReq {}
 
-export interface TransactionRetailWhUpdateModelRes {
-}
+export interface TransactionRetailWhUpdateModelRes {}
 
 export interface TransactionRetailWhUpdateModelResApiResponse {
-    data?: TransactionRetailWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionRetailWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhCreateModelReq {
-    transactionCode?: string | null;
-    transactionType?: string | null;
-    transactionDate?: Date | null;
-    totalPrice?: number;
-    stockId?: string;
-    details?: SubTransactionWhCreateModelReq[] | null;
+  transactionCode?: string | null;
+  transactionType?: string | null;
+  transactionDate?: Date | null;
+  totalPrice?: number;
+  stockId?: string;
+  details?: SubTransactionWhCreateModelReq[] | null;
 }
 
-export interface TransactionWhCreateModelRes {
-}
+export interface TransactionWhCreateModelRes {}
 
 export interface TransactionWhCreateModelResApiResponse {
-    data?: TransactionWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
-export interface TransactionWhDeleteModelReq {
-}
+export interface TransactionWhDeleteModelReq {}
 
-export interface TransactionWhDeleteModelRes {
-}
+export interface TransactionWhDeleteModelRes {}
 
 export interface TransactionWhDeleteModelResApiResponse {
-    data?: TransactionWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhDetailModelReq {
-    id?: string;
+  id?: string;
 }
 
 export interface TransactionWhDetailModelRes {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    transactionCode?: string | null;
-    transactionType?: string | null;
-    transactionDate?: Date | null;
-    totalPrice?: number;
-    details?: TransactionDetailModels[] | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  transactionCode?: string | null;
+  transactionType?: string | null;
+  transactionDate?: Date | null;
+  totalPrice?: number;
+  details?: TransactionDetailModels[] | null;
 }
 
 export interface TransactionWhDetailModelResApiResponse {
-    data?: TransactionWhDetailModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionWhDetailModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhFilterModelReq {
-    pageNumber?: number;
-    pageSize?: number;
-    transactionType?: string | null;
-    transactionCode?: string | null;
-    stockId?: string | null;
-    datetimeAfter?: Date | null;
-    datetimeBefore?: Date | null;
+  pageNumber?: number;
+  pageSize?: number;
+  transactionType?: string | null;
+  transactionCode?: string | null;
+  stockId?: string | null;
+  datetimeAfter?: Date | null;
+  datetimeBefore?: Date | null;
 }
 
 export interface TransactionWhFilterModelRes {
-    list?: TransactionWhModel[] | null;
+  list?: TransactionWhModel[] | null;
 }
 
 export interface TransactionWhFilterModelResApiResponse {
-    data?: TransactionWhFilterModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionWhFilterModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
-    transactionType?: string | null;
+  pageNumber?: number;
+  pageSize?: number;
+  transactionType?: string | null;
 }
 
 export interface TransactionWhListModelRes {
-    list?: TransactionWhModel[] | null;
+  list?: TransactionWhModel[] | null;
 }
 
 export interface TransactionWhListModelResApiResponse {
-    data?: TransactionWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface TransactionWhModel {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    transactionCode?: string | null;
-    transactionType?: string | null;
-    transactionDate?: Date | null;
-    totalPrice?: number;
-    stockId?: string;
-    stockName?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  transactionCode?: string | null;
+  transactionType?: string | null;
+  transactionDate?: Date | null;
+  totalPrice?: number;
+  stockId?: string;
+  stockName?: string | null;
 }
 
-export interface TransactionWhUpdateModelReq {
-}
+export interface TransactionWhUpdateModelReq {}
 
-export interface TransactionWhUpdateModelRes {
-}
+export interface TransactionWhUpdateModelRes {}
 
 export interface TransactionWhUpdateModelResApiResponse {
-    data?: TransactionWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: TransactionWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhCreateModelReq {
-    name: string;
+  name: string;
 }
 
-export interface UnitWhCreateModelRes {
-}
+export interface UnitWhCreateModelRes {}
 
 export interface UnitWhCreateModelResApiResponse {
-    data?: UnitWhCreateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: UnitWhCreateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhDeleteModelReq {
-    id?: string;
+  id?: string;
 }
 
-export interface UnitWhDeleteModelRes {
-}
+export interface UnitWhDeleteModelRes {}
 
 export interface UnitWhDeleteModelResApiResponse {
-    data?: UnitWhDeleteModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: UnitWhDeleteModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhDetailModelReq {
-    id?: string | null;
+  id?: string | null;
 }
 
 export interface UnitWhDetailModelRes {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
 }
 
 export interface UnitWhDetailModelResApiResponse {
-    data?: UnitWhDetailModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: UnitWhDetailModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhListModelReq {
-    pageNumber?: number;
-    pageSize?: number;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export interface UnitWhListModelRes {
-    list?: UnitWhModel[] | null;
+  list?: UnitWhModel[] | null;
 }
 
 export interface UnitWhListModelResApiResponse {
-    data?: UnitWhListModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: UnitWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export interface UnitWhModel {
-    id?: string;
-    createdDate: Date;
-    updatedDate: Date;
-    createdBy: string;
-    updatedBy: string;
-    status?: number;
-    name?: string | null;
+  id?: string;
+  createdDate: Date;
+  updatedDate: Date;
+  createdBy: string;
+  updatedBy: string;
+  status?: number;
+  name?: string | null;
 }
 
 export interface UnitWhUpdateModelReq {
-    id?: string;
-    name?: string | null;
+  id?: string;
+  name?: string | null;
 }
 
-export interface UnitWhUpdateModelRes {
-}
+export interface UnitWhUpdateModelRes {}
 
 export interface UnitWhUpdateModelResApiResponse {
-    data?: UnitWhUpdateModelRes;
-    isNormal?: boolean;
-    metaData?: MetaData;
-    pageInfo?: PageInfo;
+  data?: UnitWhUpdateModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
 }
 
 export class ApiWarehouseException extends Error {
-    override message: string;
-    status: number;
-    response: string;
-    headers: { [key: string]: any; };
-    result: any;
+  override message: string;
+  status: number;
+  response: string;
+  headers: { [key: string]: any };
+  result: any;
 
-    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
-        super();
+  constructor(
+    message: string,
+    status: number,
+    response: string,
+    headers: { [key: string]: any },
+    result: any
+  ) {
+    super();
 
-        this.message = message;
-        this.status = status;
-        this.response = response;
-        this.headers = headers;
-        this.result = result;
-    }
+    this.message = message;
+    this.status = status;
+    this.response = response;
+    this.headers = headers;
+    this.result = result;
+  }
 
-    protected isApiWarehouseException = true;
+  protected isApiWarehouseException = true;
 
-    static isApiWarehouseException(obj: any): obj is ApiWarehouseException {
-        return obj.isApiWarehouseException === true;
-    }
+  static isApiWarehouseException(obj: any): obj is ApiWarehouseException {
+    return obj.isApiWarehouseException === true;
+  }
 }
 
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
-    if (result !== null && result !== undefined)
-        return _observableThrow(result);
-    else
-        return _observableThrow(new ApiWarehouseException(message, status, response, headers, null));
+function throwException(
+  message: string,
+  status: number,
+  response: string,
+  headers: { [key: string]: any },
+  result?: any
+): Observable<any> {
+  if (result !== null && result !== undefined) return _observableThrow(result);
+  else
+    return _observableThrow(
+      new ApiWarehouseException(message, status, response, headers, null)
+    );
 }
 
 function blobToText(blob: any): Observable<string> {
-    return new Observable<string>((observer: any) => {
-        if (!blob) {
-            observer.next("");
-            observer.complete();
-        } else {
-            let reader = new FileReader();
-            reader.onload = event => {
-                observer.next((event.target as any).result);
-                observer.complete();
-            };
-            reader.readAsText(blob);
-        }
-    });
+  return new Observable<string>((observer: any) => {
+    if (!blob) {
+      observer.next('');
+      observer.complete();
+    } else {
+      let reader = new FileReader();
+      reader.onload = (event) => {
+        observer.next((event.target as any).result);
+        observer.complete();
+      };
+      reader.readAsText(blob);
+    }
+  });
 }

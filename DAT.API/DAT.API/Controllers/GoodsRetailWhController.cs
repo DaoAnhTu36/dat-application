@@ -137,5 +137,26 @@ namespace DAT.API.Controllers.Warehouses
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }
+
+        [HttpPost("goodsretail-list-for-machine")]
+        public async Task<ApiResponse<GoodsRetailWhListModelRes>> ListForMachine()
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            LoggerFunctionUtility.CommonLogStart(this, stopwatch);
+            var retVal = new ApiResponse<GoodsRetailWhListModelRes>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.ListForMachine();
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
     }
 }

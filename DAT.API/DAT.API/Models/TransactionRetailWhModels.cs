@@ -23,7 +23,6 @@ namespace DAT.API.Models
         public decimal Price { get; set; }
         public string UnitId { get; set; }
         public string TransDetailId { get; set; }
-        public decimal TotalPrice { get; set; }
     }
 
     public class TransactionRetailWhCreateModelRes

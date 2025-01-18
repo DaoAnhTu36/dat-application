@@ -30,8 +30,8 @@
         "PathFolderMedia": "\\Media\\Images\\"
     },
     "FTPServerSetting": {
-        "Host": "103.200.23.139",
-        "Server": "103.200.23.139",
+        "Host": "ftp.taphoagiadinh.com",
+        "Server": "ftp.taphoagiadinh.com",
         "User": "daoanhtu@taphoagiadinh.com",
         "Password": "Daoanhtu020996@@#",
         "Port": "21"

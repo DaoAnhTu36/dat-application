@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer2 } from '@angular/core';
 import {
+  GoodsRetailWhListModelRes,
   TranRetailDTO,
   WarehouseService,
 } from '../../services/warehouse-service.service';
@@ -9,7 +10,10 @@ import { CommonServiceService } from '../../services/common-service.service';
 import { Router } from '@angular/router';
 import { CommonModule, NgFor } from '@angular/common';
 import { CustomCurrencyPipe } from '../../commons/pipes/custom-currency.pipe';
-import { StatusCodeApiResponse } from '../../commons/const/ConstStatusCode';
+import {
+  PageingReq,
+  StatusCodeApiResponse,
+} from '../../commons/const/ConstStatusCode';
 
 @Component({
   selector: 'app-vending-machine',
@@ -30,7 +34,7 @@ export class VendingMachineComponent {
   goodsName: string | undefined;
   totalPrice: number = 0;
   totalBill: number = 0;
-  totalUnitPrice: number = 0;
+  listGoodsRetail: GoodsRetailWhListModelRes | undefined;
 
   constructor(
     private readonly _warehouseService: WarehouseService,
@@ -42,7 +46,9 @@ export class VendingMachineComponent {
     private readonly _commonService: CommonServiceService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getGoodsRetailList();
+  }
 
   onAdd() {
     this.data_buy.push({
@@ -51,19 +57,27 @@ export class VendingMachineComponent {
       price: this.price,
       unitName: this.unitName,
       quantity: this.quantity,
-      totalUnitPrice: (this.quantity ?? 0) * (this.price ?? 0),
       goodsId: this.goodsId,
       unitId: this.unitId,
       transDetailId: this.transDetailId,
     });
-    this.onCalTotalBill();
     this.goodsCode = '';
     this.goodsId = '';
     this.goodsName = '';
     this.price = undefined;
     this.unitName = '';
     this.quantity = undefined;
-    this.totalUnitPrice = 0;
+  }
+
+  getGoodsRetailList() {
+    this._warehouseService.goodsretailListForMachine().subscribe((res) => {
+      if (
+        res.isNormal &&
+        res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
+      ) {
+        this.listGoodsRetail = res.data;
+      }
+    });
   }
 
   onSearchGoods(event: Event) {
@@ -77,33 +91,66 @@ export class VendingMachineComponent {
           res.isNormal &&
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
+          this.goodsId = res.data?.goodsId ?? '';
+          this.unitId = res.data?.unitId ?? '';
+          this.transDetailId = res.data?.transDetailId ?? '';
           this.goodsName = res.data?.goodsName ?? '';
           this.price = res.data?.price ?? undefined;
           this.unitName = res.data?.unitName ?? '';
           this.quantity = 1;
           this.totalPrice += this.quantity * (this.price ?? 0);
+          this.onAdd();
+          this.onCalTotalBill();
         } else {
           this._toastService.error('Không tìm thấy sản phẩm');
         }
       });
   }
 
-  onCalTotalPrice() {
-    const quantity = this.quantity ?? 0;
-    this.totalUnitPrice = quantity * (this.price ?? 0);
-    this.onCalTotalBill();
-  }
-
-  onCalTotalBill() {
+  onCalTotalBill(i: number = 0, quantity: number = 0) {
+    if (i !== 0 && quantity !== 0) {
+      this.data_buy[i].quantity = quantity;
+    }
     this.totalBill = 0;
     this.data_buy.map((x) => {
-      return (this.totalBill += x.totalUnitPrice);
+      return (this.totalBill += x.price * x.quantity);
     });
   }
 
   onPay() {
     let req: TranRetailDTO[] = [];
-    this.data_buy.forEach((e) => {});
-    console.log(this.data_buy);
+    this.data_buy.forEach((e) => {
+      req.push({
+        goodsCode: e.goodsCode,
+        goodsId: e.goodsId,
+        goodsName: e.goodsName,
+        price: e.price,
+        quantity: e.quantity,
+        transDetailId: e.transDetailId,
+        unitId: e.unitId,
+      });
+    });
+    this._warehouseService
+      .transactionretailCreate({
+        items: req,
+      })
+      .subscribe((res) => {
+        if (
+          res.isNormal &&
+          res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
+        ) {
+          this._toastService.success('Thanh toán thành công');
+          this.data_buy = [];
+          this.goodsCode = '';
+          this.goodsId = '';
+          this.goodsName = '';
+          this.price = undefined;
+          this.unitName = '';
+          this.quantity = undefined;
+          this.totalBill = 0;
+        } else {
+          this._toastService.success('Thanh toán thất bại');
+        }
+      });
   }
 }

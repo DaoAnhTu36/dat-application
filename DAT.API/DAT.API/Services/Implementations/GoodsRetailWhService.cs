@@ -8,7 +8,6 @@ using DAT.Core.Implementations;
 using DAT.Database.Entities.WarehouseEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DAT.API.Services.Warehouse.Impl
 {
@@ -198,8 +197,22 @@ namespace DAT.API.Services.Warehouse.Impl
             var retVal = new ApiResponse<GoodsRetailWhSearchlModelRes>();
             try
             {
-                var record = await _context.Set<GoodsRetailWhEntity>().Where(x => x.GoodsCode == req.TextSearch || x.GoodsName.ToLower().Contains(req.TextSearch.ToLower())).OrderByDescending(x => x.UpdatedDate).FirstOrDefaultAsync();
-                if (record == null)
+                var query = await (from goodsRetail in _context.Set<GoodsRetailWhEntity>()
+                                   where goodsRetail.GoodsCode == req.TextSearch || goodsRetail.GoodsName.ToLower().Contains(req.TextSearch.ToLower())
+                                   join transDetail in _context.Set<TransactionDetailWhEntity>() on goodsRetail.TransDetailId equals transDetail.Id
+                                   join unit in _context.Set<UnitWhEntity>() on transDetail.UnitId equals unit.Id
+                                   orderby goodsRetail.UpdatedDate descending
+                                   select new GoodsRetailWhSearchlModelRes
+                                   {
+                                       GoodsCode = goodsRetail.GoodsCode,
+                                       GoodsId = goodsRetail.GoodsId.ToString(),
+                                       GoodsName = goodsRetail.GoodsName,
+                                       Price = goodsRetail.Price,
+                                       TransDetailId = transDetail.Id.ToString(),
+                                       UnitId = transDetail.UnitId.ToString(),
+                                       UnitName = unit.Name ?? ""
+                                   }).FirstOrDefaultAsync();
+                if (query == null)
                 {
                     retVal.IsNormal = false;
                     retVal.MetaData = new MetaData
@@ -209,16 +222,7 @@ namespace DAT.API.Services.Warehouse.Impl
                     LoggerFunctionUtility.CommonLogEnd(this, retVal);
                     return retVal;
                 }
-                retVal.Data = new GoodsRetailWhSearchlModelRes
-                {
-                    GoodsName = record.GoodsName,
-                    Price = record.Price,
-                    UnitName = "",
-                    GoodsCode = record.GoodsCode,
-                    GoodsId = record.GoodsId.ToString(),
-                    TransDetailId = "",
-                    UnitId = "",
-                };
+                retVal.Data = query;
             }
             catch (Exception ex)
             {
@@ -233,5 +237,44 @@ namespace DAT.API.Services.Warehouse.Impl
             return retVal;
         }
 
+        public async Task<ApiResponse<GoodsRetailWhListModelRes>> ListForMachine()
+        {
+            LoggerFunctionUtility.CommonLogStart(this);
+            var retVal = new ApiResponse<GoodsRetailWhListModelRes>();
+            try
+            {
+                var query = await _context.Set<GoodsRetailWhEntity>().OrderByDescending(x => x.UpdatedDate).GroupBy(x => x.GoodsName).Select(x => new GoodsRetailModelRes
+                {
+                    GoodsName = x.Key,
+                    GoodsRetails = x.OrderByDescending(y => y.UpdatedDate).Select(c => new GoodsRetailInstance
+                    {
+                        GoodsName = c.GoodsName,
+                        GoodsCode = c.GoodsCode,
+                        GoodsId = c.GoodsId,
+                        Price = c.Price,
+                        TransDetailId = c.TransDetailId,
+                        Id = c.Id,
+                    })
+                }).ToListAsync();
+                retVal = new ApiResponse<GoodsRetailWhListModelRes>
+                {
+                    Data = new GoodsRetailWhListModelRes
+                    {
+                        List = query
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "500",
+                    Message = ex.Message
+                };
+            }
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
     }
 }
