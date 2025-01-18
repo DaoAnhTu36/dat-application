@@ -103,7 +103,12 @@ namespace DAT.API.Services.Warehouse.Impl
                 {
                     Data = new CategoryWhListModelRes
                     {
-                        List = UtilityDatabase.PaginationExtension(_options, record)
+                        List = UtilityDatabase.PaginationExtension(_options, record, req.PageNumber, req.PageSize, out int totalPage, out int currentPage)
+                    },
+                    PageInfo = new PageInfo
+                    {
+                        CurrentPage = currentPage,
+                        TotalPage = totalPage
                     }
                 };
             }

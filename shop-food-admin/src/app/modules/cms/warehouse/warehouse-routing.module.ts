@@ -56,6 +56,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./category/category.module').then((m) => m.CategoryModule),
   },
+  {
+    path: 'wh/transaction/goods-retail',
+    loadChildren: () =>
+      import('./goods-retail/goods-retail.module').then(
+        (m) => m.GoodsRetailModule
+      ),
+  },
 ];
 
 @NgModule({

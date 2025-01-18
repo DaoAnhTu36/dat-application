@@ -1,4 +1,7 @@
-﻿namespace DAT.API.Models
+﻿using DAT.Common.Models.Entitties;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace DAT.API.Models
 {
     public class InventoryWhCreateModelReq
     {
@@ -28,7 +31,7 @@
     {
     }
 
-    public class InventoryWhListModelReq
+    public class InventoryWhListModelReq : BasePageEntity
     {
     }
 }

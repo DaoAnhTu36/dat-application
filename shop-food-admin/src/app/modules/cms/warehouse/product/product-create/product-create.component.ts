@@ -38,6 +38,8 @@ export class ProductCreateComponent {
 
   ngOnInit() {
     this.listCategory();
+    let currentDatetime = new Date().getTime();
+    this.goodsCode.setValue(`H${currentDatetime.toString()}`);
   }
 
   onCreate() {

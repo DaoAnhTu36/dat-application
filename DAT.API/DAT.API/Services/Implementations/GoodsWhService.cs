@@ -163,7 +163,12 @@ namespace DAT.API.Services.Warehouse.Impl
                 {
                     Data = new GoodsWhListModelRes
                     {
-                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize)
+                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize, out int totalPage, out int currentPage)
+                    },
+                    PageInfo = new PageInfo
+                    {
+                        CurrentPage = currentPage,
+                        TotalPage = totalPage
                     }
                 };
             }
@@ -218,5 +223,55 @@ namespace DAT.API.Services.Warehouse.Impl
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }
+
+        public async Task<ApiResponse<GoodsWhSearchListModelRes>> Search(GoodsWhSearchListModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this);
+            var retVal = new ApiResponse<GoodsWhSearchListModelRes>();
+            try
+            {
+                var query = await (from goods in _context.Set<GoodsWhEntity>()
+                             join category in _context.Set<CategoryWhEntity>() on goods.CategoryId equals category.Id
+                             select new GoodsDetailWhModel
+                             {
+                                 Id = goods.Id,
+                                 CreatedBy = goods.CreatedBy,
+                                 CreatedDate = goods.CreatedDate,
+                                 Description = goods.Description,
+                                 Name = goods.Name,
+                                 UpdatedBy = goods.UpdatedBy,
+                                 UpdatedDate = goods.UpdatedDate,
+                                 GoodsCode = goods.GoodsCode,
+                                 CategoryId = goods.CategoryId,
+                                 CategoryName = category.Name,
+                                 Status = goods.Status,
+                             }).OrderByDescending(x => x.UpdatedDate).ToListAsync();
+                query = query.Where(x => string.IsNullOrEmpty(req.TextSearch) || UtilityDatabase.FindMatches(req.TextSearch, x.Name)).ToList();
+                retVal = new ApiResponse<GoodsWhSearchListModelRes>
+                {
+                    Data = new GoodsWhSearchListModelRes
+                    {
+                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize, out int totalPage, out int currentPage)
+                    },
+                    PageInfo = new PageInfo
+                    {
+                        CurrentPage = currentPage,
+                        TotalPage = totalPage
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    Message = ex.Message,
+                    StatusCode = "500"
+                };
+            }
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
     }
 }

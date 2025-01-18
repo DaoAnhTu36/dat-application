@@ -1,82 +1,105 @@
 <div class="transaction-detail">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="transaction-detail__header">
-                <div class="transaction-detail__header__title">
-                    <h3>Chi tiết giao dịch</h3>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="transaction-detail__header">
+        <div class="transaction-detail__header__title">
+          <h3>Chi tiết giao dịch</h3>
         </div>
-        <div class="col-md-12">
-            <div class="transaction-detail__content">
-                <div class="transaction-detail__content__info">
-                    <div class="transaction-detail__content__info__item row">
-                        <div class="transaction-detail__content__info__item__label col-md-6">
-                            <span>Mã giao dịch</span>
-                        </div>
-                        <div class="transaction-detail__content__info__item__value col-md-6">
-                            <span>{{ data.transactionCode }}</span>
-                        </div>
-                    </div>
-                    <div class="transaction-detail__content__info__item row">
-                        <div class="transaction-detail__content__info__item__label col-md-6">
-                            <span>Người tạo</span>
-                        </div>
-                        <div class="transaction-detail__content__info__item__value col-md-6">
-                            <span>{{ data.createdBy }}</span>
-                        </div>
-                    </div>
-                    <div class="transaction-detail__content__info__item row">
-                        <div class="transaction-detail__content__info__item__label col-md-6">
-                            <span>Ngày tạo</span>
-                        </div>
-                        <div class="transaction-detail__content__info__item__value col-md-6">
-                            <span>{{ data.createdDate | customDate }}</span>
-                        </div>
-                    </div>
-                    <div class="transaction-detail__content__info__item row">
-                        <div class="transaction-detail__content__info__item__label col-md-6">
-                            <span>Người cập nhật</span>
-                        </div>
-                        <div class="transaction-detail__content__info__item__value col-md-6">
-                            <span>{{ data.updatedBy }}</span>
-                        </div>
-                    </div>
-                    <div class="transaction-detail__content__info__item row">
-                        <div class="transaction-detail__content__info__item__label col-md-6">
-                            <span>Ngày cập nhật</span>
-                        </div>
-                        <div class="transaction-detail__content__info__item__value col-md-6">
-                            <span>{{ data.updatedDate | customDate }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="transaction-detail__content__table">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã sản phẩm</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Số lượng</th>
-                                <th>Đơn vị</th>
-                                <th>Giá</th>
-                                <th>Thành tiền</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of data.details; let i = index">
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ item.productBarCode }}</td>
-                                <td>{{ item.productName }}</td>
-                                <td>{{ item.quantity | customNumberPipe }}</td>
-                                <td>{{ item.unitName }}</td>
-                                <td>{{ item.unitPrice | customCurrencyPipe }}</td>
-                                <td>{{ item.totalPrice | customCurrencyPipe }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="transaction-detail__content">
+        <div class="transaction-detail__content__info">
+          <div class="transaction-detail__content__info__item row">
+            <div
+              class="transaction-detail__content__info__item__label col-md-6"
+            >
+              <span>Mã giao dịch</span>
             </div>
+            <div
+              class="transaction-detail__content__info__item__value col-md-6"
+            >
+              <span>{{ data?.transactionCode }}</span>
+            </div>
+          </div>
+          <div class="transaction-detail__content__info__item row">
+            <div
+              class="transaction-detail__content__info__item__label col-md-6"
+            >
+              <span>Người tạo</span>
+            </div>
+            <div
+              class="transaction-detail__content__info__item__value col-md-6"
+            >
+              <span>{{ data?.createdBy }}</span>
+            </div>
+          </div>
+          <div class="transaction-detail__content__info__item row">
+            <div
+              class="transaction-detail__content__info__item__label col-md-6"
+            >
+              <span>Ngày tạo</span>
+            </div>
+            <div
+              class="transaction-detail__content__info__item__value col-md-6"
+            >
+              <span>{{ data?.createdDate | customDate }}</span>
+            </div>
+          </div>
+          <div class="transaction-detail__content__info__item row">
+            <div
+              class="transaction-detail__content__info__item__label col-md-6"
+            >
+              <span>Người cập nhật</span>
+            </div>
+            <div
+              class="transaction-detail__content__info__item__value col-md-6"
+            >
+              <span>{{ data?.updatedBy }}</span>
+            </div>
+          </div>
+          <div class="transaction-detail__content__info__item row">
+            <div
+              class="transaction-detail__content__info__item__label col-md-6"
+            >
+              <span>Ngày cập nhật</span>
+            </div>
+            <div
+              class="transaction-detail__content__info__item__value col-md-6"
+            >
+              <span>{{ data?.updatedDate | customDate }}</span>
+            </div>
+          </div>
         </div>
+        <div class="transaction-detail__content__table">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Kho</th>
+                <th>Số lượng</th>
+                <th>Đơn vị</th>
+                <th>Giá</th>
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data?.details; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.goodsCode }}</td>
+                <td>{{ item.goodsName }}</td>
+                <td>{{ item.stockName }}</td>
+                <td>{{ item.quantity | customNumberPipe }}</td>
+                <td>{{ item.unitName }}</td>
+                <td>{{ item.unitPrice | customCurrencyPipe }}</td>
+                <td>{{ item.totalPrice | customCurrencyPipe }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

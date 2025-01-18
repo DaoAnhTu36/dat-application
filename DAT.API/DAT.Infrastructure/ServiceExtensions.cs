@@ -273,8 +273,11 @@ namespace DAT.Infrastructure
                       {
                           policy
                           .WithOrigins("http://localhost:4200")
+                          .WithOrigins("http://localhost:4300")
                           .WithOrigins("http://192.168.131.182")
                           .WithOrigins("http://192.168.131.182:80")
+                          .WithOrigins("http://192.168.131.182:8083")
+                          .WithOrigins("https://taphoagiadinh.com/")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();

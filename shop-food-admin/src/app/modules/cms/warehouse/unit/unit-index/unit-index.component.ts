@@ -7,18 +7,21 @@ import {
   WarehouseService,
 } from '../../../../../services/warehouse-service.service';
 import { Router } from '@angular/router';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { UrlConstEnum } from '../../../../../menu/config-url';
 
 @Component({
   selector: 'app-unit-index',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, CommonModule],
   templateUrl: './unit-index.component.html',
   styleUrl: './unit-index.component.scss',
 })
 export class UnitIndexComponent {
   data: UnitWhModel[] = [];
+  currentPage: number = 0;
+  totalPage: number = 0;
+  pageNumber: number[] = [];
   constructor(
     private readonly _warehouseService: WarehouseService,
     private readonly router: Router,
@@ -27,18 +30,37 @@ export class UnitIndexComponent {
   ) {}
 
   ngOnInit() {
-    this.list();
+    this.list(PageingReq.PAGE_NUMBER);
   }
 
-  list() {
+  OnPage(index: number, type: string) {
+    if (type === 'previous') {
+      this.currentPage -= 1;
+      this.list(this.currentPage);
+    } else if (type === 'next') {
+      this.currentPage += 1;
+      this.list(this.currentPage);
+    } else {
+      this.currentPage = index;
+      this.list(this.currentPage);
+    }
+  }
+
+  list(pageNumber: number, pageSize: number = PageingReq.PAGE_SIZE) {
     this._loadingService.show();
     this._warehouseService
       .unitList({
-        pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
       })
       .subscribe((res) => {
+        this.pageNumber = [];
         this.data = res.data?.list || [];
+        this.currentPage = res.pageInfo?.currentPage ?? 0;
+        this.totalPage = res.pageInfo?.totalPage ?? 0;
+        for (let index = 0; index < this.totalPage; index++) {
+          this.pageNumber.push(index);
+        }
         this._loadingService.hide();
       });
   }
