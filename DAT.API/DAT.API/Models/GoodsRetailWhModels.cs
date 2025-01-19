@@ -91,6 +91,7 @@ namespace DAT.API.Models
         public string GoodsName { get; set; }
         public decimal Price { get; set; }
     }
+
     public class GoodsRetailWhSearchlModelReq
     {
         public string TextSearch { get; set; }
@@ -105,5 +106,21 @@ namespace DAT.API.Models
         public string TransDetailId { get; set; }
         public string GoodsId { get; set; }
         public string GoodsCode { get; set; }
+    }
+
+    public class GoodsRetailWhStatisticsModelReq
+    {
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+    }
+
+    public class GoodsRetailWhStatisticsModelRes
+    {
+        public Guid GoodsId { get; set; }
+        public string GoodsCode { get; set; }
+        public string GoodsName { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

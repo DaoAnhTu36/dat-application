@@ -118,6 +118,21 @@
           <div [formGroupName]="i">
             <div class="transaction-detail-body">
               <table class="table">
+                <thead>
+                  <tr>
+                    <td>#</td>
+                    <td>Mã</td>
+                    <td>Tên</td>
+                    <td>Nhà cung cấp</td>
+                    <td>Đơn vị tính</td>
+                    <td>NSX</td>
+                    <td>HSD</td>
+                    <td>Số lượng</td>
+                    <td>Đơn giá</td>
+                    <td>Thành tiền</td>
+                    <td>#</td>
+                  </tr>
+                </thead>
                 <tbody id="body-table-transaction-detail">
                   <tr>
                     <td>
@@ -130,28 +145,17 @@
                         name="{{ onRewrite(i, 'goodsCode') }}"
                         id="{{ onRewrite(i, 'goodsCode', true) }}"
                         formControlName="goodsCode"
-                        placeholder="Mã hàng hóa"
                         (keydown.enter)="onSearchProduct(i)"
+                        list="lstGoods"
                       />
-                      <!-- <input
-                        type="text"
-                        class="form-control"
-                        name="{{ onRewrite(i, 'goodsCode') }}"
-                        id="{{ onRewrite(i, 'goodsCode', true) }}"
-                        formControlName="goodsCode"
-                        placeholder="Mã hàng hóa"
-                        (keyup)="onSearchGoods(i)"
-                        (keydown.enter)="onSearchProduct(i)"
-                        list="listGoods"
-                      />
-                      <datalist id="listGoods">
+                      <datalist id="lstGoods">
                         <option
-                          *ngFor="let item of goods; let i = index"
-                          [value]="item.name"
+                          *ngFor="let itemGoods of goods"
+                          [value]="itemGoods.goodsCode"
                         >
-                          {{ item.name }}
+                          {{ itemGoods.name }}
                         </option>
-                      </datalist> -->
+                      </datalist>
                     </td>
                     <td>
                       <input
@@ -160,37 +164,42 @@
                         name="{{ onRewrite(i, 'goodsName') }}"
                         id="{{ onRewrite(i, 'goodsName', true) }}"
                         formControlName="goodsName"
-                        placeholder="Tên hàng hóa"
                       />
                     </td>
                     <td>
-                      <select
+                      <input
+                        type="text"
+                        class="form-control"
                         name="{{ onRewrite(i, 'supplierId') }}"
                         id="{{ onRewrite(i, 'supplierId', true) }}"
-                        class="form-control"
                         formControlName="supplierId"
-                      >
-                        <option value="">Nhà cung cấp</option>
+                        list="lstSupplier"
+                        (change)="onSetProperties(i, $event, 1)"
+                      />
+                      <datalist id="lstSupplier">
                         <option
-                          *ngFor="let item of suppliers"
-                          [value]="item.id"
+                          *ngFor="let supplier of suppliers"
+                          [value]="supplier.name"
                         >
-                          {{ item.name }}
+                          {{ supplier.id }}
                         </option>
-                      </select>
+                      </datalist>
                     </td>
                     <td>
-                      <select
+                      <input
+                        type="text"
                         class="form-control"
                         name="{{ onRewrite(i, 'unitId') }}"
                         id="{{ onRewrite(i, 'unitId', true) }}"
                         formControlName="unitId"
-                      >
-                        <option value="">ĐVT</option>
-                        <option *ngFor="let item of units" [value]="item.id">
-                          {{ item.name }}
+                        list="lstUnit"
+                        (change)="onSetProperties(i, $event, 2)"
+                      />
+                      <datalist id="lstUnit">
+                        <option *ngFor="let unit of units" [value]="unit.name">
+                          {{ unit.id }}
                         </option>
-                      </select>
+                      </datalist>
                     </td>
                     <td>
                       <input
@@ -199,7 +208,6 @@
                         name="{{ onRewrite(i, 'dateOfManufacture') }}"
                         id="{{ onRewrite(i, 'dateOfManufacture', true) }}"
                         formControlName="dateOfManufacture"
-                        placeholder="NSX"
                       />
                     </td>
                     <td>
@@ -209,7 +217,6 @@
                         name="{{ onRewrite(i, 'dateOfExpired') }}"
                         id="{{ onRewrite(i, 'dateOfExpired', true) }}"
                         formControlName="dateOfExpired"
-                        placeholder="HSD"
                       />
                     </td>
 
@@ -220,7 +227,6 @@
                         name="{{ onRewrite(i, 'quantity') }}"
                         id="{{ onRewrite(i, 'quantity', true) }}"
                         formControlName="quantity"
-                        placeholder="Số lượng"
                         (keyup)="onCalTotalAmount(i)"
                       />
                     </td>
@@ -231,7 +237,6 @@
                         name="{{ onRewrite(i, 'unitPrice') }}"
                         id="{{ onRewrite(i, 'unitPrice', true) }}"
                         formControlName="unitPrice"
-                        placeholder="Đơn giá"
                         (keyup)="onCalTotalAmount(i)"
                         #inputField
                       />

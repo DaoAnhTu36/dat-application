@@ -72,9 +72,9 @@ export class TransactionCreateComponent {
 
   ngOnInit(): void {
     this.listSupplier();
-    this.listUnit();
     this.listStock();
     this.listGoods();
+    this.listUnit();
   }
 
   listGoods() {
@@ -148,7 +148,6 @@ export class TransactionCreateComponent {
     });
 
     this.items.push(itemFormGroup);
-    this.listGoods();
   }
 
   removeItem(index: number) {
@@ -169,7 +168,7 @@ export class TransactionCreateComponent {
     // const goodsCode = this.goods?.find(
     //   (x) => x.name == this.myForm.value['items'][i]['goodsCode']
     // )?.goodsCode;
-    let index = this.listTransDetail.findIndex((x) => x.goodsCode == goodsCode);
+    let index = i;
     this._warehouseService
       .goodsDetail({
         goodsCode: goodsCode,
@@ -296,6 +295,22 @@ export class TransactionCreateComponent {
       });
   }
 
+  onSetProperties(i: any, event: any, type: number) {
+    const valueText = (event.target as HTMLSelectElement).value;
+    let item = this.listTransDetail[i];
+    if (type === 1) {
+      //set value supplier
+      item.supplierId = this.suppliers?.find((x) => x.name === valueText)?.name;
+    } else if (type === 2) {
+      //set value unit
+      item.unitId = this.units?.find((x) => x.name === valueText)?.name;
+    }
+    this.listTransDetail.splice(i, 1);
+    this.listTransDetail.push(item);
+    this.items.setValue(this.listTransDetail);
+    this.calTotalAmountDetail();
+  }
+
   onSave() {
     try {
       this._loadingService.show();
@@ -313,8 +328,9 @@ export class TransactionCreateComponent {
           goodsId: element.goodsId,
           dateOfExpired: element.dateOfExpired,
           dateOfManufacture: element.dateOfManufacture,
-          supplierId: element.supplierId ?? null,
-          unitId: element.unitId,
+          supplierId: this.suppliers?.find((x) => x.name === element.supplierId)
+            ?.id,
+          unitId: this.units?.find((x) => x.name === element.unitId)?.id,
         });
       });
       let request: TransactionWhCreateModelReq = {

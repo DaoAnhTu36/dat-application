@@ -33,18 +33,16 @@ try
 
     var app = builder.Build();
 
-    //if (app.Environment.IsDevelopment())
-    //{
-    //    app.UseSwagger();
-    //    app.UseSwaggerUI();
-    //}
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.Urls.Add("http://localhost:1112");
+    }
 
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
-    //app.Urls.Add("http://localhost:1112");
     app.UseCors(allowCors);
     app.UseDefaultFiles();
 

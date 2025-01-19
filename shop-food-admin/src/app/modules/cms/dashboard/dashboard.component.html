@@ -1,1 +1,85 @@
-<p>dashboard works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <section class="statistics">
+      <h1>Thống kê bán hàng</h1>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="fromDate">Từ ngày</label>
+              <input
+                type="date"
+                class="form-control"
+                name="fromDate"
+                id="fromDate"
+                formControlName="fromDate"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="toDate">Đến ngày</label>
+              <input
+                type="date"
+                class="form-control"
+                name="toDate"
+                id="toDate"
+                formControlName="toDate"
+              />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button
+              class="btn btn-success"
+              type="submit"
+              [disabled]="form.invalid"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+      <table
+        class="table table-hover table-bordered"
+        *ngIf="dataStatistics.length > 0"
+      >
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Mã hàng hóa</th>
+            <th>Tên hàng hóa</th>
+            <!-- <th>Giá trung bình</th> -->
+            <th>Số lượng bán</th>
+            <th>Tổng tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataStatistics; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.goodsCode }}</td>
+            <td>{{ item.goodsName }}</td>
+            <!-- <td>{{ item.price | customCurrencyPipe }}</td> -->
+            <td>{{ item.quantity | customNumberPipe }}</td>
+            <td>{{ item.totalPrice | customCurrencyPipe }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="dataStatistics.length === 0">
+        Không có hàng hóa nào được bán trong khoảng thời gian này
+      </p>
+    </section>
+
+    <div class="chart">
+      <div style="display: block">
+        <canvas
+          baseChart
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [legend]="true"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>
