@@ -96,16 +96,19 @@ export class GoodsRetailIndexComponent {
     this.list(PageingReq.PAGE_NUMBER);
   }
 
+  onAsyncData() {
+    this.list(PageingReq.PAGE_NUMBER);
+  }
+
   onFilter(pageNumber: number = PageingReq.PAGE_NUMBER) {
     this._loadingService.show();
     let req = {
-      transactionType: this.goodsCode,
-      transactionCode: this.goodsName,
-      stockId: this.goodsPrice,
       pageNumber: pageNumber,
-      pageSize: PageingReq.PAGE_SIZE,
+      pageSize: PageingReq.PAGE_SIZE_SEARCH,
+      goodsCode: this.goodsCode,
+      goodsName: this.goodsName,
     };
-    this._warehouseService.transactionFilter(req).subscribe((res) => {
+    this._warehouseService.goodsretailList(req).subscribe((res) => {
       this._loadingService.hide();
       if (
         res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS &&
@@ -117,6 +120,7 @@ export class GoodsRetailIndexComponent {
         for (let index = 0; index < this.totalPage; index++) {
           this.pageNumber.push(index);
         }
+        this.data = res.data;
       } else {
       }
     });
@@ -153,7 +157,7 @@ export class GoodsRetailIndexComponent {
       .goodsretailCreate({
         listReq: [
           {
-            goodsCode: record?.goodsRetails?.[0].goodsCode,
+            goodsCode: record?.goodsCode,
             goodsId: record?.goodsRetails?.[0].goodsId,
             goodsName: record?.goodsRetails?.[0].goodsName,
             price: price,
@@ -171,5 +175,32 @@ export class GoodsRetailIndexComponent {
         } else {
         }
       });
+  }
+
+  onSearch() {
+    const goodsCode = this.goodsCode;
+    const goodsName = this.goodsName;
+    if (goodsCode === '' || goodsName === '') {
+      this.onClearFilter();
+    } else {
+      this._warehouseService
+        .goodsretailSearch({ goodsCode: goodsCode, goodsName: goodsName })
+        .subscribe((res) => {
+          if (
+            res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS &&
+            res.isNormal
+          ) {
+            this.pageNumber = [];
+            this.currentPage = res.pageInfo?.currentPage ?? 0;
+            this.totalPage = res.pageInfo?.totalPage ?? 0;
+            for (let index = 0; index < this.totalPage; index++) {
+              this.pageNumber.push(index);
+            }
+            this.data = res.data;
+          } else {
+            console.log(res);
+          }
+        });
+    }
   }
 }

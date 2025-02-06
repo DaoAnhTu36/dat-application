@@ -35,10 +35,10 @@ import * as jquery from 'jquery';
   styleUrl: './transaction-create.component.scss',
 })
 export class TransactionCreateComponent {
-  goods: GoodsDetailWhModel[] | null | undefined;
-  stocks: StockWhModel[] | null | undefined;
-  suppliers: SupplierModel[] | null | undefined;
-  units: UnitWhModel[] | null | undefined;
+  goods: GoodsDetailWhModel[] = [];
+  stocks: StockWhModel[] = [];
+  suppliers: SupplierModel[] = [];
+  units: UnitWhModel[] = [];
   myForm: FormGroup;
   transactionCode = new FormControl('');
   transactionDate = new FormControl('');
@@ -51,6 +51,7 @@ export class TransactionCreateComponent {
     { id: '0', name: 'Nhập' },
     // { id: '1', name: 'Xuất' },
   ];
+  ClickedOrEntered = false;
 
   constructor(
     private readonly _warehouseService: WarehouseService,
@@ -72,20 +73,20 @@ export class TransactionCreateComponent {
 
   ngOnInit(): void {
     this.listSupplier();
-    this.listUnit();
     this.listStock();
     this.listGoods();
+    this.listUnit();
   }
 
   listGoods() {
     this._warehouseService
       .goodsList({
         pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
+        pageSize: PageingReq.PAGE_SIZE_SEARCH,
       })
       .subscribe((res) => {
         if (res.isNormal) {
-          this.goods = res.data?.list;
+          this.goods = res.data?.list ?? [];
         }
       });
   }
@@ -94,11 +95,12 @@ export class TransactionCreateComponent {
     this._warehouseService
       .stockList({
         pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
+        pageSize: PageingReq.PAGE_SIZE_SEARCH,
       })
       .subscribe((res) => {
         if (res.isNormal) {
-          this.stocks = res.data?.list;
+          this.stocks = res.data?.list ?? [];
+          this.stockId.setValue(this.stocks[0].id ?? '');
         }
       });
   }
@@ -107,11 +109,11 @@ export class TransactionCreateComponent {
     this._warehouseService
       .unitList({
         pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
+        pageSize: PageingReq.PAGE_SIZE_SEARCH,
       })
       .subscribe((res) => {
         if (res.isNormal) {
-          this.units = res.data?.list;
+          this.units = res.data?.list ?? [];
         }
       });
   }
@@ -120,11 +122,11 @@ export class TransactionCreateComponent {
     this._warehouseService
       .supplierList({
         pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
+        pageSize: PageingReq.PAGE_SIZE_SEARCH,
       })
       .subscribe((res) => {
         if (res.isNormal) {
-          this.suppliers = res.data?.list;
+          this.suppliers = res.data?.list ?? [];
         }
       });
   }
@@ -148,7 +150,6 @@ export class TransactionCreateComponent {
     });
 
     this.items.push(itemFormGroup);
-    this.listGoods();
   }
 
   removeItem(index: number) {
@@ -169,7 +170,7 @@ export class TransactionCreateComponent {
     // const goodsCode = this.goods?.find(
     //   (x) => x.name == this.myForm.value['items'][i]['goodsCode']
     // )?.goodsCode;
-    let index = this.listTransDetail.findIndex((x) => x.goodsCode == goodsCode);
+    let index = i;
     this._warehouseService
       .goodsDetail({
         goodsCode: goodsCode,
@@ -189,7 +190,7 @@ export class TransactionCreateComponent {
             unitId: '',
             supplierId: '',
             quantity: 1,
-            unitPrice: 0,
+            unitPrice: res.data?.price,
             totalAmount: 0,
             dateOfManufacture: null,
             dateOfExpired: null,
@@ -225,23 +226,22 @@ export class TransactionCreateComponent {
     let dateOfExpired = this.myForm.value['items'][i]['dateOfExpired'];
     if (index >= 0) {
       goodsId = this.listTransDetail[index].goodsId;
-      this.listTransDetail.splice(i, 1);
+      this.listTransDetail.splice(index, 1, {
+        goodsId: goodsId,
+        goodsCode: goodsCode,
+        goodsName: goodsName,
+        unitId: unitId,
+        supplierId: supplierId,
+        quantity: this._commonService.formatNumber(quantity),
+        unitPrice: this._commonService.formatNumber(unitPrice),
+        totalAmount: this._commonService.formatNumber(totalAmount),
+        dateOfManufacture: dateOfManufacture,
+        dateOfExpired: dateOfExpired,
+      });
+      console.log(this.listTransDetail);
+      this.items.setValue(this.listTransDetail);
+      this.calTotalAmountDetail();
     }
-
-    this.listTransDetail.splice(index, 0, {
-      goodsId: goodsId,
-      goodsCode: goodsCode,
-      goodsName: goodsName,
-      unitId: unitId,
-      supplierId: supplierId,
-      quantity: this._commonService.formatNumber(quantity),
-      unitPrice: this._commonService.formatNumber(unitPrice),
-      totalAmount: this._commonService.formatNumber(totalAmount),
-      dateOfManufacture: dateOfManufacture,
-      dateOfExpired: dateOfExpired,
-    });
-    this.items.setValue(this.listTransDetail);
-    this.calTotalAmountDetail();
   }
 
   calTotalAmountDetail() {
@@ -261,7 +261,7 @@ export class TransactionCreateComponent {
     this._warehouseService
       .stockSearch({
         pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
+        pageSize: PageingReq.PAGE_SIZE_SEARCH,
         textSearch: searchReq,
       })
       .subscribe((res) => {
@@ -269,7 +269,7 @@ export class TransactionCreateComponent {
           res.isNormal &&
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
-          this.stocks = res.data?.list;
+          this.stocks = res.data?.list ?? [];
         } else {
           this.listStock();
         }
@@ -281,7 +281,7 @@ export class TransactionCreateComponent {
     this._warehouseService
       .goodsSearch({
         pageNumber: PageingReq.PAGE_NUMBER,
-        pageSize: PageingReq.PAGE_SIZE,
+        pageSize: PageingReq.PAGE_SIZE_SEARCH,
         textSearch: searchReq,
       })
       .subscribe((res) => {
@@ -289,11 +289,30 @@ export class TransactionCreateComponent {
           res.isNormal &&
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
-          this.goods = res.data?.list;
+          this.goods = res.data?.list ?? [];
         } else {
           this.listGoods();
         }
       });
+  }
+
+  onSearch() {
+    console.log(1);
+  }
+
+  onSetProperties(i: any, event: any, type: number) {
+    const valueText = (event.target as HTMLSelectElement).value;
+    let item = this.listTransDetail[i];
+    if (type === 1) {
+      //set value supplier
+      item.supplierId = this.suppliers?.find((x) => x.name === valueText)?.name;
+    } else if (type === 2) {
+      //set value unit
+      item.unitId = this.units?.find((x) => x.name === valueText)?.name;
+    }
+    this.listTransDetail.splice(i, 1, item);
+    this.items.setValue(this.listTransDetail);
+    this.calTotalAmountDetail();
   }
 
   onSave() {
@@ -313,8 +332,10 @@ export class TransactionCreateComponent {
           goodsId: element.goodsId,
           dateOfExpired: element.dateOfExpired,
           dateOfManufacture: element.dateOfManufacture,
-          supplierId: element.supplierId ?? null,
-          unitId: element.unitId,
+          supplierId:
+            this.suppliers?.find((x) => x.name === element.supplierId)?.id ??
+            this.suppliers[0].id,
+          unitId: this.units?.find((x) => x.name === element.unitId)?.id,
         });
       });
       let request: TransactionWhCreateModelReq = {

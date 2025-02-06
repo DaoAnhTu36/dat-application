@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "shop-food-admin": {
+    "shop-food-portal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/shop-food-admin",
+            "outputPath": "dist/shop-food-portal",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -81,10 +81,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "shop-food-admin:build:production"
+              "buildTarget": "shop-food-portal:build:production"
             },
             "development": {
-              "buildTarget": "shop-food-admin:build:development"
+              "buildTarget": "shop-food-portal:build:development"
             }
           },
           "defaultConfiguration": "development"

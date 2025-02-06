@@ -203,7 +203,8 @@ namespace DAT.Infrastructure
 
         public static string OverWriteConnectString(IOptions<AppConfig> options)
         {
-            return string.Format("Server={0};Database={1};User Id={2};password={3};Trusted_Connection=False;MultipleActiveResultSets=true;TrustServerCertificate=True;", options.Value.ConnectionStringInfo?.IPAddress, options.Value.ConnectionStringInfo?.DBName, options.Value.ConnectionStringInfo?.UserId, options.Value.ConnectionStringInfo?.Password);
+            return options.Value.ConnectionStringInfo?.InstanceString ?? "";
+            //return string.Format("Server={0};Database={1};User Id={2};password={3};Trusted_Connection=False;MultipleActiveResultSets=true;TrustServerCertificate=True;", options.Value.ConnectionStringInfo?.IPAddress, options.Value.ConnectionStringInfo?.DBName, options.Value.ConnectionStringInfo?.UserId, options.Value.ConnectionStringInfo?.Password);
         }
 
         public static string OverWriteConnectString(IConfigurationSection section)
@@ -263,25 +264,32 @@ namespace DAT.Infrastructure
                         .CreateLogger();
         }
 
-        public static IServiceCollection AddCors(this IServiceCollection services, string myAllowSpecificOrigins)
+        public static IServiceCollection AddCors(this IServiceCollection services, string myAllowSpecificOrigins, IConfigurationSection section)
         {
             return services
                 .AddCors(options =>
                 {
                     options.AddPolicy(name: myAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy
-                          .WithOrigins("http://localhost:4200")
-                          .WithOrigins("http://localhost:4300")
-                          .WithOrigins("http://192.168.131.182")
-                          .WithOrigins("http://192.168.131.182:80")
-                          .WithOrigins("http://192.168.131.182:8083")
-                          .WithOrigins("https://taphoagiadinh.com/")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials();
-                      });
+                    policy =>
+                    {
+                        policy
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                        var dataConfig = section.GetSection("CorsConfig").Value;
+                        if (string.IsNullOrEmpty(dataConfig))
+                        {
+
+                        }
+                        else
+                        {
+                            var arrCors = dataConfig.Split(';');
+                            foreach (var c in arrCors)
+                            {
+                                policy.WithOrigins(c);
+                            }
+                        }
+                    });
                 });
         }
     }

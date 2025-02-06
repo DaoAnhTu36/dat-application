@@ -16,13 +16,16 @@ namespace DAT.API.Services.Warehouse.Impl
     {
         private readonly IOptions<AppConfig> _options;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediaService _mediaService;
 
         public GoodsWhService(IUnitOfWork unitOfWork
             , DbContext context
-            , IOptions<AppConfig> options) : base(context)
+            , IOptions<AppConfig> options
+            , IMediaService mediaService) : base(context)
         {
             _unitOfWork = unitOfWork;
             _options = options;
+            _mediaService = mediaService;
         }
 
         public async Task<ApiResponse<GoodsWhCreateModelRes>> Create(GoodsWhCreateModelReq req)
@@ -48,6 +51,8 @@ namespace DAT.API.Services.Warehouse.Impl
                     Description = req.Description,
                     GoodsCode = req.GoodsCode,
                     CategoryId = req.CategoryId,
+                    Image = req.Image,
+                    Price = req.Price,
                 };
                 _context.Add(entity);
                 await _unitOfWork.SaveChangesAsync();
@@ -111,6 +116,8 @@ namespace DAT.API.Services.Warehouse.Impl
                                        GoodsCode = goods.GoodsCode,
                                        Status = goods.Status,
                                        CategoryName = category.Name,
+                                       Price = goods.Price,
+                                       Image = goods.Image
                                    }).FirstOrDefaultAsync();
                 if (query == null)
                 {
@@ -158,6 +165,8 @@ namespace DAT.API.Services.Warehouse.Impl
                                  CategoryId = goods.CategoryId,
                                  CategoryName = category.Name,
                                  Status = goods.Status,
+                                 Image = goods.Image,
+                                 Price = goods.Price
                              }).OrderByDescending(x => x.UpdatedDate).AsQueryable();
                 retVal = new ApiResponse<GoodsWhListModelRes>
                 {
@@ -206,6 +215,8 @@ namespace DAT.API.Services.Warehouse.Impl
                 record.Name = !string.IsNullOrEmpty(req.Name) ? req.Name : record.Name;
                 record.Description = !string.IsNullOrEmpty(req.Description) ? req.Name : record.Description;
                 record.CategoryId = req.CategoryId != Guid.Empty ? req.CategoryId : record.CategoryId;
+                record.Price = req.Price != 0 ? req.Price : record.Price;
+                record.Image = !string.IsNullOrEmpty(req.Image) ? req.Image : record.Image;
                 record.UpdatedBy = AdminInfo.Id;
                 record.UpdatedDate = DateTime.Now;
                 _context.Update(record);
@@ -245,6 +256,8 @@ namespace DAT.API.Services.Warehouse.Impl
                                  CategoryId = goods.CategoryId,
                                  CategoryName = category.Name,
                                  Status = goods.Status,
+                                 Image = goods.Image,
+                                 Price = goods.Price
                              }).OrderByDescending(x => x.UpdatedDate).ToListAsync();
                 query = query.Where(x => string.IsNullOrEmpty(req.TextSearch) || UtilityDatabase.FindMatches(req.TextSearch, x.Name)).ToList();
                 retVal = new ApiResponse<GoodsWhSearchListModelRes>

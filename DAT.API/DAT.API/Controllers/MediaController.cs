@@ -20,7 +20,7 @@ namespace DAT.API.Controllers
         }
 
         [HttpPost("upload"), DisableRequestSizeLimit]
-        public async Task<ApiResponse<UploadFileResponseDTO>> FileUpload(List<IFormFile> files)
+        public async Task<ApiResponse<UploadFileResponseDTO>> FileUpload([FromForm]List<IFormFile> files)
         {
             LoggerFunctionUtility.CommonLogStart(this);
             var retVal = new ApiResponse<UploadFileResponseDTO>();

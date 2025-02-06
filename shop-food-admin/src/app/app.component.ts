@@ -15,6 +15,7 @@ import { SignalRService } from './services/signal-r.service';
 import { WarehouseModule } from './modules/cms/warehouse/warehouse.module';
 import { SharingService } from './services/sharing.service';
 import { ToastrService } from 'ngx-toastr';
+import { FileUploadService } from './services/file-upload.service';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
   providers: [
     WarehouseService,
     AuthService,
+    FileUploadService,
     { provide: API_AUTH_URL, useValue: environment.API_AUTH_URL },
     { provide: API_WAREHOUSE_URL, useValue: environment.API_WAREHOUSE_URL },
     LoadingService,

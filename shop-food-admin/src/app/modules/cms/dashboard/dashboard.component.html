@@ -1,1 +1,103 @@
-<p>dashboard works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <section class="statistics">
+      <h1>Thống kê bán hàng</h1>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="fromDate">Từ ngày</label>
+              <input
+                type="date"
+                class="form-control"
+                name="fromDate"
+                id="fromDate"
+                formControlName="fromDate"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="toDate">Đến ngày</label>
+              <input
+                type="date"
+                class="form-control"
+                name="toDate"
+                id="toDate"
+                formControlName="toDate"
+              />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button
+              class="btn btn-success"
+              type="submit"
+              [disabled]="form.invalid"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+      <table
+        class="table table-hover table-bordered"
+        *ngIf="dataStatistics.length > 0"
+      >
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Mã hàng hóa</th>
+            <th>Tên hàng hóa</th>
+            <!-- <th>Giá trung bình</th> -->
+            <th>Số lượng bán</th>
+            <th>Tổng tiền</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataStatistics; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.goodsCode }}</td>
+            <td>{{ item.goodsName }}</td>
+            <!-- <td>{{ item.price | customCurrencyPipe }}</td> -->
+            <td>{{ item.quantity | customNumberPipe }}</td>
+            <td>{{ item.totalPrice | customCurrencyPipe }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="onViewChart(item.goodsId)"
+              >
+                <i class="fa fa-chart-column" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="dataStatistics.length === 0">
+        Không có hàng hóa nào được bán trong khoảng thời gian này
+      </p>
+    </section>
+
+    <div class="chart">
+      <div class="row">
+        <div class="col-mmd-6">
+          <canvas
+            baseChart
+            [data]="dataChartTop5Sale.lineChartData"
+            [options]="dataChartTop5Sale.lineChartOptions"
+            [type]="dataChartTop5Sale.lineChartType"
+          ></canvas>
+        </div>
+        <div class="col-mmd-6" *ngIf="isShowChartHistory">
+          <canvas
+            baseChart
+            [data]="dataChartHistoryChange.lineChartData"
+            [options]="dataChartHistoryChange.lineChartOptions"
+            [type]="dataChartHistoryChange.lineChartType"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

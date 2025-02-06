@@ -2,13 +2,17 @@
 @media (min-width: 1025px) {
   .menu-area {
     height: 100vh;
+    overflow: auto;
   }
 }
 /* Tablets */
 @media (min-width: 768px) and (max-width: 1024px) {
   .menu-area {
     height: 100vh;
+    overflow: auto;
   }
+}
+.menu-area {
 }
 .menu-area * {
   padding: 0;

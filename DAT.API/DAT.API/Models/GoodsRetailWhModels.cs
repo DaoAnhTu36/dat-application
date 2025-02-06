@@ -62,6 +62,7 @@ namespace DAT.API.Models
     public class GoodsRetailModelRes
     {
         public string GoodsName { get; set; }
+        public string GoodsCode { get; set; }
         public IEnumerable<GoodsRetailInstance> GoodsRetails { get; set; }
     }
 
@@ -69,10 +70,11 @@ namespace DAT.API.Models
     {
         public Guid Id { get; set; }
         public Guid GoodsId { get; set; }
-        public string GoodsCode { get; set; }
         public string GoodsName { get; set; }
         public decimal Price { get; set; }
         public Guid TransDetailId { get; set; }
+        public Guid UnitId { get; set; }
+        public string UnitName { get; set; }
     }
 
     public class GoodsRetailWhListModelReq : BasePageEntity
@@ -91,19 +93,36 @@ namespace DAT.API.Models
         public string GoodsName { get; set; }
         public decimal Price { get; set; }
     }
-    public class GoodsRetailWhSearchlModelReq
+
+    public class GoodsRetailWhSearchModelReq : BasePageEntity
     {
-        public string TextSearch { get; set; }
+        public string? goodsCode { get; set; }
+        public string? goodsName { get; set; }
     }
 
-    public class GoodsRetailWhSearchlModelRes
+    public class GoodsRetailWhSearchModelRes
     {
-        public string GoodsName { get; set; }
-        public decimal Price { get; set; }
-        public string UnitName { get; set; }
-        public string UnitId { get; set; }
-        public string TransDetailId { get; set; }
-        public string GoodsId { get; set; }
-        public string GoodsCode { get; set; }
+        public IEnumerable<GoodsRetailModelRes> List { get; set; }
+    }
+
+    public class GoodsRetailWhHistoryChangeOfPriceModelReq
+    {
+        public Guid GoodsId { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+    }
+
+    public class GoodsRetailWhHistoryChangeOfPriceModelRes
+    {
+        public List<decimal> Prices { get; set; }
+    }
+
+    public class GoodsRetailWhSearchForMachineModelReq
+    {
+        public string? textSearch { get; set; }
+    }
+    public class GoodsRetailWhSearchForMachineModelRes
+    {
+        public IEnumerable<GoodsRetailModelRes> List { get; set; }
     }
 }

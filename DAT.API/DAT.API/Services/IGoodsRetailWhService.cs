@@ -13,8 +13,12 @@ namespace DAT.API.Services.Warehouse
 
         Task<ApiResponse<GoodsRetailWhListModelRes>> List(GoodsRetailWhListModelReq req);
 
-        Task<ApiResponse<GoodsRetailWhSearchlModelRes>> Search(GoodsRetailWhSearchlModelReq req);
+        Task<ApiResponse<GoodsRetailWhSearchModelRes>> Search(GoodsRetailWhSearchModelReq req);
 
         Task<ApiResponse<GoodsRetailWhListModelRes>> ListForMachine();
+
+        Task<ApiResponse<GoodsRetailWhHistoryChangeOfPriceModelRes>> HistoryChangeOfPrice(GoodsRetailWhHistoryChangeOfPriceModelReq req);
+
+        Task<ApiResponse<GoodsRetailWhSearchForMachineModelRes>> SearchForMachine(GoodsRetailWhSearchForMachineModelReq req);
     }
 }
