@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer2 } from '@angular/core';
 import {
+  GoodsRetailModelRes,
   GoodsRetailWhListModelRes,
   TranRetailDTO,
   WarehouseService,
@@ -47,7 +48,7 @@ export class VendingMachineComponent {
   ) {}
 
   ngOnInit() {
-    this.getGoodsRetailList();
+    // this.getGoodsRetailList();
   }
 
   onAdd() {
@@ -82,8 +83,12 @@ export class VendingMachineComponent {
 
   onSearchGoods(event: Event) {
     const textSearch = (event.target as HTMLSelectElement).value;
+    if (textSearch === '') {
+      this.listGoodsRetail = undefined;
+      return;
+    }
     this._warehouseService
-      .goodsretailSearch({
+      .goodsretailSearchForMachine({
         textSearch: textSearch,
       })
       .subscribe((res) => {
@@ -91,20 +96,52 @@ export class VendingMachineComponent {
           res.isNormal &&
           res.metaData?.statusCode === StatusCodeApiResponse.SUCCESS
         ) {
-          this.goodsId = res.data?.goodsId ?? '';
-          this.unitId = res.data?.unitId ?? '';
-          this.transDetailId = res.data?.transDetailId ?? '';
-          this.goodsName = res.data?.goodsName ?? '';
-          this.price = res.data?.price ?? undefined;
-          this.unitName = res.data?.unitName ?? '';
-          this.quantity = 1;
-          this.totalPrice += this.quantity * (this.price ?? 0);
-          this.onAdd();
-          this.onCalTotalBill();
+          this.listGoodsRetail = res.data;
+          // this.goodsId = res.data?. ?? '';
+          // this.unitId = res.data?.unitId ?? '';
+          // this.transDetailId = res.data?.transDetailId ?? '';
+          // this.goodsName = res.data?.goodsName ?? '';
+          // this.price = res.data?.price ?? undefined;
+          // this.unitName = res.data?.unitName ?? '';
+          // this.quantity = 1;
+          // this.totalPrice += this.quantity * (this.price ?? 0);
+          // this.onAdd();
+          // this.onCalTotalBill();
         } else {
           this._toastService.error('Không tìm thấy sản phẩm');
         }
       });
+  }
+
+  onSelectGoods(item: GoodsRetailModelRes) {
+    if (item.goodsRetails && item.goodsRetails.length > 0) {
+      console.log(item);
+      this.goodsId = item.goodsRetails[0].goodsId;
+      if (
+        item.goodsRetails[0] &&
+        this.data_buy.find((x) => x.goodsId === this.goodsId)
+      ) {
+        const index = this.data_buy.findIndex(
+          (x) => x.goodsId === this.goodsId
+        );
+        this.data_buy[index].quantity += 1;
+      } else {
+        this.goodsCode = item.goodsCode ?? '';
+        this.unitId = item.goodsRetails[0].unitId ?? '';
+        this.transDetailId = item.goodsRetails[0].transDetailId ?? '';
+        this.goodsName = item.goodsRetails[0].goodsName ?? '';
+        this.price = item.goodsRetails[0].price ?? undefined;
+        this.unitName = item.goodsRetails[0].unitName ?? '';
+        this.quantity = 1;
+        this.totalPrice += this.quantity * (this.price ?? 0);
+        this.onAdd();
+      }
+      this.onCalTotalBill();
+      this.goodsCode = '';
+      this.listGoodsRetail = undefined;
+    } else {
+      this._toastService.error('Có lỗi xảy ra');
+    }
   }
 
   onCalTotalBill(i: number = 0, quantity: number = 0) {
@@ -118,6 +155,8 @@ export class VendingMachineComponent {
   }
 
   onPay() {
+    console.log(this.data_buy);
+    return;
     let req: TranRetailDTO[] = [];
     this.data_buy.forEach((e) => {
       req.push({
@@ -152,5 +191,10 @@ export class VendingMachineComponent {
           this._toastService.success('Thanh toán thất bại');
         }
       });
+  }
+
+  onDelete(i: number) {
+    this.data_buy.splice(i, 1);
+    this.onCalTotalBill();
   }
 }

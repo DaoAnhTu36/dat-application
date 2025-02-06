@@ -51,6 +51,7 @@
             <!-- <th>Giá trung bình</th> -->
             <th>Số lượng bán</th>
             <th>Tổng tiền</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +62,15 @@
             <!-- <td>{{ item.price | customCurrencyPipe }}</td> -->
             <td>{{ item.quantity | customNumberPipe }}</td>
             <td>{{ item.totalPrice | customCurrencyPipe }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="onViewChart(item.goodsId)"
+              >
+                <i class="fa fa-chart-column" aria-hidden="true"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -70,15 +80,23 @@
     </section>
 
     <div class="chart">
-      <div style="display: block">
-        <canvas
-          baseChart
-          [datasets]="lineChartData"
-          [labels]="lineChartLabels"
-          [options]="lineChartOptions"
-          [legend]="true"
-        >
-        </canvas>
+      <div class="row">
+        <div class="col-mmd-6">
+          <canvas
+            baseChart
+            [data]="dataChartTop5Sale.lineChartData"
+            [options]="dataChartTop5Sale.lineChartOptions"
+            [type]="dataChartTop5Sale.lineChartType"
+          ></canvas>
+        </div>
+        <div class="col-mmd-6" *ngIf="isShowChartHistory">
+          <canvas
+            baseChart
+            [data]="dataChartHistoryChange.lineChartData"
+            [options]="dataChartHistoryChange.lineChartOptions"
+            [type]="dataChartHistoryChange.lineChartType"
+          ></canvas>
+        </div>
       </div>
     </div>
   </div>

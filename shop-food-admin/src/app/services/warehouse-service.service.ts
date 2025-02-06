@@ -108,9 +108,9 @@ export interface IWarehouseService {
    * @param body (optional)
    * @return OK
    */
-  goodsretailStatistics(
-    body: GoodsRetailWhStatisticsModelReq | undefined
-  ): Observable<GoodsRetailWhStatisticsModelResListApiResponse>;
+  goodsretailHistoryChangeOfPrice(
+    body: GoodsRetailWhHistoryChangeOfPriceModelReq | undefined
+  ): Observable<GoodsRetailWhHistoryChangeOfPriceModelResApiResponse>;
   /**
    * @param body (optional)
    * @return OK
@@ -337,6 +337,20 @@ export interface IWarehouseService {
   transactionretailDetail(
     body: TransactionRetailWhDetailModelReq | undefined
   ): Observable<TransactionRetailWhDetailModelResApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailStatistics(
+    body: TransactionRetailWhStatisticsModelReq | undefined
+  ): Observable<TransactionRetailWhStatisticsModelResListApiResponse>;
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailStatisticsTop5(
+    body: TransactionRetailWhStatisticsModelReq | undefined
+  ): Observable<TransactionRetailWhStatisticsModelResListApiResponse>;
   /**
    * @param body (optional)
    * @return OK
@@ -1452,10 +1466,11 @@ export class WarehouseService implements IWarehouseService {
    * @param body (optional)
    * @return OK
    */
-  goodsretailStatistics(
-    body: GoodsRetailWhStatisticsModelReq | undefined
-  ): Observable<GoodsRetailWhStatisticsModelResListApiResponse> {
-    let url_ = this.baseUrl + '/api/wh/goodsretail/goodsretail-statistics';
+  goodsretailHistoryChangeOfPrice(
+    body: GoodsRetailWhHistoryChangeOfPriceModelReq | undefined
+  ): Observable<GoodsRetailWhHistoryChangeOfPriceModelResApiResponse> {
+    let url_ =
+      this.baseUrl + '/api/wh/goodsretail/goodsretail-history-change-of-price';
     url_ = url_.replace(/[?&]$/, '');
 
     const content_ = JSON.stringify(body);
@@ -1474,30 +1489,32 @@ export class WarehouseService implements IWarehouseService {
       .request('post', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
-          return this.processGoodsretailStatistics(response_);
+          return this.processGoodsretailHistoryChangeOfPrice(response_);
         })
       )
       .pipe(
         _observableCatch((response_: any) => {
           if (response_ instanceof HttpResponseBase) {
             try {
-              return this.processGoodsretailStatistics(response_ as any);
+              return this.processGoodsretailHistoryChangeOfPrice(
+                response_ as any
+              );
             } catch (e) {
               return _observableThrow(
                 e
-              ) as any as Observable<GoodsRetailWhStatisticsModelResListApiResponse>;
+              ) as any as Observable<GoodsRetailWhHistoryChangeOfPriceModelResApiResponse>;
             }
           } else
             return _observableThrow(
               response_
-            ) as any as Observable<GoodsRetailWhStatisticsModelResListApiResponse>;
+            ) as any as Observable<GoodsRetailWhHistoryChangeOfPriceModelResApiResponse>;
         })
       );
   }
 
-  protected processGoodsretailStatistics(
+  protected processGoodsretailHistoryChangeOfPrice(
     response: HttpResponseBase
-  ): Observable<GoodsRetailWhStatisticsModelResListApiResponse> {
+  ): Observable<GoodsRetailWhHistoryChangeOfPriceModelResApiResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -1522,7 +1539,7 @@ export class WarehouseService implements IWarehouseService {
               : (JSON.parse(
                   _responseText,
                   this.jsonParseReviver
-                ) as GoodsRetailWhStatisticsModelResListApiResponse);
+                ) as GoodsRetailWhHistoryChangeOfPriceModelResApiResponse);
           return _observableOf(result200);
         })
       );
@@ -1538,7 +1555,7 @@ export class WarehouseService implements IWarehouseService {
         })
       );
     }
-    return _observableOf<GoodsRetailWhStatisticsModelResListApiResponse>(
+    return _observableOf<GoodsRetailWhHistoryChangeOfPriceModelResApiResponse>(
       null as any
     );
   }
@@ -4553,6 +4570,201 @@ export class WarehouseService implements IWarehouseService {
    * @param body (optional)
    * @return OK
    */
+  transactionretailStatistics(
+    body: TransactionRetailWhStatisticsModelReq | undefined
+  ): Observable<TransactionRetailWhStatisticsModelResListApiResponse> {
+    let url_ =
+      this.baseUrl + '/api/wh/transactionretail/transactionretail-statistics';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionretailStatistics(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionretailStatistics(response_ as any);
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionRetailWhStatisticsModelResListApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionRetailWhStatisticsModelResListApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionretailStatistics(
+    response: HttpResponseBase
+  ): Observable<TransactionRetailWhStatisticsModelResListApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionRetailWhStatisticsModelResListApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionRetailWhStatisticsModelResListApiResponse>(
+      null as any
+    );
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
+  transactionretailStatisticsTop5(
+    body: TransactionRetailWhStatisticsModelReq | undefined
+  ): Observable<TransactionRetailWhStatisticsModelResListApiResponse> {
+    let url_ =
+      this.baseUrl +
+      '/api/wh/transactionretail/transactionretail-statistics-top5';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(body);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processTransactionretailStatisticsTop5(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processTransactionretailStatisticsTop5(
+                response_ as any
+              );
+            } catch (e) {
+              return _observableThrow(
+                e
+              ) as any as Observable<TransactionRetailWhStatisticsModelResListApiResponse>;
+            }
+          } else
+            return _observableThrow(
+              response_
+            ) as any as Observable<TransactionRetailWhStatisticsModelResListApiResponse>;
+        })
+      );
+  }
+
+  protected processTransactionretailStatisticsTop5(
+    response: HttpResponseBase
+  ): Observable<TransactionRetailWhStatisticsModelResListApiResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (response as any).error instanceof Blob
+        ? (response as any).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          result200 =
+            _responseText === ''
+              ? null
+              : (JSON.parse(
+                  _responseText,
+                  this.jsonParseReviver
+                ) as TransactionRetailWhStatisticsModelResListApiResponse);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException(
+            'An unexpected server error occurred.',
+            status,
+            _responseText,
+            _headers
+          );
+        })
+      );
+    }
+    return _observableOf<TransactionRetailWhStatisticsModelResListApiResponse>(
+      null as any
+    );
+  }
+
+  /**
+   * @param body (optional)
+   * @return OK
+   */
   transactionCreate(
     body: TransactionWhCreateModelReq | undefined
   ): Observable<TransactionWhCreateModelResApiResponse> {
@@ -5642,6 +5854,7 @@ export interface CategoryWhUpdateModelResApiResponse {
 export interface FileUploadDTO {
   fileId?: string | null;
   fileName?: string | null;
+  path?: string | null;
 }
 
 export interface GoodsDetailWhModel {
@@ -5656,12 +5869,13 @@ export interface GoodsDetailWhModel {
   categoryId?: string;
   categoryName?: string | null;
   goodsCode?: string | null;
+  price?: number;
+  image?: string | null;
 }
 
 export interface GoodsRetailInstance {
   id?: string;
   goodsId?: string;
-  goodsCode?: string | null;
   goodsName?: string | null;
   price?: number;
   transDetailId?: string;
@@ -5669,6 +5883,7 @@ export interface GoodsRetailInstance {
 
 export interface GoodsRetailModelRes {
   goodsName?: string | null;
+  goodsCode?: string | null;
   goodsRetails?: GoodsRetailInstance[] | null;
 }
 
@@ -5704,6 +5919,23 @@ export interface GoodsRetailWhDeleteModelResApiResponse {
   pageInfo?: PageInfo;
 }
 
+export interface GoodsRetailWhHistoryChangeOfPriceModelReq {
+  goodsId?: string;
+  fromDate?: Date | null;
+  toDate?: Date | null;
+}
+
+export interface GoodsRetailWhHistoryChangeOfPriceModelRes {
+  prices?: number[] | null;
+}
+
+export interface GoodsRetailWhHistoryChangeOfPriceModelResApiResponse {
+  data?: GoodsRetailWhHistoryChangeOfPriceModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
+}
+
 export interface GoodsRetailWhListModelReq {
   pageNumber?: number;
   pageSize?: number;
@@ -5721,42 +5953,18 @@ export interface GoodsRetailWhListModelResApiResponse {
 }
 
 export interface GoodsRetailWhSearchlModelReq {
-  textSearch?: string | null;
+  pageNumber?: number;
+  pageSize?: number;
+  goodsCode?: string | null;
+  goodsName?: string | null;
 }
 
 export interface GoodsRetailWhSearchlModelRes {
-  goodsName?: string | null;
-  price?: number;
-  unitName?: string | null;
-  unitId?: string | null;
-  transDetailId?: string | null;
-  goodsId?: string | null;
-  goodsCode?: string | null;
+  list?: GoodsRetailModelRes[] | null;
 }
 
 export interface GoodsRetailWhSearchlModelResApiResponse {
   data?: GoodsRetailWhSearchlModelRes;
-  isNormal?: boolean;
-  metaData?: MetaData;
-  pageInfo?: PageInfo;
-}
-
-export interface GoodsRetailWhStatisticsModelReq {
-  fromDate?: Date | null;
-  toDate?: Date | null;
-}
-
-export interface GoodsRetailWhStatisticsModelRes {
-  goodsId?: string;
-  goodsCode?: string | null;
-  goodsName?: string | null;
-  quantity?: number;
-  price?: number;
-  totalPrice?: number;
-}
-
-export interface GoodsRetailWhStatisticsModelResListApiResponse {
-  data?: GoodsRetailWhStatisticsModelRes[] | null;
   isNormal?: boolean;
   metaData?: MetaData;
   pageInfo?: PageInfo;
@@ -5781,6 +5989,8 @@ export interface GoodsWhCreateModelReq {
   name: string;
   description?: string | null;
   categoryId: string;
+  image?: string | null;
+  price?: number;
 }
 
 export interface GoodsWhCreateModelRes {}
@@ -5822,6 +6032,8 @@ export interface GoodsWhDetailModelRes {
   categoryId?: string;
   categoryName?: string | null;
   goodsCode?: string | null;
+  price?: number;
+  image?: string | null;
 }
 
 export interface GoodsWhDetailModelResApiResponse {
@@ -5869,6 +6081,8 @@ export interface GoodsWhUpdateModelReq {
   name?: string | null;
   description?: string | null;
   categoryId?: string;
+  image?: string | null;
+  price?: number;
 }
 
 export interface GoodsWhUpdateModelRes {}
@@ -6309,6 +6523,28 @@ export interface TransactionRetailWhListModelRes {}
 
 export interface TransactionRetailWhListModelResApiResponse {
   data?: TransactionRetailWhListModelRes;
+  isNormal?: boolean;
+  metaData?: MetaData;
+  pageInfo?: PageInfo;
+}
+
+export interface TransactionRetailWhStatisticsModelReq {
+  fromDate?: Date | null;
+  toDate?: Date | null;
+}
+
+export interface TransactionRetailWhStatisticsModelRes {
+  goodsId?: string;
+  goodsCode?: string | null;
+  goodsName?: string | null;
+  quantity?: number;
+  price?: number;
+  totalPrice?: number;
+  unitName?: string | null;
+}
+
+export interface TransactionRetailWhStatisticsModelResListApiResponse {
+  data?: TransactionRetailWhStatisticsModelRes[] | null;
   isNormal?: boolean;
   metaData?: MetaData;
   pageInfo?: PageInfo;

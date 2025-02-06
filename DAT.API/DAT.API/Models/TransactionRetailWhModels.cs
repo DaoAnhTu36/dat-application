@@ -64,4 +64,21 @@ namespace DAT.API.Models
     public class TransactionRetailWhModel : BaseEntity
     {
     }
+
+    public class TransactionRetailWhStatisticsModelReq
+    {
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+    }
+
+    public class TransactionRetailWhStatisticsModelRes
+    {
+        public Guid GoodsId { get; set; }
+        public string GoodsCode { get; set; }
+        public string GoodsName { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
+        public decimal TotalPrice { get; set; }
+        public string UnitName { get; set; }
+    }
 }

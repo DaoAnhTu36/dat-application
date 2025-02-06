@@ -33,21 +33,19 @@ try
 
     var app = builder.Build();
 
-    if (app.Environment.IsDevelopment())
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
         app.Urls.Add("http://localhost:1112");
     }
 
+    app.UseStaticFiles();
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
     app.UseCors(allowCors);
     app.UseDefaultFiles();
-
-    app.UseStaticFiles();
-
     app
         .MapHub<NotificationHub>("/realtime-api")
         .RequireCors(allowCors);

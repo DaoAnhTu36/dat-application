@@ -203,7 +203,8 @@ namespace DAT.Infrastructure
 
         public static string OverWriteConnectString(IOptions<AppConfig> options)
         {
-            return string.Format("Server={0};Database={1};User Id={2};password={3};Trusted_Connection=False;MultipleActiveResultSets=true;TrustServerCertificate=True;", options.Value.ConnectionStringInfo?.IPAddress, options.Value.ConnectionStringInfo?.DBName, options.Value.ConnectionStringInfo?.UserId, options.Value.ConnectionStringInfo?.Password);
+            return options.Value.ConnectionStringInfo?.InstanceString ?? "";
+            //return string.Format("Server={0};Database={1};User Id={2};password={3};Trusted_Connection=False;MultipleActiveResultSets=true;TrustServerCertificate=True;", options.Value.ConnectionStringInfo?.IPAddress, options.Value.ConnectionStringInfo?.DBName, options.Value.ConnectionStringInfo?.UserId, options.Value.ConnectionStringInfo?.Password);
         }
 
         public static string OverWriteConnectString(IConfigurationSection section)

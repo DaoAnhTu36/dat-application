@@ -139,5 +139,83 @@ namespace DAT.API.Services.Warehouse.Impl
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }
+
+        public async Task<ApiResponse<List<TransactionRetailWhStatisticsModelRes>>> Statistics(TransactionRetailWhStatisticsModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this);
+            var retVal = new ApiResponse<List<TransactionRetailWhStatisticsModelRes>>();
+            try
+            {
+                var query = await _context.Set<TransactionRetailWhEntity>()
+                    .Where(x => (req.FromDate == null || x.CreatedDate >= req.FromDate) && (req.ToDate == null || x.CreatedDate <= req.ToDate))
+                    .OrderByDescending(x => x.UpdatedDate)
+                    .GroupBy(x => x.GoodsCode)
+                    .Select(x => new TransactionRetailWhStatisticsModelRes
+                    {
+                        GoodsCode = x.Key,
+                        GoodsId = x.Select(x => x.GoodsId).FirstOrDefault(),
+                        GoodsName = x.Select(x => x.GoodsName).FirstOrDefault() ?? "",
+                        Price = 0,
+                        Quantity = x.Sum(x => x.Quantity),
+                        TotalPrice = x.Sum(x => x.Price)
+                    })
+                    .OrderByDescending(x => x.TotalPrice)
+                    .ToListAsync();
+                retVal = new ApiResponse<List<TransactionRetailWhStatisticsModelRes>>
+                {
+                    Data = query
+                };
+            }
+            catch (Exception ex)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "500",
+                    Message = ex.Message
+                };
+            }
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        public async Task<ApiResponse<List<TransactionRetailWhStatisticsModelRes>>> StatisticsTop5(TransactionRetailWhStatisticsModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this);
+            var retVal = new ApiResponse<List<TransactionRetailWhStatisticsModelRes>>();
+            try
+            {
+                var query = await _context.Set<TransactionRetailWhEntity>()
+                    .Where(x => (req.FromDate == null || x.CreatedDate >= req.FromDate) && (req.ToDate == null || x.CreatedDate <= req.ToDate))
+                    .GroupBy(x => x.GoodsCode)
+                    .Select(x => new TransactionRetailWhStatisticsModelRes
+                    {
+                        GoodsCode = x.Key,
+                        GoodsId = x.Select(x => x.GoodsId).FirstOrDefault(),
+                        GoodsName = x.Select(x => x.GoodsName).FirstOrDefault() ?? "",
+                        Price = 0,
+                        Quantity = x.Sum(x => x.Quantity),
+                        TotalPrice = x.Sum(x => x.Price)
+                    })
+                    .OrderByDescending(x => x.Quantity)
+                    .Take(5)
+                    .ToListAsync();
+                retVal = new ApiResponse<List<TransactionRetailWhStatisticsModelRes>>
+                {
+                    Data = query
+                };
+            }
+            catch (Exception ex)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "500",
+                    Message = ex.Message
+                };
+            }
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
     }
 }

@@ -14,4 +14,5 @@ export enum StatusCodeApiResponse {
 export enum PageingReq {
   PAGE_NUMBER = 1,
   PAGE_SIZE = 10,
+  PAGE_SIZE_SEARCH = 10000,
 }

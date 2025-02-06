@@ -117,5 +117,47 @@ namespace DAT.API.Controllers.Warehouses
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }
+
+        [HttpPost("transactionretail-statistics")]
+        public async Task<ApiResponse<List<TransactionRetailWhStatisticsModelRes>>> Statistics([FromBody] TransactionRetailWhStatisticsModelReq req)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            LoggerFunctionUtility.CommonLogStart(this, stopwatch);
+            var retVal = new ApiResponse<List<TransactionRetailWhStatisticsModelRes>>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.Statistics(req);
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        [HttpPost("transactionretail-statistics-top5")]
+        public async Task<ApiResponse<List<TransactionRetailWhStatisticsModelRes>>> StatisticsTop5([FromBody] TransactionRetailWhStatisticsModelReq req)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            LoggerFunctionUtility.CommonLogStart(this, stopwatch);
+            var retVal = new ApiResponse<List<TransactionRetailWhStatisticsModelRes>>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.StatisticsTop5(req);
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
     }
 }

@@ -118,11 +118,11 @@ namespace DAT.API.Controllers.Warehouses
         }
 
         [HttpPost("goodsretail-search")]
-        public async Task<ApiResponse<GoodsRetailWhSearchlModelRes>> Search([FromBody] GoodsRetailWhSearchlModelReq req)
+        public async Task<ApiResponse<GoodsRetailWhSearchModelRes>> Search([FromBody] GoodsRetailWhSearchModelReq req)
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             LoggerFunctionUtility.CommonLogStart(this, stopwatch);
-            var retVal = new ApiResponse<GoodsRetailWhSearchlModelRes>();
+            var retVal = new ApiResponse<GoodsRetailWhSearchModelRes>();
             if (!ModelState.IsValid)
             {
                 retVal.IsNormal = false;
@@ -159,13 +159,12 @@ namespace DAT.API.Controllers.Warehouses
             return retVal;
         }
 
-
-        [HttpPost("goodsretail-statistics")]
-        public async Task<ApiResponse<List<GoodsRetailWhStatisticsModelRes>>> Statistics([FromBody] GoodsRetailWhStatisticsModelReq req)
+        [HttpPost("goodsretail-history-change-of-price")]
+        public async Task<ApiResponse<GoodsRetailWhHistoryChangeOfPriceModelRes>> HistoryChangeOfPrice([FromBody] GoodsRetailWhHistoryChangeOfPriceModelReq req)
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             LoggerFunctionUtility.CommonLogStart(this, stopwatch);
-            var retVal = new ApiResponse<List<GoodsRetailWhStatisticsModelRes>>();
+            var retVal = new ApiResponse<GoodsRetailWhHistoryChangeOfPriceModelRes>();
             if (!ModelState.IsValid)
             {
                 retVal.IsNormal = false;
@@ -176,7 +175,28 @@ namespace DAT.API.Controllers.Warehouses
                 LoggerFunctionUtility.CommonLogEnd(this, retVal);
                 return retVal;
             }
-            retVal = await _service.Statistics(req);
+            retVal = await _service.HistoryChangeOfPrice(req);
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        [HttpPost("goodsretail-search-for-machine")]
+        public async Task<ApiResponse<GoodsRetailWhSearchForMachineModelRes>> SearchForMachine([FromBody] GoodsRetailWhSearchForMachineModelReq req)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            LoggerFunctionUtility.CommonLogStart(this, stopwatch);
+            var retVal = new ApiResponse<GoodsRetailWhSearchForMachineModelRes>();
+            if (!ModelState.IsValid)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "400"
+                };
+                LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                return retVal;
+            }
+            retVal = await _service.SearchForMachine(req);
             LoggerFunctionUtility.CommonLogEnd(this, retVal);
             return retVal;
         }

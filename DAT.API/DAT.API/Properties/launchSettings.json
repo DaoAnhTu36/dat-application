@@ -22,7 +22,7 @@
       "commandName": "Project",
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONTMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "applicationUrl": "http://localhost:1112"
     },

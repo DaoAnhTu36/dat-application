@@ -77,34 +77,35 @@ namespace DAT.API.Services.Implementations
                         retVal.Data.FileIds.Add(new FileUploadDTO
                         {
                             FileId = id,
-                            FileName = fileName
+                            FileName = fileName,
+                            Path = pathSave
                         });
                     }
 
-                    if (_options.Value.FTPServerSetting == null)
-                    {
-                        retVal.IsNormal = false;
-                        retVal.MetaData = new MetaData
-                        {
-                            StatusCode = "400"
-                        };
-                        LoggerFunctionUtility.CommonLogEnd(this, retVal);
-                        return retVal;
-                    }
-                    foreach (IFormFile file in files)
-                    {
-                        var process = await FTPServerCommon.UploadFile(ftpServerUrl, pathSave, ftpUsername, ftpPassword);
-                        if (!process.Item2)
-                        {
-                            retVal.IsNormal = false;
-                            retVal.MetaData = new MetaData
-                            {
-                                StatusCode = "400"
-                            };
-                            LoggerFunctionUtility.CommonLogEnd(this, retVal);
-                            return retVal;
-                        }
-                    }
+                    //if (_options.Value.FTPServerSetting == null)
+                    //{
+                    //    retVal.IsNormal = false;
+                    //    retVal.MetaData = new MetaData
+                    //    {
+                    //        StatusCode = "400"
+                    //    };
+                    //    LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                    //    return retVal;
+                    //}
+                    //foreach (IFormFile file in files)
+                    //{
+                    //    var process = await FTPServerCommon.UploadFile(ftpServerUrl, pathSave, ftpUsername, ftpPassword);
+                    //    if (!process.IsNormal)
+                    //    {
+                    //        retVal.IsNormal = false;
+                    //        retVal.MetaData = new MetaData
+                    //        {
+                    //            StatusCode = "400"
+                    //        };
+                    //        LoggerFunctionUtility.CommonLogEnd(this, retVal);
+                    //        return retVal;
+                    //    }
+                    //}
                 }
             }
             catch (Exception ex)

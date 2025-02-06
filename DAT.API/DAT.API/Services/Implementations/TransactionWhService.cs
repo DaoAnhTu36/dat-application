@@ -125,7 +125,7 @@ namespace DAT.API.Services.Warehouse.Impl
                                     join transDetail in _context.Set<TransactionDetailWhEntity>() on trans.Id equals transDetail.TransactionId
                                     join stocks in _context.Set<StockWhEntity>() on trans.StockId equals stocks.Id
                                     join prod in _context.Set<GoodsWhEntity>() on transDetail.GoodsId equals prod.Id
-                                    join supplier in _context.Set<SupplierWhEntity>() on transDetail.SupplierId equals supplier.Id
+                                    join supplier in _context.Set<SupplierWhEntity>().DefaultIfEmpty() on transDetail.SupplierId equals supplier.Id 
                                     join unit in _context.Set<UnitWhEntity>() on transDetail.UnitId equals unit.Id
                                     select new
                                     {
@@ -150,7 +150,7 @@ namespace DAT.API.Services.Warehouse.Impl
                                         CreatedDateTransDetail = transDetail.CreatedDate,
                                         UpdatedByTransDetail = transDetail.UpdatedBy,
                                         UpdatedDateTransDetail = transDetail.UpdatedDate,
-                                        UnitName = unit.Name,
+                                        UnitName = unit == null ? "" : unit.Name,
                                         StockId = stocks.Id,
                                         StockName = stocks.Name,
                                     }

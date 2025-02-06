@@ -28,7 +28,7 @@
             id=""
             placeholder=""
             [(ngModel)]="goodsCode"
-            (ngModelChange)="onFilter()"
+            (ngModelChange)="onSearch()"
           />
         </td>
         <td>
@@ -39,26 +39,16 @@
             id=""
             placeholder=""
             [(ngModel)]="goodsName"
-            (ngModelChange)="onFilter()"
+            (ngModelChange)="onSearch()"
           />
         </td>
-        <td>
-          <input
-            type="text"
-            class="form-control"
-            name=""
-            id=""
-            placeholder=""
-            [(ngModel)]="goodsPrice"
-            (ngModelChange)="onFilter()"
-          />
-        </td>
+        <td></td>
         <td></td>
       </tr>
       <tr *ngFor="let item of data?.list; let i = index">
         <td>{{ i + 1 }}</td>
         <td>
-          {{ item.goodsRetails != null ? item.goodsRetails[0].goodsCode : "" }}
+          {{ item.goodsRetails != null ? item.goodsCode : "" }}
         </td>
         <td>
           {{ item.goodsRetails != null ? item.goodsRetails[0].goodsName : "" }}
@@ -118,7 +108,11 @@
         </td>
       </tr>
       <tr>
-        <td></td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="onAsyncData()">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </td>
         <td colspan="6">
           <div class="paging-area">
             <button

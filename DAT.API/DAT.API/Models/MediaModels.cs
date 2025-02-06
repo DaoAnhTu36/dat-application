@@ -14,6 +14,7 @@ namespace DAT.API.Models
     {
         public Guid? FileId { get; set; }
         public string? FileName { get; set; }
+        public string? Path { get; set; }
     }
 
     public class ItemFileManagerRequestDTO : BasePageEntity

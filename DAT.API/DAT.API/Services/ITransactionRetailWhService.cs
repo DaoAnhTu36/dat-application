@@ -14,5 +14,7 @@ namespace DAT.API.Services.Warehouse
         Task<ApiResponse<TransactionRetailWhListModelRes>> List(TransactionRetailWhListModelReq req);
 
         Task<ApiResponse<TransactionRetailWhDetailModelRes>> Detail(TransactionRetailWhDetailModelReq req);
+        Task<ApiResponse<List<TransactionRetailWhStatisticsModelRes>>> Statistics(TransactionRetailWhStatisticsModelReq req);
+        Task<ApiResponse<List<TransactionRetailWhStatisticsModelRes>>> StatisticsTop5(TransactionRetailWhStatisticsModelReq req);
     }
 }

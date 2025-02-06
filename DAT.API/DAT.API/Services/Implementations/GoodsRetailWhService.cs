@@ -117,19 +117,26 @@ namespace DAT.API.Services.Warehouse.Impl
             var retVal = new ApiResponse<GoodsRetailWhListModelRes>();
             try
             {
-                var query = await _context.Set<GoodsRetailWhEntity>().OrderByDescending(x => x.UpdatedDate).GroupBy(x => x.GoodsName).Select(x => new GoodsRetailModelRes
-                {
-                    GoodsName = x.Key,
-                    GoodsRetails = x.OrderByDescending(y => y.UpdatedDate).Select(c => new GoodsRetailInstance
+                var query = await _context.Set<GoodsRetailWhEntity>()
+                    .OrderByDescending(x => x.UpdatedDate)
+                    .GroupBy(x => new
                     {
-                        GoodsName = c.GoodsName,
-                        GoodsCode = c.GoodsCode,
-                        GoodsId = c.GoodsId,
-                        Price = c.Price,
-                        TransDetailId = c.TransDetailId,
-                        Id = c.Id,
+                        x.GoodsName,
+                        x.GoodsCode
                     })
-                }).ToListAsync();
+                    .Select(x => new GoodsRetailModelRes
+                    {
+                        GoodsName = x.Key.GoodsName,
+                        GoodsCode = x.Key.GoodsCode,
+                        GoodsRetails = x.OrderByDescending(y => y.UpdatedDate).Select(c => new GoodsRetailInstance
+                        {
+                            GoodsName = c.GoodsName,
+                            GoodsId = c.GoodsId,
+                            Price = c.Price,
+                            TransDetailId = c.TransDetailId,
+                            Id = c.Id,
+                        })
+                    }).ToListAsync();
                 retVal = new ApiResponse<GoodsRetailWhListModelRes>
                 {
                     Data = new GoodsRetailWhListModelRes
@@ -191,38 +198,45 @@ namespace DAT.API.Services.Warehouse.Impl
             return retVal;
         }
 
-        public async Task<ApiResponse<GoodsRetailWhSearchlModelRes>> Search(GoodsRetailWhSearchlModelReq req)
+        public async Task<ApiResponse<GoodsRetailWhSearchModelRes>> Search(GoodsRetailWhSearchModelReq req)
         {
             LoggerFunctionUtility.CommonLogStart(this);
-            var retVal = new ApiResponse<GoodsRetailWhSearchlModelRes>();
+            var retVal = new ApiResponse<GoodsRetailWhSearchModelRes>();
             try
             {
-                var query = await (from goodsRetail in _context.Set<GoodsRetailWhEntity>()
-                                   where goodsRetail.GoodsCode == req.TextSearch || goodsRetail.GoodsName.ToLower().Contains(req.TextSearch.ToLower())
-                                   join transDetail in _context.Set<TransactionDetailWhEntity>() on goodsRetail.TransDetailId equals transDetail.Id
-                                   join unit in _context.Set<UnitWhEntity>() on transDetail.UnitId equals unit.Id
-                                   orderby goodsRetail.UpdatedDate descending
-                                   select new GoodsRetailWhSearchlModelRes
-                                   {
-                                       GoodsCode = goodsRetail.GoodsCode,
-                                       GoodsId = goodsRetail.GoodsId.ToString(),
-                                       GoodsName = goodsRetail.GoodsName,
-                                       Price = goodsRetail.Price,
-                                       TransDetailId = transDetail.Id.ToString(),
-                                       UnitId = transDetail.UnitId.ToString(),
-                                       UnitName = unit.Name ?? ""
-                                   }).FirstOrDefaultAsync();
-                if (query == null)
-                {
-                    retVal.IsNormal = false;
-                    retVal.MetaData = new MetaData
+                var query = await _context.Set<GoodsRetailWhEntity>()
+                    .OrderByDescending(x => x.UpdatedDate)
+                    .GroupBy(x => new
                     {
-                        StatusCode = "400"
-                    };
-                    LoggerFunctionUtility.CommonLogEnd(this, retVal);
-                    return retVal;
-                }
-                retVal.Data = query;
+                        x.GoodsName,
+                        x.GoodsCode
+                    })
+                    .Select(x => new GoodsRetailModelRes
+                    {
+                        GoodsName = x.Key.GoodsName,
+                        GoodsCode = x.Key.GoodsCode,
+                        GoodsRetails = x.OrderByDescending(y => y.UpdatedDate).Select(c => new GoodsRetailInstance
+                        {
+                            GoodsName = c.GoodsName,
+                            GoodsId = c.GoodsId,
+                            Price = c.Price,
+                            TransDetailId = c.TransDetailId,
+                            Id = c.Id,
+                        })
+                    }).ToListAsync();
+                query = query.Where(x => (string.IsNullOrEmpty(req.goodsCode) || x.GoodsCode.Contains(req.goodsCode)) && (string.IsNullOrEmpty(req.goodsName) || UtilityDatabase.FindMatches(req.goodsName, x.GoodsName))).ToList();
+                retVal = new ApiResponse<GoodsRetailWhSearchModelRes>
+                {
+                    Data = new GoodsRetailWhSearchModelRes
+                    {
+                        List = UtilityDatabase.PaginationExtension(_options, query, req.PageNumber, req.PageSize, out int totalPage, out int currentPage)
+                    },
+                    PageInfo = new PageInfo
+                    {
+                        CurrentPage = currentPage,
+                        TotalPage = totalPage
+                    }
+                };
             }
             catch (Exception ex)
             {
@@ -243,13 +257,17 @@ namespace DAT.API.Services.Warehouse.Impl
             var retVal = new ApiResponse<GoodsRetailWhListModelRes>();
             try
             {
-                var query = await _context.Set<GoodsRetailWhEntity>().OrderByDescending(x => x.UpdatedDate).GroupBy(x => x.GoodsName).Select(x => new GoodsRetailModelRes
+                var query = await _context.Set<GoodsRetailWhEntity>().OrderByDescending(x => x.UpdatedDate).GroupBy(x => new
                 {
-                    GoodsName = x.Key,
+                    x.GoodsName,
+                    x.GoodsCode
+                }).Select(x => new GoodsRetailModelRes
+                {
+                    GoodsName = x.Key.GoodsName,
+                    GoodsCode = x.Key.GoodsCode,
                     GoodsRetails = x.OrderByDescending(y => y.UpdatedDate).Select(c => new GoodsRetailInstance
                     {
                         GoodsName = c.GoodsName,
-                        GoodsCode = c.GoodsCode,
                         GoodsId = c.GoodsId,
                         Price = c.Price,
                         TransDetailId = c.TransDetailId,
@@ -277,30 +295,91 @@ namespace DAT.API.Services.Warehouse.Impl
             return retVal;
         }
 
-        public async Task<ApiResponse<List<GoodsRetailWhStatisticsModelRes>>> Statistics(GoodsRetailWhStatisticsModelReq req)
+        public async Task<ApiResponse<GoodsRetailWhHistoryChangeOfPriceModelRes>> HistoryChangeOfPrice(GoodsRetailWhHistoryChangeOfPriceModelReq req)
         {
             LoggerFunctionUtility.CommonLogStart(this);
-            var retVal = new ApiResponse<List<GoodsRetailWhStatisticsModelRes>>();
+            var retVal = new ApiResponse<GoodsRetailWhHistoryChangeOfPriceModelRes>();
             try
             {
                 var query = await _context.Set<GoodsRetailWhEntity>()
-                    .Where(x=> (req.FromDate == null || x.CreatedDate >= req.FromDate) && (req.ToDate == null || x.CreatedDate <= req.ToDate))
-                    .OrderByDescending(x => x.UpdatedDate)
-                    .GroupBy(x => x.GoodsCode)
-                    .Select(x => new GoodsRetailWhStatisticsModelRes
-                    {
-                        GoodsCode = x.Key,
-                        GoodsId = x.Select(x => x.GoodsId).FirstOrDefault(),
-                        GoodsName = x.Select(x => x.GoodsName).FirstOrDefault() ?? "",
-                        Price = 0,
-                        Quantity = x.Count(),
-                        TotalPrice = x.Sum(x => x.Price)
-                    })
-                    .OrderByDescending(x => x.TotalPrice)
-                    .ToListAsync();
-                retVal = new ApiResponse<List<GoodsRetailWhStatisticsModelRes>>
+                    .Where(x => x.GoodsId == req.GoodsId
+                    && req.FromDate == null || req.FromDate >= x.CreatedDate
+                    && req.ToDate == null || req.ToDate <= x.CreatedDate
+                    ).Select(x => x.Price).ToListAsync();
+                retVal.Data = new GoodsRetailWhHistoryChangeOfPriceModelRes
                 {
-                    Data = query
+                    Prices = query
+                };
+            }
+            catch (Exception ex)
+            {
+                retVal.IsNormal = false;
+                retVal.MetaData = new MetaData
+                {
+                    StatusCode = "500",
+                    Message = ex.Message
+                };
+            }
+            LoggerFunctionUtility.CommonLogEnd(this, retVal);
+            return retVal;
+        }
+
+        public async Task<ApiResponse<GoodsRetailWhSearchForMachineModelRes>> SearchForMachine(GoodsRetailWhSearchForMachineModelReq req)
+        {
+            LoggerFunctionUtility.CommonLogStart(this);
+            var retVal = new ApiResponse<GoodsRetailWhSearchForMachineModelRes>();
+            try
+            {
+                var query = await _context.Set<GoodsRetailWhEntity>()
+                    .OrderByDescending(x => x.UpdatedDate)
+                    .GroupBy(x => new
+                    {
+                        x.GoodsName,
+                        x.GoodsCode,
+                        x.TransDetailId,
+                    })
+                    .Select(x => new GoodsRetailModelRes
+                    {
+                        GoodsName = x.Key.GoodsName,
+                        GoodsCode = x.Key.GoodsCode,
+                        GoodsRetails = x.OrderByDescending(y => y.UpdatedDate).Select(c => new GoodsRetailInstance
+                        {
+                            GoodsName = c.GoodsName,
+                            GoodsId = c.GoodsId,
+                            Price = c.Price,
+                            TransDetailId = c.TransDetailId,
+                            Id = c.Id,
+                        })
+                    }).ToListAsync();
+                query = query.Where(x => string.IsNullOrEmpty(req.textSearch) || x.GoodsCode.Contains(req.textSearch) || UtilityDatabase.FindMatches(req.textSearch, x.GoodsName)).ToList();
+                if (query.Count > 0)
+                {
+                    var fullData = (from searchResult in query
+                                    join transDetail in _context.Set<TransactionDetailWhEntity>() on searchResult.GoodsRetails.FirstOrDefault()?.TransDetailId equals transDetail.Id
+                                    join unit in _context.Set<UnitWhEntity>() on transDetail.UnitId equals unit.Id
+                                    select new GoodsRetailModelRes
+                                    {
+                                        GoodsCode = searchResult.GoodsCode,
+                                        GoodsName = searchResult.GoodsName,
+                                        GoodsRetails = searchResult.GoodsRetails.Select(x => new GoodsRetailInstance
+                                        {
+                                            Id = x.Id,
+                                            GoodsId = x.GoodsId,
+                                            GoodsName = x.GoodsName,
+                                            Price = x.Price,
+                                            TransDetailId = x.TransDetailId,
+                                            UnitId = unit.Id,
+                                            UnitName = unit.Name ?? ""
+                                        })
+                                    }).ToList();
+                    query = fullData;
+                }
+                retVal = new ApiResponse<GoodsRetailWhSearchForMachineModelRes>
+                {
+                    Data = new GoodsRetailWhSearchForMachineModelRes
+                    {
+                        List = query
+                    },
                 };
             }
             catch (Exception ex)

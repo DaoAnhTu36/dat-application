@@ -21,7 +21,18 @@
     />
   </head>
 
-  <body>
+  <body onscroll="myFunction()">
     <app-root></app-root>
   </body>
+
+  <script>
+    function myFunction() {
+      // let pixelTop = $(window).scrollTop();
+      // console.log($(window).height());
+      // console.log($(document).height());
+      // console.log($(window).scrollTop());
+
+      $(".menu-area").height($(document).height());
+    }
+  </script>
 </html>
